@@ -127,7 +127,8 @@ If no suitable repository is found, `LLM_Action.py` uses an LLM to refine the qu
 ```python
 query = "Having a protein sequence: 'MENFQKVEKIGEGTYGVVYKA....' and its mutation site: 'Q145G', please help me analyze this protein sequence and predict mutation effects."
 
-# or choose tool（repo）
+# or choose tool（designated repo）
+# Firstly choose import LLM_Plan_withtext.py in main.py
 query = "Please use xxx(https://github.com/xxx/xxx) to fulfill this task: Having a protein sequence: 'MENFQKVEKIGEGTYGVVYKA....' and its mutation site: 'Q145G', please help me analyze this protein sequence and predict mutation effects."
 
 python main.py
