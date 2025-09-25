@@ -1,3 +1,5 @@
 存在找到一些仓库，readme写着安装python版本是3.10以下的，在运行code2mcp的时候会遇到fastmcp导入失败
 
 这边我强制安装环境是3.10
+
+这样可以解决这个bug，不过可能还是会存在包依赖的问题，可以用huggingface的space尝试解决
