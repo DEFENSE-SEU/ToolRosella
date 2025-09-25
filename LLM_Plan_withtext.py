@@ -1,13 +1,14 @@
 from openai import OpenAI
 import re
+import os
 
 class LLMPlanner:
     def __init__(self):
         self.client = OpenAI(
-            api_key="xxx",  
-            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+            api_key=os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("OPENAI_BASE_URL"),
         )
-        self.model = "deepseek-v3"
+        self.model = "deepseek-r1"
         
         # self.system_prompt 
         # self.system_prompt = """You are an intelligent tool selector. ... """

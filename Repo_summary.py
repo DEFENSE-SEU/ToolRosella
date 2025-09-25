@@ -13,7 +13,7 @@ class GitHubRepositoryAnalyzer:
     GitHub repository analyzer that clones and analyzes repositories to generate summaries
     """
     
-    def __init__(self, max_important_files_token: int = 2000, api_key: str = None, base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"):
+    def __init__(self, max_important_files_token: int = 2000, api_key: str = None, base_url: str = None):
         """
         Initialize the analyzer
         
@@ -26,10 +26,10 @@ class GitHubRepositoryAnalyzer:
         
         # Initialize OpenAI client
         self.client = OpenAI(
-            api_key=api_key or "YOUR_API_KEY_HERE",  # Replace with your actual API key
-            base_url=base_url
+            api_key=os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("OPENAI_BASE_URL")
         )
-        self.model = "deepseek-v3"
+        self.model = "deepseek-r1"
         
         self.supported_extensions = {
             '.py', '.js', '.ts', '.java', '.cpp', '.c', '.h', '.hpp',
@@ -394,7 +394,7 @@ if __name__ == "__main__":
     # Initialize analyzer with your API key
     analyzer = GitHubRepositoryAnalyzer(
         max_important_files_token=2000,
-        api_key="YOUR_API_KEY_HERE"  # Replace with your actual API key
+        api_key=os.getenv("OPENAI_API_KEY")
     )
     
     # Analyze a GitHub repository
