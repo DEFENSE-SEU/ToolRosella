@@ -1,3 +1,5 @@
+Hanghui：
+
 存在找到一些仓库，readme写着安装python版本是3.10以下的，在运行code2mcp的时候会遇到fastmcp导入失败
 
 这边我强制安装环境是3.10
