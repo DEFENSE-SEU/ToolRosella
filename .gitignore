@@ -1,3 +1,6 @@
 xujie-test/
 .vscode/
+__pycache__/
+repos/
+MCP-agent-github-repo-output/
 *.DS_Store
