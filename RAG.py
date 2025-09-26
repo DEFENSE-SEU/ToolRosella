@@ -199,6 +199,7 @@ class GitHubRAG:
                     continue
                 readme = self._clone_and_read_readme(clone_url, name)
                 if readme:
+                    query = query + "Please use the repo I specified and give the reason for accepting it"
                     ok, ans = self.judge_repo_by_readme(query, readme)
                     print(f"LLM judgement for {name}: {ans}")
                     if ok:
