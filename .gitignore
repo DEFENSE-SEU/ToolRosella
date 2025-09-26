@@ -3,4 +3,5 @@ xujie-test/
 __pycache__/
 repos/
 MCP-agent-github-repo-output/
+.env
 *.DS_Store

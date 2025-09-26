@@ -129,16 +129,15 @@ class GitHubRAG:
             )
             print("API调用使用的模型:", resp.model)
             ans = resp.choices[0].message.content if resp.choices else ''
+            print(f"DEBUG - LLM完整回答: {ans}")
             import re as _re
             # m = _re.findall(r"Judge:\s*(\w+)$", ans)
             m = _re.findall(r"\**Judge:\**\s*(\w+)", ans)
+            print(f"DEBUG - 正则匹配结果: {m}")
             ok = bool(m and m[0].lower() == 'yes')
             return ok, ans
         except Exception as e:
             return False, f"LLM error: {e}"
-            content = f"Error: {e}"
-            content = "Error: LLM request failed."
-        return content
 
     def judge_repo_by_readme(self, query: str, readme: str) -> Tuple[bool, str]:
         if not OpenAI:
@@ -175,12 +174,18 @@ class GitHubRAG:
                     {"role": "system", "content": system_judge},
                     {"role": "user", "content": content},
                 ],
-                temperature=0.0,
-                max_tokens=64,
+                # temperature=0.0,
+                # max_tokens=64,
+                temperature=0.5,
+                max_tokens=2048,
             )
+            print("API调用使用的模型:", resp.model)
             ans = resp.choices[0].message.content if resp.choices else ''
+            print(f"DEBUG - LLM完整回答: {ans}")
             import re as _re
-            m = _re.findall(r"Judge:\s*(\w+)$", ans)
+            # m = _re.findall(r"Judge:\s*(\w+)$", ans)
+            m = _re.findall(r"\**Judge:\**\s*(\w+)", ans)
+            print(f"DEBUG - 正则匹配结果: {m}")
             ok = bool(m and m[0].lower() == 'yes')
             return ok, ans
         except Exception as e:

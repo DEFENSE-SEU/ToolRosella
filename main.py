@@ -7,6 +7,34 @@ from RepoCheck import GitHubRepoReader
 from LLM_Action import LLMNoRepoOptimizer
 import os
 import json
+import sys
+
+def load_env_variables():
+    """加载环境变量，优先从根目录.env文件读取"""
+    env_file = './.env'
+    if os.path.exists(env_file):
+        print("Loading environment variables from .env file...")
+        try:
+            from dotenv import load_dotenv
+            load_dotenv(env_file, override=True)
+            print("Used python-dotenv to load .env file (with override)")
+        except ImportError:
+            print("python-dotenv not found, using manual parsing...")
+            # 手动解析.env文件
+            with open(env_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        key, value = line.split('=', 1)
+                        # 移除引号
+                        value = value.strip().strip('"').strip("'")
+                        os.environ[key] = value
+                        print(f"Loaded {key} = {value[:10]}... from .env file")
+    else:
+        print("No .env file found, using terminal environment variables...")
+
+# 加载环境变量
+load_env_variables()
 
 # import re
 # import spacy
@@ -47,8 +75,12 @@ for idx, query in enumerate(queries, 1):
             pass
     
     # 调试环境变量
-    print(f"DEBUG - OPENAI_API_KEY: {'SET' if os.getenv('OPENAI_API_KEY') else 'NOT SET'}")
+    api_key = os.getenv('OPENAI_API_KEY')
+    print(f"DEBUG - OPENAI_API_KEY: {'SET' if api_key else 'NOT SET'}")
+    if api_key:
+        print(f"DEBUG - OPENAI_API_KEY value: {api_key[:10]}...{api_key[-4:]}")
     print(f"DEBUG - OPENAI_BASE_URL: {os.getenv('OPENAI_BASE_URL', 'NOT SET')}")
+    print(f"DEBUG - Python executable: {sys.executable}")
 
     plan = get_search_plan(query, hinted_text="")
     print(f"DEBUG - Generated plan: {plan}")
