@@ -15,7 +15,7 @@ except Exception:
 class GitHubRAG:
     def __init__(self):
         self.api_keys = {
-            'github_token': os.getenv('GITHUB_TOKEN', 'xxx')
+            'github_token': os.getenv('GITHUB_TOKEN')
         }
 
     def set_api_key(self, service: str, key: str, cx: str = None):
@@ -94,9 +94,13 @@ class GitHubRAG:
         summary = analyzer.summarize_repository()
         if not summary:
             return False, "Failed to summarize repository."
+        # client = OpenAI(
+        #     api_key=os.getenv('OPENAI_API_KEY', 'sk-af2e975fd0ef4245bbe404a137d49ade'),
+        #     base_url=os.getenv('OPENAI_BASE_URL', 'https://dashscope.aliyuncs.com/compatible-mode/v1')
+        # )
         client = OpenAI(
-            api_key=os.getenv('OPENAI_API_KEY', 'sk-af2e975fd0ef4245bbe404a137d49ade'),
-            base_url=os.getenv('OPENAI_BASE_URL', 'https://dashscope.aliyuncs.com/compatible-mode/v1')
+            api_key=os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("OPENAI_BASE_URL")
         )
         system_judge = (
         "You are a professional programmer. Given a user query and the summary of a GitHub repository, "
@@ -115,7 +119,7 @@ class GitHubRAG:
         content = f"Query:'''{query}'''\n\nSummary of the repository:'''{summary}'''"
         try:
             resp = client.chat.completions.create(
-                model=os.getenv('OPENAI_MODEL', 'deepseek-v3'),
+                model=os.getenv('OPENAI_MODEL', 'deepseek-r1'),
                 messages=[
                     {"role": "system", "content": system_judge},
                     {"role": "user", "content": content},
@@ -142,8 +146,8 @@ class GitHubRAG:
             explanation = "Heuristic judgement (no LLM available)."
             return ok, explanation
         client = OpenAI(
-            api_key=os.getenv('OPENAI_API_KEY', 'xxx'),
-            base_url=os.getenv('OPENAI_BASE_URL', 'https://dashscope.aliyuncs.com/compatible-mode/v1')
+            api_key=os.getenv('OPENAI_API_KEY'),
+            base_url=os.getenv('OPENAI_BASE_URL')
         )
         # system_judge = (
         #     "You are a professional programmer. Given a query and the readme file of a github repository, your task is to assess whether this repository is suitable to solve this query. "
@@ -165,7 +169,7 @@ class GitHubRAG:
         content = f"Query:'''{query}'''\n\nReadme of the repository:'''{(readme or '')[:15000]}...'''"
         try:
             resp = client.chat.completions.create(
-                model=os.getenv('OPENAI_MODEL', 'deepseek-v3'),
+                model=os.getenv('OPENAI_MODEL', 'deepseek-r1'),
                 messages=[
                     {"role": "system", "content": system_judge},
                     {"role": "user", "content": content},

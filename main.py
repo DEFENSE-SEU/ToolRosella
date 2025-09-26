@@ -26,7 +26,7 @@ for idx, query in enumerate(queries, 1):
     print(f"Query: {query}\n")
 
     
-    token = os.getenv('GITHUB_TOKEN', 'xxxx')
+    token = os.getenv('GITHUB_TOKEN')
     rag = GitHubRAG()
     # 1) 缓存复用：若存在 ./repo_cache.json，逐个判定 README 是否可用
     cache_path = './repo_cache.json'
@@ -46,11 +46,22 @@ for idx, query in enumerate(queries, 1):
         except Exception:
             pass
     
+    # 调试环境变量
+    print(f"DEBUG - OPENAI_API_KEY: {'SET' if os.getenv('OPENAI_API_KEY') else 'NOT SET'}")
+    print(f"DEBUG - OPENAI_BASE_URL: {os.getenv('OPENAI_BASE_URL', 'NOT SET')}")
+
     plan = get_search_plan(query, hinted_text="")
+    print(f"DEBUG - Generated plan: {plan}")
+
+    text_param = plan.get('text') or ""
+    topics_param = plan.get('topics') or []
+    print(f"DEBUG - Text parameter: '{text_param}'")
+    print(f"DEBUG - Topics parameter: {topics_param}")
+
     name, clone_url = rag.search_and_judge(
         query=query,
-        text=plan.get('text') or "",
-        topics=plan.get('topics') or [],
+        text=text_param,
+        topics=topics_param,
         per_page=50,
     )
 

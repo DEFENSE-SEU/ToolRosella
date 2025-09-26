@@ -1,4 +1,5 @@
 import re
+import os
 from typing import List, Optional, Tuple, Dict
 from openai import OpenAI
 
@@ -11,10 +12,10 @@ class LLMNoRepoOptimizer:
     def __init__(self, rag: Optional[GitHubRAG] = None):
         self.rag = rag or GitHubRAG()
         self.client = OpenAI(
-            api_key="xxx",
-            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+            api_key=os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("OPENAI_BASE_URL"),
         )
-        self.model = "deepseek-v3"
+        self.model = "deepseek-r1"
         self.planner = LLMPlanner()
 
     def _llm_redesign(self, query: str, failed_topics: Optional[List[str]] = None) -> str:

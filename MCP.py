@@ -96,7 +96,7 @@ class MCPGitHubProcessor:
         elif provider == "claude":
             self.default_model = os.getenv("CLAUDE_MODEL", "claude-3-sonnet-20240229")
         else:
-            self.default_model = os.getenv("DEEPWIKI_MODEL", "deepseek-v3)
+            self.default_model = os.getenv("DEEPWIKI_MODEL", "deepseek-r1")
     
     def load_processed_repos(self) -> List[Dict]:
         if self.processed_repos_file.exists():
