@@ -130,7 +130,8 @@ class GitHubRAG:
             print("API调用使用的模型:", resp.model)
             ans = resp.choices[0].message.content if resp.choices else ''
             import re as _re
-            m = _re.findall(r"Judge:\s*(\w+)$", ans)
+            # m = _re.findall(r"Judge:\s*(\w+)$", ans)
+            m = re.findall(r"\**Judge:\**\s*(\w+)", ans)
             ok = bool(m and m[0].lower() == 'yes')
             return ok, ans
         except Exception as e:
