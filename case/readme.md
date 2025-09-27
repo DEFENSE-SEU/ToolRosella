@@ -1,1 +1,3 @@
-结果
+mcp.json
+
+success MCP tools
