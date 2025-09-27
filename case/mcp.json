@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "Quadratic": {
+      "url": "https://guohanghui-Quadratic.hf.space/mcp"
+    },
+    "esm": {
+      "url": "https://kabuda777-Code2MCP-esm.hf.space/mcp"
+    },
+    "sympy": {
+      "url": "https://kabuda777-Code2MCP-sympy.hf.space/mcp"
+    },
+    "aizynthfinder": {
+      "url": "https://guohanghui-aizynthfinder.hf.space/mcp"
+    }
+  }
+}
