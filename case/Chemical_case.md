@@ -40,8 +40,8 @@ Help me to find available chemical reactions to compose a compound whose SMILE f
 
 ## Results
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/e6f576fe-bad8-4b88-bb54-f3520141dd32" width="200" alt="screenshot 1"/>
-  <img src="https://github.com/user-attachments/assets/21fea8be-e57c-4ad7-9457-c87dff1f4016" width="200" alt="screenshot 2"/>
+  <img src="https://github.com/user-attachments/assets/e6f576fe-bad8-4b88-bb54-f3520141dd32" width="600" alt="screenshot 1"/>
+  <img src="https://github.com/user-attachments/assets/21fea8be-e57c-4ad7-9457-c87dff1f4016" width="600" alt="screenshot 2"/>
 </p>
 
 
