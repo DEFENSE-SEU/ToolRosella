@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Earthquake Data Analysis with LLM and ObsPy MCP Service
 Simulates LLM calling ObsPy MCP tools for seismic data processing tasks
@@ -140,10 +139,13 @@ class ObsPyMCPClient:
     async def connect(self):
         """Connect to ObsPy MCP service"""
         try:
+            # 修正路径问题 - 使用正确的相对路径
+            mcp_path = "/Users/yuanxujie/Downloads/Easy-Tool/MCP-agent-github-repo-output/workspace/obspy/mcp_output"
+            
             server_params = StdioServerParameters(
                 command="/Users/yuanxujie/opt/anaconda3/envs/obspy_026400_env/bin/python",
                 args=["start_mcp.py"],
-                cwd="MCP-agent-github-repo-output/workspace/obspy/mcp_output"
+                cwd=mcp_path  # 修正这里的路径
             )
 
             self.server_params = server_params
@@ -258,8 +260,12 @@ class EarthquakeLLMAgent:
 
             from datetime import datetime
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            output_dir = "earthquake_analysis_results"
+            
+            # 修正输出目录路径 - 相对于当前脚本位置
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            output_dir = os.path.join(current_dir, "earthquake_analysis_results")
             os.makedirs(output_dir, exist_ok=True)
+
 
             # Auto-save based on tool type
             if tool_name == "create_trace" and "trace_stats" in result_data:
@@ -335,11 +341,15 @@ class EarthquakeLLMAgent:
 
             filename = f"{scenario.get('data_type', 'earthquake').lower().replace(' ', '_')}_analysis_{timestamp}"
 
+            # 修正输出目录路径
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            output_dir = os.path.join(current_dir, "earthquake_analysis_results")
+
             # Generate report using MCP tool
             report_result = await self.mcp_client.call_tool("generate_analysis_report", {
                 "analysis_data": analysis_data,
                 "filename": filename,
-                "output_dir": "earthquake_analysis_results"
+                "output_dir": output_dir
             })
 
             if hasattr(report_result, 'content') and report_result.content:
@@ -355,31 +365,173 @@ class EarthquakeLLMAgent:
         except Exception as e:
             print(f"   ⚠️ Report generation failed: {e}")
 
+#     async def process_earthquake_query(self, user_query: str, earthquake_data: Dict, scenario: Dict = None):
+#         """Process earthquake analysis query using LLM and ObsPy tools"""
+
+#         # Create system message with context
+#         system_message = f"""You are an expert seismologist with access to ObsPy tools for earthquake data analysis.
+
+# Available earthquake data:
+# - Origin Time: {earthquake_data['origin_time']}
+# - Location: {earthquake_data['latitude']}°N, {earthquake_data['longitude']}°W
+# - Depth: {earthquake_data['depth_km']} km
+# - Magnitude: {earthquake_data['magnitude']} {earthquake_data['magnitude_type']}
+# - Region: {earthquake_data['region']}
+# - Station Distance: {earthquake_data['station_distance_km']} km
+
+# You have access to ObsPy MCP tools for seismic data processing. Use them appropriately to analyze the earthquake data.
+
+# When you need to create traces with waveform data, I will provide the actual seismic data arrays.
+# Focus on the seismic analysis workflow: create appropriate ObsPy objects, process the data, and provide scientific insights.
+
+# IMPORTANT: After completing your analysis, always call the appropriate saving tools:
+# - Use 'save_waveform_data' to save trace data to MiniSEED files
+# - Use 'save_earthquake_catalog' to save earthquake catalogs to QuakeML files
+# - Use 'generate_analysis_report' to create comprehensive analysis reports
+# Always save your results to preserve the analysis for future use.
+# """
+
+#         messages = [
+#             {"role": "system", "content": system_message},
+#             {"role": "user", "content": user_query}
+#         ]
+
+#         openai_tools = self.create_openai_tools_schema()
+
+#         print(f"\n🤖 LLM Processing Query: {user_query}")
+#         print("=" * 60)
+
+#         # Call LLM with function calling
+#         response = await self.openai_client.chat.completions.create(
+#             model="gpt-4o",
+#             messages=messages,
+#             tools=openai_tools,
+#             tool_choice="auto",
+#             temperature=0.1
+#         )
+
+#         assistant_message = response.choices[0].message
+#         messages.append(assistant_message)
+
+#         # Process tool calls
+#         if assistant_message.tool_calls:
+#             print(f"🔧 LLM requested {len(assistant_message.tool_calls)} tool calls")
+
+#             for tool_call in assistant_message.tool_calls:
+#                 tool_name = tool_call.function.name
+#                 tool_args = json.loads(tool_call.function.arguments)
+
+#                 print(f"\n📞 Calling tool: {tool_name}")
+#                 print(f"   Arguments: {tool_args}")
+
+#                 # Handle special case for trace creation - inject real earthquake data
+#                 if tool_name == "create_trace" and "data" not in tool_args:
+#                     # Use the pre-generated waveform data from scenario
+#                     if hasattr(scenario, 'get') and 'waveform_data' in scenario:
+#                         waveform_data = scenario['waveform_data']
+#                         sampling_rate = scenario['sampling_rate']
+#                         data_type = scenario['data_type']
+#                     else:
+#                         # Fallback to generating data
+#                         if "P-wave" in user_query or "arrival" in user_query:
+#                             waveform_data, sampling_rate = EarthquakeDataGenerator.generate_p_wave_arrival(
+#                                 magnitude=earthquake_data['magnitude']
+#                             )
+#                             data_type = "P-wave"
+#                         else:
+#                             waveform_data, sampling_rate = EarthquakeDataGenerator.generate_surface_wave_data(
+#                                 magnitude=earthquake_data['magnitude']
+#                             )
+#                             data_type = "Surface wave"
+
+#                     tool_args["data"] = waveform_data[:1000]  # Use more data points
+#                     tool_args["sampling_rate"] = sampling_rate
+
+#                     print(f"   🌊 Using real {data_type} data ({len(tool_args['data'])} points at {sampling_rate}Hz)")
+
+#                 # Call the MCP tool
+#                 try:
+#                     tool_result = await self.mcp_client.call_tool(tool_name, tool_args)
+
+#                     # Parse tool result
+#                     result_content = "Tool executed successfully"
+#                     if hasattr(tool_result, 'content') and tool_result.content:
+#                         if hasattr(tool_result.content[0], 'text'):
+#                             result_content = tool_result.content[0].text
+
+#                     print(f"   ✅ Tool result: {result_content[:100]}...")
+
+#                     # Add tool result to conversation
+#                     messages.append({
+#                         "role": "tool",
+#                         "tool_call_id": tool_call.id,
+#                         "content": result_content
+#                     })
+
+#                     # Auto-save results after successful tool calls
+#                     await self.auto_save_results(tool_name, tool_result, tool_args, scenario)
+
+#                 except Exception as e:
+#                     error_msg = f"Error calling tool {tool_name}: {str(e)}"
+#                     print(f"   ❌ {error_msg}")
+
+#                     messages.append({
+#                         "role": "tool",
+#                         "tool_call_id": tool_call.id,
+#                         "content": error_msg
+#                     })
+
+#             # Get final response from LLM after tool execution
+#             final_response = await self.openai_client.chat.completions.create(
+#                 model="gpt-4o",
+#                 messages=messages,
+#                 temperature=0.1
+#             )
+
+#             final_answer = final_response.choices[0].message.content
+#             print(f"\n🎯 LLM Final Analysis:")
+#             print("=" * 60)
+#             print(final_answer)
+
+#             # Generate final comprehensive report
+#             await self.generate_final_report(scenario, earthquake_data, final_answer)
+
+#             return final_answer
+
+#         else:
+#             # No tool calls needed
+#             print(f"\n💬 LLM Response (no tools used):")
+#             print("=" * 60)
+#             print(assistant_message.content)
+#             return assistant_message.content
+
     async def process_earthquake_query(self, user_query: str, earthquake_data: Dict, scenario: Dict = None):
         """Process earthquake analysis query using LLM and ObsPy tools"""
 
         # Create system message with context
         system_message = f"""You are an expert seismologist with access to ObsPy tools for earthquake data analysis.
 
-Available earthquake data:
-- Origin Time: {earthquake_data['origin_time']}
-- Location: {earthquake_data['latitude']}°N, {earthquake_data['longitude']}°W
-- Depth: {earthquake_data['depth_km']} km
-- Magnitude: {earthquake_data['magnitude']} {earthquake_data['magnitude_type']}
-- Region: {earthquake_data['region']}
-- Station Distance: {earthquake_data['station_distance_km']} km
+    Available earthquake data:
+    - Origin Time: {earthquake_data['origin_time']}
+    - Location: {earthquake_data['latitude']}°N, {earthquake_data['longitude']}°W
+    - Depth: {earthquake_data['depth_km']} km
+    - Magnitude: {earthquake_data['magnitude']} {earthquake_data['magnitude_type']}
+    - Region: {earthquake_data['region']}
+    - Station Distance: {earthquake_data['station_distance_km']} km
 
-You have access to ObsPy MCP tools for seismic data processing. Use them appropriately to analyze the earthquake data.
+    You have access to ObsPy MCP tools for seismic data processing. Use them appropriately to analyze the earthquake data.
 
-When you need to create traces with waveform data, I will provide the actual seismic data arrays.
-Focus on the seismic analysis workflow: create appropriate ObsPy objects, process the data, and provide scientific insights.
+    When you need to create traces with waveform data, I will provide the actual seismic data arrays.
+    Focus on the seismic analysis workflow: create appropriate ObsPy objects, process the data, and provide scientific insights.
 
-IMPORTANT: After completing your analysis, always call the appropriate saving tools:
-- Use 'save_waveform_data' to save trace data to MiniSEED files
-- Use 'save_earthquake_catalog' to save earthquake catalogs to QuakeML files
-- Use 'generate_analysis_report' to create comprehensive analysis reports
-Always save your results to preserve the analysis for future use.
-"""
+    IMPORTANT: After completing your analysis, always call the appropriate saving tools:
+    - Use 'save_waveform_data' to save trace data to MiniSEED files
+    - Use 'save_earthquake_catalog' to save earthquake catalogs to QuakeML files
+    - Use 'generate_analysis_report' to create comprehensive analysis reports
+    Always save your results to preserve the analysis for future use.
+
+    After completing all tool operations, provide a comprehensive scientific analysis in natural language that interprets the results and answers the original query.
+    """
 
         messages = [
             {"role": "system", "content": system_message},
@@ -472,6 +624,21 @@ Always save your results to preserve the analysis for future use.
                     })
 
             # Get final response from LLM after tool execution
+            # Add explicit instruction for comprehensive analysis
+            messages.append({
+                "role": "user", 
+                "content": """Now that you have completed the technical analysis using ObsPy tools, please provide a comprehensive scientific interpretation of the results. Your analysis should include:
+
+    1. **Seismic Wave Characteristics**: Describe the key features observed in the waveform data (amplitude, frequency content, signal duration)
+    2. **Arrival Time Analysis**: Explain the P-wave or surface wave arrival patterns and what they indicate about the earthquake source
+    3. **Magnitude and Distance Effects**: Interpret how the earthquake magnitude and station distance affected the recorded signals
+    4. **Geological Implications**: Discuss what the seismic data reveals about the earthquake source mechanism and regional geology
+    5. **Data Quality Assessment**: Evaluate the quality of the recorded data and any limitations in the analysis
+    6. **Summary and Conclusions**: Provide key findings and their significance for earthquake monitoring and research
+
+    Please write this as a complete scientific analysis that directly answers the original query using natural language, integrating all the technical results from the ObsPy tools."""
+            })
+
             final_response = await self.openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=messages,
@@ -479,7 +646,7 @@ Always save your results to preserve the analysis for future use.
             )
 
             final_answer = final_response.choices[0].message.content
-            print(f"\n🎯 LLM Final Analysis:")
+            print(f"\n🎯 LLM Final Scientific Analysis:")
             print("=" * 60)
             print(final_answer)
 

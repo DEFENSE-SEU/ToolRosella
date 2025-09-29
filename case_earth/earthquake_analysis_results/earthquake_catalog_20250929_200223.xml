@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<q:quakeml xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:q="http://quakeml.org/xmlns/quakeml/1.2">
+  <eventParameters publicID="smi:local/5df11621-23db-41cb-b3e7-e536e6af759a">
+    <event publicID="smi:local/6853902e-fa92-42ab-9132-10f2ba0746d7"/>
+  </eventParameters>
+</q:quakeml>
