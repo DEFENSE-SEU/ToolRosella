@@ -11,6 +11,9 @@
     },
     "aizynthfinder": {
       "url": "https://guohanghui-aizynthfinder.hf.space/mcp"
+    },
+    "pest": {
+      "url": "https://guohanghui-pest.hf.space/mcp"
     }
   }
 }
