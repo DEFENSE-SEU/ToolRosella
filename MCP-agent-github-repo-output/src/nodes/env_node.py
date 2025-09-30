@@ -46,9 +46,15 @@ def _parse_environment_yml(yml_path: str) -> dict:
             if isinstance(deps, list):
                 for d in deps:
                     if isinstance(d, str):
-                        conda_deps.append(d)
-                        if d.strip().startswith("python=") or d.strip().startswith("python=="):
-                            data["python"] = d.split("=", 1)[1].lstrip("=")
+                        dv = d.strip()
+                        dv_lower = dv.lower()
+                        # Skip any python pin in conda deps (including namespaced like conda-forge::python=...)
+                        is_python_spec = dv_lower.startswith("python") or "::python" in dv_lower
+                        if is_python_spec and ("=" in dv_lower or "<" in dv_lower or ">" in dv_lower or "==" in dv_lower):
+                            # Force Python 3.10, ignore environment.yml python version and do not include in deps
+                            data["python"] = None
+                        else:
+                            conda_deps.append(d)
                     elif isinstance(d, dict) and "pip" in d and isinstance(d["pip"], list):
                         for p in d["pip"]:
                             if isinstance(p, str):
@@ -74,9 +80,13 @@ def _parse_environment_yml(yml_path: str) -> dict:
                     if s.startswith('-'):
                         val = s.lstrip('-').strip()
                         if val:
-                            data["conda_deps"].append(val)
-                            if val.startswith("python=") or val.startswith("python=="):
-                                data["python"] = val.split("=", 1)[1].lstrip('=')
+                            vlow = val.lower()
+                            is_python_spec = vlow.startswith("python") or "::python" in vlow
+                            if is_python_spec and ("=" in vlow or "<" in vlow or ">" in vlow or "==" in vlow):
+                                # Force Python 3.10, ignore environment.yml python version and do not include in deps
+                                data["python"] = None
+                            else:
+                                data["conda_deps"].append(val)
             if pip_block:
                 for line in io.StringIO(pip_block.group(1)):
                     s = line.strip()
@@ -250,26 +260,35 @@ def _create_conda_env(env_name: str, repo_root: str, deps: Dict[str, Any]) -> Di
             env_yml_path = None
             
         if env_yml_path:
-            logger.info(f"Creating conda environment using environment.yml: {env_name}")
-            code, out, err = _run([conda_exe, "env", "create", "-n", env_name, "-f", env_yml_path, "--solver=libmamba"]) 
-            if code == 0:
-                env_info["files"]["environment_yml"] = env_yml_path
-                return env_info
-            code2, out2, err2 = _run([conda_exe, "env", "update", "-n", env_name, "-f", env_yml_path, "--prune", "--solver=libmamba"]) 
-            if code2 == 0:
-                env_info["files"]["environment_yml"] = env_yml_path
-                return env_info
+            # Skip direct environment.yml usage to force Python 3.10
+            logger.info(f"Parsing environment.yml for dependencies but forcing Python 3.10: {env_name}")
             yml_data = _parse_environment_yml(env_yml_path)
-            preferred_py = yml_data.get("python") or "3.10"
+            logger.info(f"📋 Parsed environment.yml - Python version from file: {yml_data.get('python', 'None')} (IGNORED)")
+            logger.info(f"📋 Channels: {yml_data.get('channels', [])}")
+            logger.info(f"📋 Conda deps count: {len(yml_data.get('conda_deps', []))}")
+            logger.info(f"📋 Pip deps count: {len(yml_data.get('pip_deps', []))}")
+            # Force Python 3.10 regardless of environment.yml content
+            preferred_py = "3.10"
+            logger.info(f"Creating conda environment with FORCED Python {preferred_py}: {env_name}")
             code3, out3, err3 = _run([conda_exe, "create", "-n", env_name, f"python={preferred_py}", "--yes"]) 
             if code3 == 0:
                 env_info["files"]["environment_yml"] = env_yml_path
                 env_info["python"] = preferred_py
+                # Verify the actual Python version in the created environment
+                verify_code, verify_out, verify_err = _run([conda_exe, "run", "-n", env_name, "python", "--version"], timeout=30)
+                if verify_code == 0:
+                    logger.info(f"✅ Environment {env_name} created successfully with Python: {verify_out.strip()}")
+                else:
+                    logger.warning(f"⚠️ Environment created but Python version verification failed: {verify_err}")
                 install_args = [conda_exe, "run", "-n", env_name, "conda", "install", "-y"]
                 channels = yml_data.get("channels") or []
                 for ch in channels:
                     install_args.extend(["-c", ch])
-                conda_deps = [d for d in (yml_data.get("conda_deps") or []) if d]
+                # Drop any python specs from conda_deps to prevent downgrades
+                conda_deps = [
+                    d for d in (yml_data.get("conda_deps") or [])
+                    if d and (not d.lower().startswith("python")) and ("::python" not in d.lower())
+                ]
                 if conda_deps:
                     _run(install_args + conda_deps, cwd=repo_root, timeout=3600)
                 pip_deps = yml_data.get("pip_deps") or []
@@ -279,9 +298,15 @@ def _create_conda_env(env_name: str, repo_root: str, deps: Dict[str, Any]) -> Di
             logger.warning(f"Failed to honor environment.yml: {err3 or err2 or err or out3 or out2 or out}")
             return None
     
-    logger.info(f"Creating base conda environment: {env_name}")
+    logger.info(f"Creating base conda environment with FORCED Python 3.10: {env_name}")
     code, out, err = _run([conda_exe, "create", "-n", env_name, "python=3.10", "--yes"])
     if code == 0:
+        # Verify the actual Python version in the created environment
+        verify_code, verify_out, verify_err = _run([conda_exe, "run", "-n", env_name, "python", "--version"], timeout=30)
+        if verify_code == 0:
+            logger.info(f"✅ Base conda environment {env_name} created successfully with Python: {verify_out.strip()}")
+        else:
+            logger.warning(f"⚠️ Environment created but Python version verification failed: {verify_err}")
         logger.info(f"Base conda environment created successfully: {env_name}")
         if not deps.get("has_environment_yml"):
             if deps.get("pyproject"):
@@ -324,13 +349,46 @@ def _create_venv_env(repo_root: str, repo_name: str, deps: Dict[str, Any]) -> Di
     
     env_info = {"type": "venv", "name": env_name, "path": env_path, "files": {}, "python": "3.10", "exec_prefix": []}
     
+    # Check if system Python is 3.10, if not, try to find Python 3.10
+    python_cmd = sys.executable
+    try:
+        import sys
+        if sys.version_info[:2] != (3, 10):
+            logger.warning(f"System Python version is {sys.version_info[:2]}, but forcing Python 3.10")
+            # Try to find Python 3.10 in common locations
+            python310_candidates = [
+                "python3.10",
+                "/usr/bin/python3.10",
+                "/usr/local/bin/python3.10",
+                "python310"
+            ]
+            for candidate in python310_candidates:
+                try:
+                    code, out, err = _run([candidate, "--version"], timeout=5)
+                    if code == 0 and "3.10" in out:
+                        python_cmd = candidate
+                        logger.info(f"Found Python 3.10 at: {candidate}")
+                        break
+                except:
+                    continue
+    except Exception as e:
+        logger.warning(f"Error checking Python version: {e}")
+    
     venv_py = _venv_python_path(env_path)
     if not os.path.isfile(venv_py):
-        logger.info(f"Creating isolated venv environment: {env_name}")
-        code, out, err = _run([sys.executable, "-m", "venv", env_path], cwd=repo_root)
+        logger.info(f"Creating isolated venv environment with Python 3.10: {env_name}")
+        logger.info(f"Using Python command: {python_cmd}")
+        code, out, err = _run([python_cmd, "-m", "venv", env_path], cwd=repo_root)
         if code != 0:
             logger.warning(f"Failed to create venv: {err or out}")
             return None
+        else:
+            # Verify the actual Python version in the created venv
+            verify_code, verify_out, verify_err = _run([venv_py, "--version"], timeout=30)
+            if verify_code == 0:
+                logger.info(f"✅ Venv environment {env_name} created successfully with Python: {verify_out.strip()}")
+            else:
+                logger.warning(f"⚠️ Venv created but Python version verification failed: {verify_err}")
 
     if os.path.isfile(venv_py):
         logger.info(f"Upgrading pip: {env_name}")
