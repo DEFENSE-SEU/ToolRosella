@@ -4,3 +4,4 @@ __pycache__/
 repos/
 .env
 *.DS_Store
+MCP-agent-github-repo-output/.env
