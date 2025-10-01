@@ -1,0 +1,262 @@
+{
+  "summary": {
+    "repository_url": "https://github.com/harirakul/chemlib",
+    "summary": "Imported via zip fallback, file count: 46",
+    "file_tree": {
+      ".github/dependabot.yml": {
+        "size": 501
+      },
+      ".github/workflows/python-publish.yml": {
+        "size": 876
+      },
+      ".github/workflows/python-tests.yml": {
+        "size": 1142
+      },
+      "CHANGELOG.md": {
+        "size": 2229
+      },
+      "LICENSE.txt": {
+        "size": 1066
+      },
+      "README.md": {
+        "size": 5590
+      },
+      "chemlib/__init__.py": {
+        "size": 514
+      },
+      "chemlib/chemistry.py": {
+        "size": 19427
+      },
+      "chemlib/constants.py": {
+        "size": 223
+      },
+      "chemlib/electrochemistry.py": {
+        "size": 4735
+      },
+      "chemlib/parse.py": {
+        "size": 912
+      },
+      "chemlib/quantum_mechanics.py": {
+        "size": 1463
+      },
+      "chemlib/thermochemistry.py": {
+        "size": 1375
+      },
+      "chemlib/utils.py": {
+        "size": 4345
+      },
+      "docs/build/html/_sources/PeriodicTable.rst.txt": {
+        "size": 54
+      },
+      "docs/build/html/_sources/README.rst.txt": {
+        "size": 3826
+      },
+      "docs/build/html/_sources/compounds.rst.txt": {
+        "size": 2440
+      },
+      "docs/build/html/_sources/core.rst.txt": {
+        "size": 4044
+      },
+      "docs/build/html/_sources/electrochemistry.rst.txt": {
+        "size": 2767
+      },
+      "docs/build/html/_sources/formulae.rst.txt": {
+        "size": 1512
+      },
+      "docs/build/html/_sources/index.rst.txt": {
+        "size": 256
+      },
+      "docs/build/html/_sources/quantum.rst.txt": {
+        "size": 1686
+      },
+      "docs/build/html/_sources/reactions.rst.txt": {
+        "size": 4868
+      },
+      "docs/build/html/_sources/solution.rst.txt": {
+        "size": 2740
+      },
+      "docs/build/html/_sources/stoichiometry.rst.txt": {
+        "size": 54
+      },
+      "docs/build/html/_static/doctools.js": {
+        "size": 9630
+      },
+      "docs/build/html/_static/documentation_options.js": {
+        "size": 354
+      },
+      "docs/build/html/_static/jquery-3.5.1.js": {
+        "size": 287630
+      },
+      "docs/build/html/_static/jquery.js": {
+        "size": 89476
+      },
+      "docs/build/html/_static/js/badge_only.js": {
+        "size": 934
+      },
+      "docs/build/html/_static/js/html5shiv-printshiv.min.js": {
+        "size": 4370
+      },
+      "docs/build/html/_static/js/html5shiv.min.js": {
+        "size": 2734
+      },
+      "docs/build/html/_static/js/modernizr.min.js": {
+        "size": 15414
+      },
+      "docs/build/html/_static/js/theme.js": {
+        "size": 5023
+      },
+      "docs/build/html/_static/language_data.js": {
+        "size": 10854
+      },
+      "docs/build/html/_static/searchtools.js": {
+        "size": 16578
+      },
+      "docs/build/html/_static/underscore-1.3.1.js": {
+        "size": 35168
+      },
+      "docs/build/html/_static/underscore.js": {
+        "size": 19530
+      },
+      "docs/build/html/searchindex.js": {
+        "size": 8625
+      },
+      "docs/source/conf.py": {
+        "size": 2658
+      },
+      "requirements.txt": {
+        "size": 46
+      },
+      "setup.cfg": {
+        "size": 39
+      },
+      "setup.py": {
+        "size": 803
+      },
+      "tests/compound_test.py": {
+        "size": 799
+      },
+      "tests/emp_formula_test.py": {
+        "size": 1186
+      },
+      "tests/reaction_test.py": {
+        "size": 820
+      }
+    },
+    "processed_by": "zip_fallback",
+    "success": true
+  },
+  "structure": {
+    "packages": [
+      "source.chemlib"
+    ]
+  },
+  "dependencies": {
+    "has_environment_yml": false,
+    "has_requirements_txt": true,
+    "pyproject": false,
+    "setup_cfg": true,
+    "setup_py": true
+  },
+  "entry_points": {
+    "imports": [],
+    "cli": [],
+    "modules": []
+  },
+  "llm_analysis": {
+    "core_modules": [
+      {
+        "package": "source.chemlib",
+        "module": "chemlib.chemistry",
+        "functions": [
+          "balance_equation",
+          "calculate_molar_mass",
+          "get_element_data"
+        ],
+        "classes": [
+          "Element",
+          "Compound",
+          "Reaction"
+        ],
+        "description": "Core module for chemistry-related calculations, including balancing equations, calculating molar masses, and handling chemical elements, compounds, and reactions."
+      },
+      {
+        "package": "source.chemlib",
+        "module": "chemlib.electrochemistry",
+        "functions": [
+          "calculate_cell_potential",
+          "nernst_equation"
+        ],
+        "classes": [
+          "ElectrochemicalCell"
+        ],
+        "description": "Module for electrochemistry calculations, including cell potential and Nernst equation."
+      },
+      {
+        "package": "source.chemlib",
+        "module": "chemlib.thermochemistry",
+        "functions": [
+          "calculate_enthalpy",
+          "calculate_entropy"
+        ],
+        "classes": [],
+        "description": "Module for thermochemistry calculations, such as enthalpy and entropy."
+      },
+      {
+        "package": "source.chemlib",
+        "module": "chemlib.quantum_mechanics",
+        "functions": [
+          "calculate_energy_levels"
+        ],
+        "classes": [],
+        "description": "Module for quantum mechanics calculations, including energy level computations."
+      },
+      {
+        "package": "source.chemlib",
+        "module": "chemlib.utils",
+        "functions": [
+          "parse_formula",
+          "convert_units"
+        ],
+        "classes": [],
+        "description": "Utility functions for parsing chemical formulas and unit conversions."
+      }
+    ],
+    "cli_commands": [],
+    "import_strategy": {
+      "primary": "import",
+      "fallback": "blackbox",
+      "confidence": 0.9
+    },
+    "dependencies": {
+      "required": [
+        "numpy",
+        "scipy"
+      ],
+      "optional": [
+        "matplotlib"
+      ]
+    },
+    "risk_assessment": {
+      "import_feasibility": 0.9,
+      "intrusiveness_risk": "low",
+      "complexity": "medium"
+    }
+  },
+  "deepwiki_analysis": {
+    "repo_url": "https://github.com/harirakul/chemlib",
+    "repo_name": "chemlib",
+    "content": "harirakul/chemlib\n🧪 A comprehensive chemistry library for Python.\nRepository Not Indexed\nThis repository hasn't been indexed yet. Indexing allows you to explore code structure, find documentation, and understand dependencies.\nIndexing typically takes 2-10 minutes to complete after it starts indexing\nOnce indexed, you'll have full access to code exploration and search functionality",
+    "model": "gpt-4o",
+    "source": "selenium",
+    "success": true
+  },
+  "deepwiki_options": {
+    "enabled": true,
+    "model": "gpt-4o"
+  },
+  "risk": {
+    "import_feasibility": 0.9,
+    "intrusiveness_risk": "low",
+    "complexity": "medium"
+  }
+}
