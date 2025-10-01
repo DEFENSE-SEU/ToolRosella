@@ -1,4 +1,4 @@
-# 修复 mcp_service.py 的问题与修改说明
+# 修复 mcp_service.py 的问题与修改说明（source 省略，源代码参考https://github.com/harirakul/chemlib）
 
 ## 原始问题
 
