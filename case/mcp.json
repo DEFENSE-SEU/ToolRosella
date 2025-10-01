@@ -14,6 +14,9 @@
     },
     "pest": {
       "url": "https://guohanghui-pest.hf.space/mcp"
+    },
+    "chemlib": {
+      "url": "https://guohanghui-chemlib.hf.space/mcp"
     }
   }
 }
