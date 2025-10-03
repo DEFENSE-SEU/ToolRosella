@@ -59,6 +59,6 @@ for script in scripts:
 
 ```
 
-try-expert部分缩紧错误
+try-except 缩进错误
 
 
