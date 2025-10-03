@@ -1,4 +1,4 @@
-# 修复总结
+# 量子化学 mcp_service.py修复总结 （source参考https://github.com/tencent-quantum-lab/TenCirChem）
 
 ## 1. 修复 Hamiltonian 导入错误
 - 原代码：
