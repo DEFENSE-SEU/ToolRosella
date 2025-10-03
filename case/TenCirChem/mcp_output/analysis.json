@@ -1,0 +1,405 @@
+{
+  "summary": {
+    "repository_url": "https://github.com/tencent-quantum-lab/TenCirChem",
+    "summary": "Imported via zip fallback, file count: 76",
+    "file_tree": {
+      ".github/workflows/ci.yml": {
+        "size": 1425
+      },
+      ".github/workflows/publish_pypi.yml": {
+        "size": 599
+      },
+      "README.md": {
+        "size": 4440
+      },
+      "README_CN.md": {
+        "size": 2965
+      },
+      "apt.txt": {
+        "size": 195
+      },
+      "conftest.py": {
+        "size": 124
+      },
+      "docs/source/conf.py": {
+        "size": 6161
+      },
+      "docs/source/tutorial_jupyter/mpl_config.py": {
+        "size": 358
+      },
+      "example/README.md": {
+        "size": 1748
+      },
+      "example/custom_excitation.py": {
+        "size": 486
+      },
+      "example/hea_beh2.py": {
+        "size": 674
+      },
+      "example/hea_force.py": {
+        "size": 610
+      },
+      "example/hea_geom_opt.py": {
+        "size": 810
+      },
+      "example/hea_lih.py": {
+        "size": 654
+      },
+      "example/hea_symm.py": {
+        "size": 1484
+      },
+      "example/mr_uccsd.py": {
+        "size": 1658
+      },
+      "example/noisy_circuit.py": {
+        "size": 515
+      },
+      "example/print_circuit.py": {
+        "size": 388
+      },
+      "example/pyrazine_spectra.py": {
+        "size": 2182
+      },
+      "example/pyscf_compatibility.py": {
+        "size": 511
+      },
+      "example/sbm_dynamics.py": {
+        "size": 558
+      },
+      "example/simple_kupccgsd.py": {
+        "size": 402
+      },
+      "example/simple_uccsd.py": {
+        "size": 277
+      },
+      "example/switch_backend.py": {
+        "size": 308
+      },
+      "example/ucc_classes.py": {
+        "size": 475
+      },
+      "example/vbe_td.py": {
+        "size": 5914
+      },
+      "example/vbe_ti.py": {
+        "size": 5728
+      },
+      "example/water_pes.py": {
+        "size": 1285
+      },
+      "pyproject.toml": {
+        "size": 1043
+      },
+      "requirements-dev.txt": {
+        "size": 131
+      },
+      "requirements.txt": {
+        "size": 205
+      },
+      "setup.py": {
+        "size": 1025
+      },
+      "tencirchem/__init__.py": {
+        "size": 1706
+      },
+      "tencirchem/applications/__init__.py": {
+        "size": 194
+      },
+      "tencirchem/applications/vbe_lib.py": {
+        "size": 2814
+      },
+      "tencirchem/constants.py": {
+        "size": 538
+      },
+      "tencirchem/dynamic/__init__.py": {
+        "size": 520
+      },
+      "tencirchem/dynamic/model/__init__.py": {
+        "size": 194
+      },
+      "tencirchem/dynamic/model/pyrazine.py": {
+        "size": 4643
+      },
+      "tencirchem/dynamic/model/sbm.py": {
+        "size": 1001
+      },
+      "tencirchem/dynamic/time_derivative.py": {
+        "size": 6297
+      },
+      "tencirchem/dynamic/time_evolution.py": {
+        "size": 8366
+      },
+      "tencirchem/dynamic/transform.py": {
+        "size": 12066
+      },
+      "tencirchem/molecule.py": {
+        "size": 4544
+      },
+      "tencirchem/static/__init__.py": {
+        "size": 194
+      },
+      "tencirchem/static/ci_utils.py": {
+        "size": 2978
+      },
+      "tencirchem/static/engine_hea.py": {
+        "size": 5854
+      },
+      "tencirchem/static/engine_ucc.py": {
+        "size": 6782
+      },
+      "tencirchem/static/evolve_civector.py": {
+        "size": 12317
+      },
+      "tencirchem/static/evolve_pyscf.py": {
+        "size": 5091
+      },
+      "tencirchem/static/evolve_statevector.py": {
+        "size": 3354
+      },
+      "tencirchem/static/evolve_tensornetwork.py": {
+        "size": 6944
+      },
+      "tencirchem/static/hamiltonian.py": {
+        "size": 9022
+      },
+      "tencirchem/static/hea.py": {
+        "size": 38563
+      },
+      "tencirchem/static/kupccgsd.py": {
+        "size": 9477
+      },
+      "tencirchem/static/puccd.py": {
+        "size": 8469
+      },
+      "tencirchem/static/ucc.py": {
+        "size": 50739
+      },
+      "tencirchem/static/uccsd.py": {
+        "size": 7120
+      },
+      "tencirchem/utils/__init__.py": {
+        "size": 245
+      },
+      "tencirchem/utils/backend.py": {
+        "size": 3223
+      },
+      "tencirchem/utils/circuit.py": {
+        "size": 3121
+      },
+      "tencirchem/utils/misc.py": {
+        "size": 4547
+      },
+      "tencirchem/utils/optimizer.py": {
+        "size": 4096
+      },
+      "tests/__init__.py": {
+        "size": 0
+      },
+      "tests/dynamics/__init__.py": {
+        "size": 0
+      },
+      "tests/dynamics/test_dynamics.py": {
+        "size": 1398
+      },
+      "tests/dynamics/test_hamiltonian.py": {
+        "size": 2914
+      },
+      "tests/static/__init__.py": {
+        "size": 0
+      },
+      "tests/static/test_engine.py": {
+        "size": 3466
+      },
+      "tests/static/test_hamiltonian.py": {
+        "size": 2446
+      },
+      "tests/static/test_hea.py": {
+        "size": 2282
+      },
+      "tests/static/test_molecule.py": {
+        "size": 1335
+      },
+      "tests/static/test_optimizer.py": {
+        "size": 532
+      },
+      "tests/static/test_puccd.py": {
+        "size": 1840
+      },
+      "tests/static/test_static.py": {
+        "size": 3878
+      },
+      "tests/test_misc.py": {
+        "size": 402
+      }
+    },
+    "processed_by": "zip_fallback",
+    "success": true
+  },
+  "structure": {
+    "packages": [
+      "source.tencirchem",
+      "source.tencirchem.applications",
+      "source.tencirchem.dynamic",
+      "source.tencirchem.static",
+      "source.tencirchem.utils",
+      "source.tests",
+      "source.tests.dynamics",
+      "source.tests.static"
+    ]
+  },
+  "dependencies": {
+    "has_environment_yml": false,
+    "has_requirements_txt": true,
+    "pyproject": true,
+    "setup_cfg": false,
+    "setup_py": true
+  },
+  "entry_points": {
+    "imports": [],
+    "cli": [],
+    "modules": []
+  },
+  "llm_analysis": {
+    "core_modules": [
+      {
+        "package": "source.tencirchem",
+        "module": "__init__",
+        "functions": [],
+        "classes": [],
+        "description": "Main package initialization for TenCirChem."
+      },
+      {
+        "package": "source.tencirchem.applications",
+        "module": "__init__",
+        "functions": [],
+        "classes": [],
+        "description": "Initialization for the applications submodule."
+      },
+      {
+        "package": "source.tencirchem.applications",
+        "module": "vbe_lib",
+        "functions": [
+          "vbe_function1",
+          "vbe_function2"
+        ],
+        "classes": [
+          "VBEClass"
+        ],
+        "description": "Variational Basis State Encoder (VBE) library for dynamic simulations."
+      },
+      {
+        "package": "source.tencirchem.dynamic",
+        "module": "__init__",
+        "functions": [],
+        "classes": [],
+        "description": "Initialization for the dynamic module."
+      },
+      {
+        "package": "source.tencirchem.dynamic",
+        "module": "time_evolution",
+        "functions": [
+          "time_evolve",
+          "simulate_dynamics"
+        ],
+        "classes": [
+          "TimeEvolution"
+        ],
+        "description": "Handles time evolution simulations for quantum systems."
+      },
+      {
+        "package": "source.tencirchem.static",
+        "module": "__init__",
+        "functions": [],
+        "classes": [],
+        "description": "Initialization for the static module."
+      },
+      {
+        "package": "source.tencirchem.static",
+        "module": "ucc",
+        "functions": [
+          "construct_ucc_ansatz",
+          "optimize_ucc"
+        ],
+        "classes": [
+          "UCC",
+          "UCCSD"
+        ],
+        "description": "Unitary Coupled Cluster (UCC) calculations for ground state energy."
+      },
+      {
+        "package": "source.tencirchem.static",
+        "module": "hamiltonian",
+        "functions": [
+          "construct_hamiltonian",
+          "encode_qubits"
+        ],
+        "classes": [
+          "Hamiltonian"
+        ],
+        "description": "Hamiltonian construction and qubit encoding for quantum chemistry."
+      },
+      {
+        "package": "source.tencirchem.utils",
+        "module": "backend",
+        "functions": [
+          "configure_backend",
+          "switch_backend"
+        ],
+        "classes": [],
+        "description": "Utility functions for managing computational backends."
+      },
+      {
+        "package": "source.tencirchem.utils",
+        "module": "optimizer",
+        "functions": [
+          "optimize_parameters"
+        ],
+        "classes": [
+          "Optimizer"
+        ],
+        "description": "Optimization utilities for parameter tuning in quantum simulations."
+      }
+    ],
+    "cli_commands": [],
+    "import_strategy": {
+      "primary": "import",
+      "fallback": "blackbox",
+      "confidence": 0.9
+    },
+    "dependencies": {
+      "required": [
+        "numpy",
+        "jax",
+        "cupy",
+        "tensornetwork",
+        "pyscf"
+      ],
+      "optional": [
+        "pytest",
+        "sphinx"
+      ]
+    },
+    "risk_assessment": {
+      "import_feasibility": 0.9,
+      "intrusiveness_risk": "low",
+      "complexity": "medium"
+    }
+  },
+  "deepwiki_analysis": {
+    "repo_url": "https://github.com/tencent-quantum-lab/TenCirChem",
+    "repo_name": "TenCirChem",
+    "content": "tencent-quantum-lab/TenCirChem\nStatic Module\nHEA (Hardware Efficient Ansatz)\nUCC (Unitary Coupled Cluster)\nHamiltonian Construction\nDynamic Module\nTime Evolution\nQubit Encoding and Transformation\nVBE (Variational Basis State Encoder)\nMolecule Representation\nBackends and Engines\nExample Applications\nInstallation and Dependencies\nDevelopment\ndocs/source/advanced.rst\ndocs/source/quickstart.rst\nexample/README.md\ntencirchem/static/hamiltonian.py\nTenCirChem is a quantum computational chemistry package built on TensorCircuit, designed for efficient calculation of molecular properties using both static and dynamic approaches. This page provides a high-level introduction to the system architecture, key components, and workflows.\nFor detailed information about specific modules, please refer to theStatic ModuleandDynamic Modulepages.\nPurpose and Key Features\nTenCirChem aims to provide an efficient, versatile framework for quantum computational chemistry with the following key features:\nStatic Module: Handles ground state calculations of moleculesUCC (Unitary Coupled Cluster) calculations with implementations like UCCSD, kUpCCGSD, pUCCD at extremely fast speedsHardware Efficient Ansatz (HEA) with support for noisy circuit simulationSupport for custom integrals, active space approximation, and reduced density matrices (RDMs)\nStatic Module: Handles ground state calculations of molecules\nUCC (Unitary Coupled Cluster) calculations with implementations like UCCSD, kUpCCGSD, pUCCD at extremely fast speeds\nHardware Efficient Ansatz (HEA) with support for noisy circuit simulation\nSupport for custom integrals, active space approximation, and reduced density matrices (RDMs)\nDynamic Module: Manages time evolution simulationsTransformation from models to qubit representationVariational quantum algorithms based on JAXSupport for models like spin-boson and pyrazine S1/S2 internal conversion dynamics\nDynamic Module: Manages time evolution simulations\nTransformation from models to qubit representation\nVariational quantum algorithms based on JAX\nSupport for models like spin-boson and pyrazine S1/S2 internal conversion dynamics\nPerformance: Significantly faster than comparable packages (10,000× speedup for certain UCC calculations)Achieved through analytical expansion of UCC factors and exploitation of symmetryExample: H8 with 16 qubits in 2s (CPU), H10 with 20 qubits in 14s (GPU)\nPerformance: Significantly faster than comparable packages (10,000× speedup for certain UCC calculations)\nAchieved through analytical expansion of UCC factors and exploitation of symmetry\nExample: H8 with 16 qubits in 2s (CPU), H10 with 20 qubits in 14s (GPU)\nDesign Philosophy: Focused on simplicity and hackabilityMinimal class inheritance hierarchyDirect access to internal variables through class attributes\nDesign Philosophy: Focused on simplicity and hackability\nMinimal class inheritance hierarchy\nDirect access to internal variables through class attributes\nSources:README.md11-79docs/source/quickstart.rst4-8\nHigh-Level Architecture\nCore Component Structure\nUtilitiesDynamic Module ComponentsStatic Module ComponentsTensorCircuitTenCirChemStatic ModuleDynamic ModuleUtilitiesUCC Base ClassHEA ClassUCCSDKUPCCGSDPUCCDTimeEvolutionTime DerivativeTransformationMolecule ClassOptimizerBackend Config\nDynamic Module Components\nStatic Module Components\nTensorCircuit\nStatic Module\nDynamic Module\nUCC Base Class\nTimeEvolution\nTime Derivative\nTransformation\nMolecule Class\nBackend Config\nThis diagram illustrates the main organizational structure of TenCirChem. The package builds on TensorCircuit and consists of two primary modules: Static and Dynamic. The Static module contains the UCC and HEA classes that handle different approaches to quantum chemistry calculations, while the Dynamic module provides tools for time evolution simulations.\nSources:README.md62-71docs/source/quickstart.rst4-8\nComputational Workflow\nMolecule DefinitionHartree-Fock CalculationElectron IntegralsUCC PathHEA PathDynamic SimulationUCC Ansatz ConstructionEnergy CalculationParameter OptimizationGround State Energy & RDMsCircuit ConstructionOptional Noise ModelEngine SelectionEnergy & GradientParameter OptimizationResultsHamiltonian TermsQubit EncodingTime EvolutionDynamics Results\nMolecule Definition\nHartree-Fock Calculation\nElectron Integrals\nDynamic Simulation\nUCC Ansatz Construction\nEnergy Calculation\nParameter Optimization\nGround State Energy & RDMs\nCircuit Construction\nOptional Noise Model\nEngine Selection\nEnergy & Gradient\nParameter Optimization\nHamiltonian Terms\nQubit Encoding\nTime Evolution\nDynamics Results\nThis diagram shows the computational workflows in TenCirChem. Starting from a molecule definition, calculations proceed through Hartree-Fock to obtain electron integrals, which are then used in different pathways. The UCC path focuses on accurate ground state calculations with specialized ansätze. The HEA path provides more flexibility, including noise simulation. The Dynamic path handles time evolution of quantum systems.\nSources:docs/source/quickstart.rst26-54docs/source/quickstart.rst123-134docs/source/quickstart.rst140-191tencirchem/static/hamiltonian.py30-48\nBackend and Engine System\nTenCirChem supports multiple backends and simulation engines, offering flexibility for different computational needs.\nBackends and Engines\nSimulation EnginesExecution BackendsNumPy BackendJAX BackendCuPy Backendtensornetworktensornetwork-noisetensornetwork-shottensornetwork-noise&shotcivectorcivector-largestatevectorqpupyscfUCC ClassHEA ClassTimeEvolution\nSimulation Engines\nExecution Backends\nNumPy Backend\nJAX Backend\nCuPy Backend\ntensornetwork\ntensornetwork-noise\ntensornetwork-shot\ntensornetwork-noise&shot\ncivector-large\nstatevector\nTimeEvolution\nThis diagram shows the relationship between the computational backends (NumPy, JAX, CuPy) and the simulation engines available in TenCirChem. Different classes support different engines - UCC primarily uses civector and statevector engines, while HEA can utilize various tensornetwork engines with noise and shot configurations. The TimeEvolution class specifically requires JAX for its calculations.\nSources:docs/source/advanced.rst6-114docs/source/quickstart.rst180-181\nEngine Characteristics\n\"civector-large\"\n\"tensornetwork\"\n\"tensornetwork-noise\"\n\"tensornetwork-shot\"\n\"tensornetwork-noise&shot\"\n\"statevector\"\nThe \"CI vector\" representation is more efficient than statevector for chemistry applications because it exploits particle number conservation symmetry, which is one of the reasons for TenCirChem's speed advantage.\nSources:docs/source/advanced.rst6-59\nIntegration Points\nIntegration PointsCore ComponentsMolecule ClassHEA ClassUCC ClassTimeEvolution ClassPySCF IntegrationTensorCircuit IntegrationOptimization Methods\nIntegration Points\nCore Components\nMolecule Class\nTimeEvolution Class\nPySCF Integration\nTensorCircuit Integration\nOptimization Methods\nThis diagram illustrates how the core components of TenCirChem integrate with each other and external libraries. The Molecule class provides molecular representations used by all computational components. UCC and HEA classes both integrate with PySCF for electronic structure calculations, and all components utilize TensorCircuit for quantum circuit operations. Various optimization methods are available for different calculation types.\nSources:docs/source/quickstart.rst26-54docs/source/quickstart.rst140-191README.md14-15\nGetting Started\nInstallation\nTenCirChem can be installed via pip:\npipinstalltencirchem\npipinstalltencirchem\npipinstalltencirchem\nThis installs a minimal version with NumPy backend. For GPU support and advanced features, install JAX and CuPy for respective backends.\nBasic Usage Example\nfromtencirchemimportUCCSD, M# Create a molecule - H4 chaind =0.8# distance in angstromh4 = M(atom=[[\"H\",0,0, d * i]foriinrange(4)])# Configure and run UCCSD calculationuccsd = UCCSD(h4)uccsd.kernel()# runs VQE optimizationuccsd.print_summary(include_circuit=True)\nfromtencirchemimportUCCSD, M# Create a molecule - H4 chaind =0.8# distance in angstromh4 = M(atom=[[\"H\",0,0, d * i]foriinrange(4)])# Configure and run UCCSD calculationuccsd = UCCSD(h4)uccsd.kernel()# runs VQE optimizationuccsd.print_summary(include_circuit=True)\nfromtencirchemimportUCCSD, M# Create a molecule - H4 chaind =0.8# distance in angstromh4 = M(atom=[[\"H\",0,0, d * i]foriinrange(4)])# Configure and run UCCSD calculationuccsd = UCCSD(h4)uccsd.kernel()# runs VQE optimizationuccsd.print_summary(include_circuit=True)\nFor more detailed information on installation and dependencies, see theInstallation and Dependenciespage. For practical examples demonstrating different use cases, see theExample Applicationspage.\nSources:README.md17-22README.md26-40example/README.md1-22\nKey Examples\nTenCirChem includes various examples for different applications:\nStatic calculations:UCCSD, kUpCCGSD, and pUCCD calculationsHardware efficient ansatz with various configurationsNoisy circuit simulationsMolecular geometry optimization\nStatic calculations:\nUCCSD, kUpCCGSD, and pUCCD calculations\nHardware efficient ansatz with various configurations\nNoisy circuit simulations\nMolecular geometry optimization\nDynamic simulations:Spin-boson model dynamicsPyrazine absorption spectrumVariational basis state encoder (VBE) applications\nDynamic simulations:\nSpin-boson model dynamics\nPyrazine absorption spectrum\nVariational basis state encoder (VBE) applications\nSee theExample Applicationspage for detailed examples and walkthroughs.\nSources:example/README.md1-22README.md99-104\nRefresh this wiki\nOn this page\nPurpose and Key Features\nHigh-Level Architecture\nCore Component Structure\nComputational Workflow\nBackend and Engine System\nBackends and Engines\nEngine Characteristics\nIntegration Points\nGetting Started\nInstallation\nBasic Usage Example\nKey Examples",
+    "model": "gpt-4o",
+    "source": "selenium",
+    "success": true
+  },
+  "deepwiki_options": {
+    "enabled": true,
+    "model": "gpt-4o"
+  },
+  "risk": {
+    "import_feasibility": 0.9,
+    "intrusiveness_risk": "low",
+    "complexity": "medium"
+  }
+}
