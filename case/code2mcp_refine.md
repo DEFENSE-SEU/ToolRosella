@@ -63,7 +63,7 @@ try-except 缩进错误，可以设计一个agent检查一下代码格式问题
 
 ---
 
-2. mcp_service.py 基本上都会出现不存在的类，方法导入
+2. code2mcp后，mcp_service.py 基本上都会出现不存在的类，方法导入，可能是LLM出现写代码的幻觉（喜欢自我发挥）
 
 例如
 
@@ -85,8 +85,6 @@ result_data = volumeScoring(query_seq_volume, uniprot_info, target_sequence)
 还有存在尝试调用不存在的方法 spm.match()
 
 
-
-
-所以这个可以检查一个源码具体实现的py文件和mcp_service.py导入source写的方法时做一个检查
+所以这个可以检查一下源码（source）具体实现的py文件，然后对mcp_service.py导入source实现的方法时做一个检查，来修改mcp_service.py出现虚幻的代码
 
 
