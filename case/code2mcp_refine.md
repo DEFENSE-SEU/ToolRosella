@@ -1,6 +1,6 @@
 ## 可以在write code后先不测试，首先加一个代码检查的功能
 
-例如 **Adapter.py** 多次出现代码格式错误, adapter.py 文件报错 “invalid syntax”, 问题在**缩进错误**
+1. 例如 **Adapter.py** 多次出现代码格式错误, adapter.py 文件报错 “invalid syntax”, 问题在**缩进错误**
 
 ```python
 
@@ -59,6 +59,29 @@ for script in scripts:
 
 ```
 
-try-except 缩进错误
+try-except 缩进错误，可以设计一个agent检查一下代码格式问题
+
+---
+
+2. mcp_service.py 基本上都会出现不存在的类导入
+
+例如
+
+```python
+from scripts.SequencePatternMatching import SequencePatternMatching
+spm = SequencePatternMatching()
+result = spm.match(input_sequence, target_sequence)
+```
+
+问题原因: 原始SPM源码中没有 SequencePatternMatching 类，只有函数。
+
+需要修改
+
+```python
+from scripts.SequencePatternMatching import volumeScoring, volume
+result_data = volumeScoring(query_seq_volume, uniprot_info, target_sequence)
+```
+
+所以这个可以检查一个源码具体实现的py文件和mcp_service.py导入source写的方法时做一个检查
 
 
