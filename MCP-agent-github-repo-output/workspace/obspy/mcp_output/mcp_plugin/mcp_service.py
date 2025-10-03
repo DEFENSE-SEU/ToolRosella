@@ -6,13 +6,22 @@ source_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.pa
 sys.path.insert(0, source_path)
 
 from fastmcp import FastMCP
+from obspy import read
 from obspy.core.stream import Stream
 from obspy.core.trace import Trace
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.core.event import Catalog, Event
 from obspy.core.inventory import Inventory, Network, Station, Channel, Response
+from obspy.clients.fdsn import Client
+from obspy.taup import TauPyModel
+from obspy.signal.trigger import classic_sta_lta, plot_trigger, z_detect
+from obspy.signal.cross_correlation import correlate
+from obspy.imaging.beachball import beach
 import json
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')  # Non-interactive backend
+import matplotlib.pyplot as plt
 
 # Initialize FastMCP service
 mcp = FastMCP("obspy_service")
@@ -400,6 +409,1056 @@ def generate_analysis_report(analysis_data: dict, filename: str, output_dir: str
 
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+# ============================================================================
+# 1. Data I/O Functions (读写波形数据)
+# ============================================================================
+
+@mcp.tool(name="read_waveform", description="Read seismic waveform data from file (supports MiniSEED, SAC, SEGY, etc.)")
+def read_waveform(file_path: str) -> dict:
+    """
+    Read seismic waveform data from various formats.
+
+    Parameters:
+        file_path (str): Path to the waveform file
+
+    Returns:
+        dict: Stream information including traces and statistics
+    """
+    try:
+        stream = read(file_path)
+
+        traces_info = []
+        for trace in stream:
+            traces_info.append({
+                "network": trace.stats.network,
+                "station": trace.stats.station,
+                "location": trace.stats.location,
+                "channel": trace.stats.channel,
+                "starttime": str(trace.stats.starttime),
+                "endtime": str(trace.stats.endtime),
+                "sampling_rate": trace.stats.sampling_rate,
+                "npts": trace.stats.npts,
+                "duration": trace.stats.npts / trace.stats.sampling_rate,
+                "max": float(np.max(trace.data)),
+                "min": float(np.min(trace.data)),
+                "mean": float(np.mean(trace.data)),
+                "std": float(np.std(trace.data))
+            })
+
+        return {
+            "success": True,
+            "message": f"Successfully read {len(stream)} trace(s) from {file_path}",
+            "trace_count": len(stream),
+            "traces": traces_info
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="write_waveform", description="Write waveform data to file (MiniSEED, SAC, SEGY, etc.)")
+def write_waveform(file_path: str, format: str, data: list, sampling_rate: float,
+                   station: str = "STA", channel: str = "BHZ", network: str = "XX",
+                   starttime: str = None) -> dict:
+    """
+    Write waveform data to file in specified format.
+
+    Parameters:
+        file_path (str): Output file path
+        format (str): Format (MSEED, SAC, SEGY, etc.)
+        data (list): Waveform data points
+        sampling_rate (float): Sampling rate in Hz
+        station (str): Station code
+        channel (str): Channel code
+        network (str): Network code
+        starttime (str): Start time (ISO format string)
+
+    Returns:
+        dict: Success status and file info
+    """
+    try:
+        trace = Trace(data=np.array(data))
+        trace.stats.sampling_rate = sampling_rate
+        trace.stats.station = station
+        trace.stats.channel = channel
+        trace.stats.network = network
+
+        if starttime:
+            trace.stats.starttime = UTCDateTime(starttime)
+
+        stream = Stream([trace])
+        stream.write(file_path, format=format.upper())
+
+        return {
+            "success": True,
+            "message": f"Waveform written to {file_path}",
+            "file_path": file_path,
+            "format": format.upper(),
+            "file_size_bytes": os.path.getsize(file_path)
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ============================================================================
+# 2. FDSN Client Functions (在线获取数据)
+# ============================================================================
+
+@mcp.tool(name="get_waveforms_from_fdsn", description="Download waveform data from FDSN web service")
+def get_waveforms_from_fdsn(client_name: str, network: str, station: str,
+                            location: str, channel: str, starttime: str,
+                            endtime: str) -> dict:
+    """
+    Download waveform data from FDSN web services (e.g., IRIS, GEOFON).
+
+    Parameters:
+        client_name (str): FDSN client (IRIS, GEOFON, USGS, etc.)
+        network (str): Network code
+        station (str): Station code
+        location (str): Location code
+        channel (str): Channel code
+        starttime (str): Start time (ISO format)
+        endtime (str): End time (ISO format)
+
+    Returns:
+        dict: Stream information
+    """
+    try:
+        client = Client(client_name)
+        stream = client.get_waveforms(
+            network=network,
+            station=station,
+            location=location,
+            channel=channel,
+            starttime=UTCDateTime(starttime),
+            endtime=UTCDateTime(endtime)
+        )
+
+        traces_info = []
+        for trace in stream:
+            traces_info.append({
+                "id": trace.id,
+                "starttime": str(trace.stats.starttime),
+                "endtime": str(trace.stats.endtime),
+                "sampling_rate": trace.stats.sampling_rate,
+                "npts": trace.stats.npts
+            })
+
+        return {
+            "success": True,
+            "message": f"Downloaded {len(stream)} trace(s) from {client_name}",
+            "client": client_name,
+            "trace_count": len(stream),
+            "traces": traces_info
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="get_stations_from_fdsn", description="Get station metadata from FDSN web service")
+def get_stations_from_fdsn(client_name: str, network: str = "*", station: str = "*",
+                           starttime: str = None, endtime: str = None,
+                           level: str = "station") -> dict:
+    """
+    Get station/channel metadata from FDSN services.
+
+    Parameters:
+        client_name (str): FDSN client name
+        network (str): Network code (wildcards allowed)
+        station (str): Station code (wildcards allowed)
+        starttime (str): Start time filter
+        endtime (str): End time filter
+        level (str): Detail level (network, station, channel, response)
+
+    Returns:
+        dict: Inventory information
+    """
+    try:
+        client = Client(client_name)
+        kwargs = {
+            "network": network,
+            "station": station,
+            "level": level
+        }
+
+        if starttime:
+            kwargs["starttime"] = UTCDateTime(starttime)
+        if endtime:
+            kwargs["endtime"] = UTCDateTime(endtime)
+
+        inventory = client.get_stations(**kwargs)
+
+        networks_info = []
+        for net in inventory:
+            stations_info = []
+            for sta in net:
+                stations_info.append({
+                    "code": sta.code,
+                    "latitude": sta.latitude,
+                    "longitude": sta.longitude,
+                    "elevation": sta.elevation,
+                    "start_date": str(sta.start_date) if sta.start_date else None
+                })
+
+            networks_info.append({
+                "code": net.code,
+                "description": net.description,
+                "station_count": len(sta),
+                "stations": stations_info
+            })
+
+        return {
+            "success": True,
+            "message": f"Retrieved inventory from {client_name}",
+            "client": client_name,
+            "network_count": len(inventory),
+            "networks": networks_info
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="get_events_from_fdsn", description="Get earthquake events from FDSN catalog")
+def get_events_from_fdsn(client_name: str, starttime: str = None, endtime: str = None,
+                         minmagnitude: float = None, maxmagnitude: float = None,
+                         minlatitude: float = None, maxlatitude: float = None,
+                         minlongitude: float = None, maxlongitude: float = None) -> dict:
+    """
+    Query earthquake events from FDSN catalogs.
+
+    Parameters:
+        client_name (str): FDSN client name
+        starttime (str): Start time
+        endtime (str): End time
+        minmagnitude (float): Minimum magnitude
+        maxmagnitude (float): Maximum magnitude
+        minlatitude (float): Minimum latitude
+        maxlatitude (float): Maximum latitude
+        minlongitude (float): Minimum longitude
+        maxlongitude (float): Maximum longitude
+
+    Returns:
+        dict: Catalog with events
+    """
+    try:
+        client = Client(client_name)
+        kwargs = {}
+
+        if starttime:
+            kwargs["starttime"] = UTCDateTime(starttime)
+        if endtime:
+            kwargs["endtime"] = UTCDateTime(endtime)
+        if minmagnitude is not None:
+            kwargs["minmagnitude"] = minmagnitude
+        if maxmagnitude is not None:
+            kwargs["maxmagnitude"] = maxmagnitude
+        if minlatitude is not None:
+            kwargs["minlatitude"] = minlatitude
+        if maxlatitude is not None:
+            kwargs["maxlatitude"] = maxlatitude
+        if minlongitude is not None:
+            kwargs["minlongitude"] = minlongitude
+        if maxlongitude is not None:
+            kwargs["maxlongitude"] = maxlongitude
+
+        catalog = client.get_events(**kwargs)
+
+        events_info = []
+        for event in catalog:
+            origin = event.preferred_origin() or (event.origins[0] if event.origins else None)
+            magnitude = event.preferred_magnitude() or (event.magnitudes[0] if event.magnitudes else None)
+
+            event_data = {
+                "event_id": str(event.resource_id),
+                "time": str(origin.time) if origin else None,
+                "latitude": origin.latitude if origin else None,
+                "longitude": origin.longitude if origin else None,
+                "depth_km": origin.depth / 1000 if origin and origin.depth else None,
+                "magnitude": magnitude.mag if magnitude else None,
+                "magnitude_type": magnitude.magnitude_type if magnitude else None
+            }
+            events_info.append(event_data)
+
+        return {
+            "success": True,
+            "message": f"Retrieved {len(catalog)} event(s) from {client_name}",
+            "client": client_name,
+            "event_count": len(catalog),
+            "events": events_info
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ============================================================================
+# 3. Signal Processing Functions (信号处理)
+# ============================================================================
+
+@mcp.tool(name="filter_waveform", description="Apply filter to waveform data (lowpass, highpass, bandpass, bandstop)")
+def filter_waveform(file_path: str, filter_type: str, freq: float = None,
+                    freqmin: float = None, freqmax: float = None,
+                    corners: int = 4, zerophase: bool = True,
+                    output_path: str = None) -> dict:
+    """
+    Apply filters to seismic waveform.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        filter_type (str): Filter type (lowpass, highpass, bandpass, bandstop)
+        freq (float): Corner frequency for lowpass/highpass
+        freqmin (float): Lower corner frequency for bandpass/bandstop
+        freqmax (float): Upper corner frequency for bandpass/bandstop
+        corners (int): Filter corners/order
+        zerophase (bool): Zero-phase filter
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Filtered stream info
+    """
+    try:
+        stream = read(file_path)
+
+        if filter_type in ['lowpass', 'highpass']:
+            if freq is None:
+                return {"success": False, "error": f"{filter_type} requires 'freq' parameter"}
+            stream.filter(filter_type, freq=freq, corners=corners, zerophase=zerophase)
+        elif filter_type in ['bandpass', 'bandstop']:
+            if freqmin is None or freqmax is None:
+                return {"success": False, "error": f"{filter_type} requires 'freqmin' and 'freqmax' parameters"}
+            stream.filter(filter_type, freqmin=freqmin, freqmax=freqmax, corners=corners, zerophase=zerophase)
+        else:
+            return {"success": False, "error": f"Unknown filter type: {filter_type}"}
+
+        if output_path:
+            stream.write(output_path, format='MSEED')
+
+        return {
+            "success": True,
+            "message": f"Applied {filter_type} filter to {len(stream)} trace(s)",
+            "filter_type": filter_type,
+            "parameters": {
+                "freq": freq,
+                "freqmin": freqmin,
+                "freqmax": freqmax,
+                "corners": corners,
+                "zerophase": zerophase
+            },
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="detrend_waveform", description="Remove trend from waveform data")
+def detrend_waveform(file_path: str, detrend_type: str = "linear", output_path: str = None) -> dict:
+    """
+    Remove trend from waveform.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        detrend_type (str): Detrend type (linear, constant, demean, simple)
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Success status
+    """
+    try:
+        stream = read(file_path)
+        stream.detrend(detrend_type)
+
+        if output_path:
+            stream.write(output_path, format='MSEED')
+
+        return {
+            "success": True,
+            "message": f"Detrended {len(stream)} trace(s) using {detrend_type} method",
+            "detrend_type": detrend_type,
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="resample_waveform", description="Resample waveform to new sampling rate")
+def resample_waveform(file_path: str, sampling_rate: float, output_path: str = None) -> dict:
+    """
+    Resample waveform data.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        sampling_rate (float): New sampling rate in Hz
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Success status
+    """
+    try:
+        stream = read(file_path)
+        original_rates = [tr.stats.sampling_rate for tr in stream]
+        stream.resample(sampling_rate)
+
+        if output_path:
+            stream.write(output_path, format='MSEED')
+
+        return {
+            "success": True,
+            "message": f"Resampled {len(stream)} trace(s) to {sampling_rate} Hz",
+            "original_sampling_rates": original_rates,
+            "new_sampling_rate": sampling_rate,
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="remove_instrument_response", description="Remove instrument response from waveform")
+def remove_instrument_response(waveform_path: str, inventory_path: str,
+                               output: str = "VEL", pre_filt: list = None,
+                               output_path: str = None) -> dict:
+    """
+    Remove instrument response from waveform data.
+
+    Parameters:
+        waveform_path (str): Path to waveform file
+        inventory_path (str): Path to StationXML inventory file
+        output (str): Output type (DISP, VEL, ACC)
+        pre_filt (list): Pre-filter frequencies [f1, f2, f3, f4]
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Success status
+    """
+    try:
+        from obspy import read_inventory
+        stream = read(waveform_path)
+        inventory = read_inventory(inventory_path)
+
+        stream.remove_response(inventory=inventory, output=output, pre_filt=pre_filt)
+
+        if output_path:
+            stream.write(output_path, format='MSEED')
+
+        return {
+            "success": True,
+            "message": f"Removed instrument response from {len(stream)} trace(s)",
+            "output_type": output,
+            "pre_filter": pre_filt,
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ============================================================================
+# 4. Stream/Trace Operations (数据操作)
+# ============================================================================
+
+@mcp.tool(name="slice_waveform", description="Extract time slice from waveform")
+def slice_waveform(file_path: str, starttime: str, endtime: str, output_path: str = None) -> dict:
+    """
+    Extract a time slice from waveform.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        starttime (str): Start time (ISO format)
+        endtime (str): End time (ISO format)
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Sliced stream info
+    """
+    try:
+        stream = read(file_path)
+        stream = stream.slice(UTCDateTime(starttime), UTCDateTime(endtime))
+
+        if output_path:
+            stream.write(output_path, format='MSEED')
+
+        return {
+            "success": True,
+            "message": f"Sliced {len(stream)} trace(s)",
+            "starttime": starttime,
+            "endtime": endtime,
+            "trace_count": len(stream),
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="merge_waveforms", description="Merge multiple waveform files into one stream")
+def merge_waveforms(file_paths: list, method: int = 1, fill_value: float = None,
+                    output_path: str = None) -> dict:
+    """
+    Merge multiple waveform files.
+
+    Parameters:
+        file_paths (list): List of file paths to merge
+        method (int): Merge method (0=no merge, 1=merge with gaps, -1=merge with overlap)
+        fill_value (float): Fill value for gaps
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Merged stream info
+    """
+    try:
+        stream = Stream()
+        for fp in file_paths:
+            stream += read(fp)
+
+        stream.merge(method=method, fill_value=fill_value)
+
+        if output_path:
+            stream.write(output_path, format='MSEED')
+
+        return {
+            "success": True,
+            "message": f"Merged {len(file_paths)} files into {len(stream)} trace(s)",
+            "input_files": len(file_paths),
+            "output_traces": len(stream),
+            "merge_method": method,
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="select_traces", description="Select specific traces from waveform by network, station, channel, etc.")
+def select_traces(file_path: str, network: str = None, station: str = None,
+                  location: str = None, channel: str = None,
+                  output_path: str = None) -> dict:
+    """
+    Select specific traces from stream.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        network (str): Network code filter
+        station (str): Station code filter
+        location (str): Location code filter
+        channel (str): Channel code filter
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Selected traces info
+    """
+    try:
+        stream = read(file_path)
+
+        kwargs = {}
+        if network:
+            kwargs['network'] = network
+        if station:
+            kwargs['station'] = station
+        if location:
+            kwargs['location'] = location
+        if channel:
+            kwargs['channel'] = channel
+
+        selected = stream.select(**kwargs)
+
+        if output_path:
+            selected.write(output_path, format='MSEED')
+
+        traces_info = [{"id": tr.id} for tr in selected]
+
+        return {
+            "success": True,
+            "message": f"Selected {len(selected)} trace(s) from {len(stream)} total",
+            "total_traces": len(stream),
+            "selected_traces": len(selected),
+            "traces": traces_info,
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="trim_waveform", description="Trim waveform to time window with optional padding")
+def trim_waveform(file_path: str, starttime: str, endtime: str,
+                  pad: bool = False, fill_value: float = None,
+                  output_path: str = None) -> dict:
+    """
+    Trim waveform to specified time window.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        starttime (str): Start time (ISO format)
+        endtime (str): End time (ISO format)
+        pad (bool): Pad with fill_value if data doesn't cover time range
+        fill_value (float): Fill value for padding
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Trimmed stream info
+    """
+    try:
+        stream = read(file_path)
+        stream.trim(
+            starttime=UTCDateTime(starttime),
+            endtime=UTCDateTime(endtime),
+            pad=pad,
+            fill_value=fill_value
+        )
+
+        if output_path:
+            stream.write(output_path, format='MSEED')
+
+        return {
+            "success": True,
+            "message": f"Trimmed {len(stream)} trace(s)",
+            "starttime": starttime,
+            "endtime": endtime,
+            "pad": pad,
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ============================================================================
+# 5. Visualization Functions (可视化)
+# ============================================================================
+
+@mcp.tool(name="plot_waveform", description="Plot waveform data and save to file")
+def plot_waveform(file_path: str, output_path: str, method: str = "normal",
+                  starttime: str = None, endtime: str = None) -> dict:
+    """
+    Plot seismic waveform.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        output_path (str): Output image path (PNG, PDF, etc.)
+        method (str): Plot method (normal, dayplot)
+        starttime (str): Optional start time for plot
+        endtime (str): Optional end time for plot
+
+    Returns:
+        dict: Success status and output path
+    """
+    try:
+        stream = read(file_path)
+
+        if starttime and endtime:
+            stream = stream.slice(UTCDateTime(starttime), UTCDateTime(endtime))
+
+        if method == "dayplot":
+            stream.plot(type='dayplot', outfile=output_path)
+        else:
+            stream.plot(outfile=output_path)
+
+        return {
+            "success": True,
+            "message": f"Plotted {len(stream)} trace(s) to {output_path}",
+            "output_path": output_path,
+            "plot_method": method,
+            "file_size_bytes": os.path.getsize(output_path)
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="plot_spectrogram", description="Generate spectrogram from waveform")
+def plot_spectrogram(file_path: str, output_path: str, log: bool = False,
+                     wlen: float = None, per_lap: float = 0.9) -> dict:
+    """
+    Generate spectrogram plot.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        output_path (str): Output image path
+        log (bool): Use logarithmic frequency scale
+        wlen (float): Window length in seconds
+        per_lap (float): Percentage of overlap (0-1)
+
+    Returns:
+        dict: Success status and output path
+    """
+    try:
+        stream = read(file_path)
+
+        if len(stream) == 0:
+            return {"success": False, "error": "No traces in stream"}
+
+        trace = stream[0]  # Use first trace
+
+        kwargs = {'log': log, 'per_lap': per_lap}
+        if wlen:
+            kwargs['wlen'] = wlen
+
+        trace.spectrogram(outfile=output_path, **kwargs)
+
+        return {
+            "success": True,
+            "message": f"Generated spectrogram for trace {trace.id}",
+            "output_path": output_path,
+            "trace_id": trace.id,
+            "file_size_bytes": os.path.getsize(output_path)
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="plot_beachball", description="Plot focal mechanism beachball diagram")
+def plot_beachball(fm: list, output_path: str, size: int = 200, linewidth: int = 2) -> dict:
+    """
+    Plot earthquake focal mechanism (beachball).
+
+    Parameters:
+        fm (list): Focal mechanism as [strike, dip, rake] or moment tensor [Mxx, Myy, Mzz, Mxy, Mxz, Myz]
+        output_path (str): Output image path
+        size (int): Size of beachball
+        linewidth (int): Line width
+
+    Returns:
+        dict: Success status and output path
+    """
+    try:
+        fig = plt.figure(figsize=(4, 4))
+        ax = fig.add_subplot(111, aspect='equal')
+
+        # Create beachball
+        bb = beach(fm, xy=(0, 0), width=size, linewidth=linewidth, facecolor='b')
+        ax.add_collection(bb)
+
+        ax.set_xlim(-size/2*1.2, size/2*1.2)
+        ax.set_ylim(-size/2*1.2, size/2*1.2)
+        ax.set_aspect('equal')
+        ax.axis('off')
+
+        plt.savefig(output_path, dpi=150, bbox_inches='tight')
+        plt.close(fig)
+
+        return {
+            "success": True,
+            "message": f"Beachball plot saved to {output_path}",
+            "output_path": output_path,
+            "focal_mechanism": fm,
+            "file_size_bytes": os.path.getsize(output_path)
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ============================================================================
+# 6. Travel Time Calculation (走时计算)
+# ============================================================================
+
+@mcp.tool(name="calculate_travel_times", description="Calculate seismic phase travel times using TauP")
+def calculate_travel_times(source_depth_km: float, distance_deg: float,
+                           model: str = "iasp91", phase_list: list = None) -> dict:
+    """
+    Calculate travel times for seismic phases.
+
+    Parameters:
+        source_depth_km (float): Source depth in kilometers
+        distance_deg (float): Epicentral distance in degrees
+        model (str): Velocity model (iasp91, ak135, prem, etc.)
+        phase_list (list): List of phase names (e.g., ["P", "S", "PP"])
+
+    Returns:
+        dict: Travel time information for phases
+    """
+    try:
+        taup_model = TauPyModel(model=model)
+
+        kwargs = {
+            'source_depth_in_km': source_depth_km,
+            'distance_in_degree': distance_deg
+        }
+
+        if phase_list:
+            kwargs['phase_list'] = phase_list
+
+        arrivals = taup_model.get_travel_times(**kwargs)
+
+        phases_info = []
+        for arrival in arrivals:
+            phases_info.append({
+                "name": arrival.name,
+                "time": arrival.time,
+                "ray_param": arrival.ray_param,
+                "takeoff_angle": arrival.takeoff_angle,
+                "incident_angle": arrival.incident_angle,
+                "purist_name": arrival.purist_name,
+                "distance_deg": arrival.distance
+            })
+
+        return {
+            "success": True,
+            "message": f"Calculated {len(arrivals)} phase arrival(s)",
+            "model": model,
+            "source_depth_km": source_depth_km,
+            "distance_deg": distance_deg,
+            "phase_count": len(arrivals),
+            "arrivals": phases_info
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="get_ray_paths", description="Get ray paths for seismic phases")
+def get_ray_paths(source_depth_km: float, distance_deg: float,
+                  model: str = "iasp91", phase_list: list = None) -> dict:
+    """
+    Get ray path information for seismic phases.
+
+    Parameters:
+        source_depth_km (float): Source depth in kilometers
+        distance_deg (float): Epicentral distance in degrees
+        model (str): Velocity model
+        phase_list (list): List of phase names
+
+    Returns:
+        dict: Ray path information
+    """
+    try:
+        taup_model = TauPyModel(model=model)
+
+        kwargs = {
+            'source_depth_in_km': source_depth_km,
+            'distance_in_degree': distance_deg
+        }
+
+        if phase_list:
+            kwargs['phase_list'] = phase_list
+
+        arrivals = taup_model.get_ray_paths(**kwargs)
+
+        paths_info = []
+        for arrival in arrivals:
+            path_points = []
+            if hasattr(arrival, 'path') and arrival.path is not None:
+                for point in arrival.path:
+                    path_points.append({
+                        "distance_deg": float(point['dist']),
+                        "depth_km": float(point['depth']),
+                        "time": float(point['time'])
+                    })
+
+            paths_info.append({
+                "name": arrival.name,
+                "time": arrival.time,
+                "path_length": len(path_points),
+                "path": path_points[:100]  # Limit to first 100 points
+            })
+
+        return {
+            "success": True,
+            "message": f"Retrieved ray paths for {len(arrivals)} phase(s)",
+            "model": model,
+            "source_depth_km": source_depth_km,
+            "distance_deg": distance_deg,
+            "ray_paths": paths_info
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ============================================================================
+# 7. Trigger Algorithms & Cross-correlation (触发算法和互相关)
+# ============================================================================
+
+@mcp.tool(name="apply_sta_lta_trigger", description="Apply STA/LTA trigger algorithm for event detection")
+def apply_sta_lta_trigger(file_path: str, sta_window: float, lta_window: float,
+                          trigger_on: float = 3.0, trigger_off: float = 1.5,
+                          output_path: str = None) -> dict:
+    """
+    Apply STA/LTA trigger algorithm.
+
+    Parameters:
+        file_path (str): Path to waveform file
+        sta_window (float): Short-term average window (seconds)
+        lta_window (float): Long-term average window (seconds)
+        trigger_on (float): Trigger on threshold
+        trigger_off (float): Trigger off threshold
+        output_path (str): Optional output image path for trigger plot
+
+    Returns:
+        dict: Trigger results
+    """
+    try:
+        stream = read(file_path)
+
+        if len(stream) == 0:
+            return {"success": False, "error": "No traces in stream"}
+
+        trace = stream[0]
+        df = trace.stats.sampling_rate
+
+        # Convert seconds to samples
+        nsta = int(sta_window * df)
+        nlta = int(lta_window * df)
+
+        # Calculate STA/LTA
+        cft = classic_sta_lta(trace.data, nsta, nlta)
+
+        # Find triggers
+        from obspy.signal.trigger import trigger_onset
+        triggers = trigger_onset(cft, trigger_on, trigger_off)
+
+        triggers_info = []
+        for on, off in triggers:
+            triggers_info.append({
+                "trigger_on_sample": int(on),
+                "trigger_off_sample": int(off),
+                "trigger_on_time": str(trace.stats.starttime + on / df),
+                "trigger_off_time": str(trace.stats.starttime + off / df),
+                "duration_sec": (off - on) / df
+            })
+
+        # Optionally plot
+        if output_path:
+            fig = plt.figure(figsize=(12, 6))
+            ax1 = fig.add_subplot(211)
+            ax2 = fig.add_subplot(212, sharex=ax1)
+
+            t = np.arange(len(trace.data)) / df
+            ax1.plot(t, trace.data, 'k', linewidth=0.5)
+            ax1.set_ylabel('Amplitude')
+            ax1.set_title(f'{trace.id} - STA/LTA Trigger')
+
+            ax2.plot(t, cft, 'b', linewidth=0.8)
+            ax2.axhline(trigger_on, color='r', linestyle='--', label='Trigger On')
+            ax2.axhline(trigger_off, color='g', linestyle='--', label='Trigger Off')
+            ax2.set_xlabel('Time (s)')
+            ax2.set_ylabel('STA/LTA')
+            ax2.legend()
+
+            plt.tight_layout()
+            plt.savefig(output_path, dpi=150)
+            plt.close(fig)
+
+        return {
+            "success": True,
+            "message": f"Found {len(triggers)} trigger(s)",
+            "trace_id": trace.id,
+            "sta_window_sec": sta_window,
+            "lta_window_sec": lta_window,
+            "trigger_count": len(triggers),
+            "triggers": triggers_info,
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="cross_correlate_traces", description="Cross-correlate two seismic traces")
+def cross_correlate_traces(file_path1: str, file_path2: str, max_shift: int = None) -> dict:
+    """
+    Cross-correlate two seismic traces.
+
+    Parameters:
+        file_path1 (str): Path to first waveform file
+        file_path2 (str): Path to second waveform file
+        max_shift (int): Maximum shift in samples
+
+    Returns:
+        dict: Cross-correlation results
+    """
+    try:
+        stream1 = read(file_path1)
+        stream2 = read(file_path2)
+
+        if len(stream1) == 0 or len(stream2) == 0:
+            return {"success": False, "error": "One or both streams are empty"}
+
+        trace1 = stream1[0]
+        trace2 = stream2[0]
+
+        # Cross-correlate
+        cc = correlate(trace1.data, trace2.data, shift=max_shift)
+
+        # Find maximum correlation
+        max_cc_idx = np.argmax(cc)
+        max_cc_value = float(cc[max_cc_idx])
+
+        # Calculate shift
+        if max_shift:
+            shift = max_cc_idx - max_shift
+        else:
+            shift = max_cc_idx - len(trace2.data) + 1
+
+        return {
+            "success": True,
+            "message": "Cross-correlation completed",
+            "trace1_id": trace1.id,
+            "trace2_id": trace2.id,
+            "max_correlation": max_cc_value,
+            "shift_samples": int(shift),
+            "shift_seconds": shift / trace1.stats.sampling_rate,
+            "cc_length": len(cc)
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ============================================================================
+# 8. CLI Tools (命令行工具)
+# ============================================================================
+
+@mcp.tool(name="convert_flinn_engdahl", description="Convert lat/lon to Flinn-Engdahl region name")
+def convert_flinn_engdahl(latitude: float, longitude: float) -> dict:
+    """
+    Convert coordinates to Flinn-Engdahl region code and name.
+
+    Parameters:
+        latitude (float): Latitude
+        longitude (float): Longitude
+
+    Returns:
+        dict: Region information
+    """
+    try:
+        from obspy.geodetics import FlinnEngdahl
+        fe = FlinnEngdahl()
+        region_name = fe.get_region(longitude, latitude)
+
+        return {
+            "success": True,
+            "latitude": latitude,
+            "longitude": longitude,
+            "region": region_name
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool(name="rotate_to_zne", description="Rotate three-component seismogram to ZNE orientation")
+def rotate_to_zne(file_path: str, inventory_path: str = None, output_path: str = None) -> dict:
+    """
+    Rotate three-component data to ZNE (vertical, north, east).
+
+    Parameters:
+        file_path (str): Path to waveform file (must contain 3 components)
+        inventory_path (str): Path to inventory with orientation info
+        output_path (str): Optional output file path
+
+    Returns:
+        dict: Rotation results
+    """
+    try:
+        from obspy import read_inventory
+        stream = read(file_path)
+
+        if inventory_path:
+            inventory = read_inventory(inventory_path)
+            stream.rotate('->ZNE', inventory=inventory)
+        else:
+            # Try without inventory (requires proper metadata in stream)
+            stream.rotate('->ZNE')
+
+        if output_path:
+            stream.write(output_path, format='MSEED')
+
+        return {
+            "success": True,
+            "message": f"Rotated {len(stream)} trace(s) to ZNE",
+            "trace_count": len(stream),
+            "output_path": output_path if output_path else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
 
 def create_app() -> FastMCP:
     """
