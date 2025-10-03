@@ -1,4 +1,4 @@
-修改SPM的mcp_service.py文件时修复的bug： 
+修改SPM的mcp_service.py文件时修复的bug （源代码repo source： https://github.com/YanLab-Westlake/SPM）： 
 
 
 ## 🐛 **修复的Bug列表** 
