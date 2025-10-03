@@ -1,6 +1,6 @@
 ## 可以在write code后先不测试，首先加一个代码检查的功能
 
-1. 例如 **Adapter.py** 多次出现代码格式错误, adapter.py 文件报错 “invalid syntax”, 问题在**缩进错误**
+1. 例如 遇到多次code2mcp后 **Adapter.py** 出现代码格式错误, adapter.py 文件报错 “invalid syntax”, 问题在**缩进错误**
 
 ```python
 
