@@ -59,7 +59,7 @@ for script in scripts:
 
 ```
 
-try-except 缩进错误，可以设计一个agent检查一下代码格式问题
+**try-except 缩进错误，可以设计一个agent检查一下代码格式问题**
 
 ---
 
@@ -85,6 +85,6 @@ result_data = volumeScoring(query_seq_volume, uniprot_info, target_sequence)
 还有存在尝试调用不存在的方法 spm.match()，目前需要手动去scource文件中查找，**修复:** 直接调用真实的 SPM 算法函数 volumeScoring()。
 
 
-所以这个可以检查一下源码（source）具体实现的py文件，然后对mcp_service.py导入source实现的方法时做一个检查，来修改mcp_service.py出现虚幻的代码
+**所以这个可以检查一下源码（source）具体实现的py文件，然后对mcp_service.py导入source实现的方法时做一个检查，来修改mcp_service.py出现虚幻的代码**
 
 
