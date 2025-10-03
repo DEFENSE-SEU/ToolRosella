@@ -63,7 +63,7 @@ try-except 缩进错误，可以设计一个agent检查一下代码格式问题
 
 ---
 
-2. mcp_service.py 基本上都会出现不存在的类导入
+2. mcp_service.py 基本上都会出现不存在的类，方法导入
 
 例如
 
@@ -81,6 +81,11 @@ result = spm.match(input_sequence, target_sequence)
 from scripts.SequencePatternMatching import volumeScoring, volume
 result_data = volumeScoring(query_seq_volume, uniprot_info, target_sequence)
 ```
+
+还有存在尝试调用不存在的方法 spm.match()
+
+
+
 
 所以这个可以检查一个源码具体实现的py文件和mcp_service.py导入source写的方法时做一个检查
 
