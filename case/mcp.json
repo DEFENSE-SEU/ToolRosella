@@ -17,6 +17,13 @@
     },
     "chemlib": {
       "url": "https://guohanghui-chemlib.hf.space/mcp"
+    },
+    "TenCirChem": {
+      "url": "https://guohanghui-TenCirChem.hf.space/mcp"
+    }
+    ,
+    "SPM": {
+      "url": "https://guohanghui-SPM.hf.space/mcp"
     }
   }
 }
