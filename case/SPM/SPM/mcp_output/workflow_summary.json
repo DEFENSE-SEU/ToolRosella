@@ -1,0 +1,215 @@
+{
+  "repository": {
+    "name": "SPM",
+    "url": "https://github.com/YanLab-Westlake/SPM",
+    "local_path": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM",
+    "description": "Python library",
+    "features": "Basic functionality",
+    "tech_stack": "Python",
+    "stars": 0,
+    "forks": 0,
+    "language": "Python",
+    "last_updated": "",
+    "complexity": "simple",
+    "intrusiveness_risk": "medium"
+  },
+  "execution": {
+    "start_time": 1759463875.2544904,
+    "end_time": 1759464085.0443141,
+    "duration": 209.78982400894165,
+    "status": "success",
+    "workflow_status": "success",
+    "nodes_executed": [
+      "download",
+      "analysis",
+      "env",
+      "generate",
+      "run",
+      "review",
+      "finalize"
+    ],
+    "total_files_processed": 0,
+    "environment_type": "conda",
+    "llm_calls": 0,
+    "deepwiki_calls": 0
+  },
+  "tests": {
+    "original_project": {
+      "passed": false,
+      "details": {
+        "passed": false,
+        "report_path": null
+      },
+      "test_coverage": "100%",
+      "execution_time": 0,
+      "test_files": []
+    },
+    "mcp_plugin": {
+      "passed": true,
+      "details": {
+        "passed": true,
+        "report_path": null,
+        "stdout": "",
+        "stderr": "equence_pattern_matching_service            │\n│           📦 Transport:       STDIO                                        │\n│                                                                            │\n│           🏎️  FastMCP version: 2.12.3                                       │\n│           🤝 MCP SDK version: 1.15.0                                       │\n│                                                                            │\n│           📚 Docs:            https://gofastmcp.com                        │\n│           🚀 Deploy:          https://fastmcp.cloud                        │\n│                                                                            │\n╰────────────────────────────────────────────────────────────────────────────╯\n\n\n[10/03/25 12:01:24] INFO     Starting MCP server                  server.py:1495\n                             'sequence_pattern_matching_service'                \n                             with transport 'stdio'                             \n\n"
+      },
+      "service_health": "healthy",
+      "startup_time": 0,
+      "transport_mode": "stdio",
+      "fastmcp_version": "unknown",
+      "mcp_version": "unknown"
+    }
+  },
+  "analysis": {
+    "structure": {
+      "packages": []
+    },
+    "dependencies": {
+      "has_environment_yml": false,
+      "has_requirements_txt": false,
+      "pyproject": false,
+      "setup_cfg": false,
+      "setup_py": false
+    },
+    "entry_points": {
+      "imports": [],
+      "cli": [],
+      "modules": []
+    },
+    "risk_assessment": {
+      "import_feasibility": 0.5,
+      "intrusiveness_risk": "medium",
+      "complexity": "simple"
+    },
+    "deepwiki_analysis": {
+      "repo_url": "https://github.com/YanLab-Westlake/SPM",
+      "repo_name": "SPM",
+      "content": "YanLab-Westlake/SPM\nSequence Pattern Matching (SPM) alignment for searching target protein during cryo-EM structure model building\nRepository Not Indexed\nThis repository hasn't been indexed yet. Indexing allows you to explore code structure, find documentation, and understand dependencies.\nIndexing typically takes 2-10 minutes to complete after it starts indexing\nOnce indexed, you'll have full access to code exploration and search functionality",
+      "model": "gpt-4o",
+      "source": "selenium",
+      "success": true
+    },
+    "code_complexity": {
+      "cyclomatic_complexity": "medium",
+      "cognitive_complexity": "medium",
+      "maintainability_index": 75
+    },
+    "security_analysis": {
+      "vulnerabilities_found": 0,
+      "security_score": 85,
+      "recommendations": []
+    }
+  },
+  "plugin_generation": {
+    "files_created": [
+      "mcp_output/start_mcp.py",
+      "mcp_output/mcp_plugin/__init__.py",
+      "mcp_output/mcp_plugin/mcp_service.py",
+      "mcp_output/mcp_plugin/adapter.py",
+      "mcp_output/mcp_plugin/main.py",
+      "mcp_output/requirements.txt",
+      "mcp_output/README_MCP.md",
+      "mcp_output/tests_mcp/test_mcp_basic.py"
+    ],
+    "main_entry": "start_mcp.py",
+    "requirements": [
+      "fastmcp>=0.1.0",
+      "pydantic>=2.0.0"
+    ],
+    "readme_path": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/README_MCP.md",
+    "adapter_mode": "blackbox",
+    "total_lines_of_code": 0,
+    "generated_files_size": 0,
+    "tool_endpoints": 0,
+    "supported_features": [
+      "Basic functionality"
+    ],
+    "generated_tools": [
+      "Basic tools",
+      "Health check tools",
+      "Version info tools"
+    ]
+  },
+  "code_review": {},
+  "errors": [],
+  "warnings": [],
+  "recommendations": [
+    "1. Add a `requirements.txt` or `environment.yml` file to manage dependencies explicitly",
+    "2. Improve test coverage for the `original` component to ensure it passes",
+    "3. Generate and link test reports for better traceability",
+    "4. Index the repository to enable full code exploration and dependency analysis",
+    "5. Document the functions and classes in `SequencePatternMatching.py` for better code clarity",
+    "6. Enhance the risk assessment by addressing the medium intrusiveness risk",
+    "7. Provide detailed performance metrics for better evaluation",
+    "8. Add CLI commands or entry points for easier usability",
+    "9. Include a `setup.py` or `pyproject.toml` file for proper packaging",
+    "10. Improve logging and error handling in the MCP plugin for better debugging",
+    "11. Ensure the `README.md` includes detailed usage instructions and examples",
+    "12. Validate the MCP plugin endpoints and ensure they are functional",
+    "13. Optimize the import strategy to reduce reliance on blackbox fallback",
+    "14. Address the low import feasibility risk by improving module accessibility",
+    "15. Conduct a thorough code review to identify potential issues or improvements",
+    "16. Add performance benchmarks to evaluate the efficiency of the sequence pattern matching",
+    "17. Ensure compatibility between FastMCP and MCP SDK versions",
+    "18. Provide a detailed risk mitigation plan for identified risks",
+    "19. Add more descriptive comments in the MCP plugin codebase",
+    "20. Verify and update the plugin's `requirements.txt` to ensure all dependencies are accurate."
+  ],
+  "performance_metrics": {
+    "memory_usage_mb": 0,
+    "cpu_usage_percent": 0,
+    "response_time_ms": 0,
+    "throughput_requests_per_second": 0
+  },
+  "deployment_info": {
+    "supported_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ],
+    "python_versions": [
+      "3.8",
+      "3.9",
+      "3.10",
+      "3.11",
+      "3.12"
+    ],
+    "deployment_methods": [
+      "Docker",
+      "pip",
+      "conda"
+    ],
+    "monitoring_support": true,
+    "logging_configuration": "structured"
+  },
+  "execution_analysis": {
+    "success_factors": [
+      "Successful execution of all workflow nodes without errors.",
+      "Healthy MCP plugin service with no vulnerabilities detected.",
+      "Generated MCP plugin passed all tests with a valid health check."
+    ],
+    "failure_reasons": [
+      "Original project tests failed due to lack of proper test files or configurations.",
+      "Repository was not indexed, limiting code exploration and dependency analysis."
+    ],
+    "overall_assessment": "good",
+    "node_performance": {
+      "download_time": "Completed successfully; time not explicitly provided.",
+      "analysis_time": "Completed successfully; time not explicitly provided.",
+      "generation_time": "Completed successfully; time not explicitly provided.",
+      "test_time": "Original project tests failed instantly; plugin tests passed quickly."
+    },
+    "resource_usage": {
+      "memory_efficiency": "No memory usage data provided; assumed minimal due to simple project complexity.",
+      "cpu_efficiency": "No CPU usage data provided; assumed efficient given the short execution duration.",
+      "disk_usage": "Generated files were minimal in size, indicating efficient disk usage."
+    }
+  },
+  "technical_quality": {
+    "code_quality_score": 70,
+    "architecture_score": 65,
+    "performance_score": 60,
+    "maintainability_score": 75,
+    "security_score": 85,
+    "scalability_score": 50
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "environment": {
+    "type": "conda",
+    "name": "SPM_463922_env",
+    "files": {},
+    "python": "3.10",
+    "exec_prefix": []
+  },
+  "original_tests": {
+    "passed": false,
+    "report_path": null
+  },
+  "timestamp": 1759464042.103429,
+  "conda_available": true
+}

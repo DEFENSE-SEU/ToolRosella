@@ -1,0 +1,48 @@
+{
+  "timestamp": 1759464084.997134,
+  "node": "RunNode",
+  "test_result": {
+    "passed": true,
+    "report_path": null,
+    "stdout": "",
+    "stderr": "equence_pattern_matching_service            │\n│           📦 Transport:       STDIO                                        │\n│                                                                            │\n│           🏎️  FastMCP version: 2.12.3                                       │\n│           🤝 MCP SDK version: 1.15.0                                       │\n│                                                                            │\n│           📚 Docs:            https://gofastmcp.com                        │\n│           🚀 Deploy:          https://fastmcp.cloud                        │\n│                                                                            │\n╰────────────────────────────────────────────────────────────────────────────╯\n\n\n[10/03/25 12:01:24] INFO     Starting MCP server                  server.py:1495\n                             'sequence_pattern_matching_service'                \n                             with transport 'stdio'                             \n\n"
+  },
+  "run_result": {
+    "success": true,
+    "test_passed": true,
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "equence_pattern_matching_service            │\n│           📦 Transport:       STDIO                                        │\n│                                                                            │\n│           🏎️  FastMCP version: 2.12.3                                       │\n│           🤝 MCP SDK version: 1.15.0                                       │\n│                                                                            │\n│           📚 Docs:            https://gofastmcp.com                        │\n│           🚀 Deploy:          https://fastmcp.cloud                        │\n│                                                                            │\n╰────────────────────────────────────────────────────────────────────────────╯\n\n\n[10/03/25 12:01:24] INFO     Starting MCP server                  server.py:1495\n                             'sequence_pattern_matching_service'                \n                             with transport 'stdio'                             \n\n",
+    "timestamp": 1759464084.997102
+  },
+  "environment": {
+    "type": "conda",
+    "name": "SPM_463922_env",
+    "files": {},
+    "python": "3.10",
+    "exec_prefix": []
+  },
+  "plugin_info": {
+    "files": {
+      "mcp_output/start_mcp.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/start_mcp.py",
+      "mcp_output/mcp_plugin/__init__.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/mcp_plugin/__init__.py",
+      "mcp_output/mcp_plugin/mcp_service.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/mcp_plugin/mcp_service.py",
+      "mcp_output/mcp_plugin/adapter.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/mcp_plugin/adapter.py",
+      "mcp_output/mcp_plugin/main.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/mcp_plugin/main.py",
+      "mcp_output/requirements.txt": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/requirements.txt",
+      "mcp_output/README_MCP.md": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/README_MCP.md",
+      "mcp_output/tests_mcp/test_mcp_basic.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/tests_mcp/test_mcp_basic.py"
+    },
+    "adapter_mode": "blackbox",
+    "endpoints": [],
+    "mcp_dir": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/mcp_plugin",
+    "tests_dir": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/tests_mcp",
+    "main_entry": "start_mcp.py",
+    "readme_path": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/SPM/mcp_output/README_MCP.md",
+    "requirements": [
+      "fastmcp>=0.1.0",
+      "pydantic>=2.0.0"
+    ]
+  },
+  "fastmcp_installed": true
+}
