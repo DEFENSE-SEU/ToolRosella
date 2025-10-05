@@ -423,7 +423,7 @@ def get_deepwiki_client(api_key: Optional[str] = None, model: Optional[str] = No
         elif provider == "claude":
             model = os.getenv("CLAUDE_MODEL", "claude-4-sonnet")
         else:
-            model = os.getenv("OPENAI_MODEL", "gpt-5")
+            model = os.getenv("OPENAI_MODEL", "deepseek-v3")
     
 
     

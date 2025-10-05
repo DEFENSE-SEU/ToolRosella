@@ -5,6 +5,7 @@ from .nodes.download_node import download_node
 from .nodes.analysis_node import analysis_node
 from .nodes.env_node import env_node
 from .nodes.generate_node import generate_node
+from .nodes.code_check_node import code_check_node
 from .nodes.run_node import run_node
 from .nodes.review_node import review_node
 from .nodes.finalize_node import finalize_node
@@ -29,6 +30,9 @@ def route_after_env(state: Dict[str, Any]) -> str:
     return _route_or_end(state, "generate")
 
 def route_after_generate(state: Dict[str, Any]) -> str:
+    return _route_or_end(state, "code_check")
+
+def route_after_code_check(state: Dict[str, Any]) -> str:
     return _route_or_end(state, "run")
 
 def route_after_run(state: Dict[str, Any]) -> str:
@@ -108,6 +112,7 @@ class WorkflowOrchestrator:
         workflow.add_node("analysis", analysis_node)
         workflow.add_node("env", env_node)
         workflow.add_node("generate", generate_node)
+        workflow.add_node("code_check", code_check_node)
         workflow.add_node("run", run_node)
         workflow.add_node("review", review_node)
         workflow.add_node("finalize", finalize_node)
@@ -116,6 +121,7 @@ class WorkflowOrchestrator:
         workflow.add_conditional_edges("analysis", route_after_analysis)
         workflow.add_conditional_edges("env", route_after_env)
         workflow.add_conditional_edges("generate", route_after_generate)
+        workflow.add_conditional_edges("code_check", route_after_code_check)
         workflow.add_conditional_edges("run", route_after_run)
         workflow.add_conditional_edges("review", route_after_review)
         workflow.add_conditional_edges("finalize", route_after_finalize)

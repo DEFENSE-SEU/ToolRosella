@@ -235,8 +235,8 @@ def get_model_config(provider: str = None) -> ModelConfig:
     
     if provider == "openai":
         api_key = os.getenv("OPENAI_API_KEY")
-        base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
-        model_version = os.getenv("OPENAI_MODEL", "gpt-5")
+        base_url = os.getenv("OPENAI_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+        model_version = os.getenv("OPENAI_MODEL", "deepseek-v3")
     elif provider == "deepseek":
         api_key = os.getenv("DEEPSEEK_API_KEY")
         base_url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
