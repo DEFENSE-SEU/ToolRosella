@@ -194,23 +194,37 @@ class GitHubRAG:
     # 综合：若提供 text，先文本检索→判定；失败再按 topics 逐一检索→判定
     def search_and_judge(self, query: str, text: str = "", topics: List[str] = None, per_page: int = 50) -> Tuple[Optional[str], Optional[str]]:
         topics = topics or []
+        
+        # 首先检查 query 中是否包含 GitHub URL（优先级最高）
+        specified_url = self._extract_github_url_from_query(query)
+        if specified_url:
+            print(f"Found specified GitHub URL in query: {specified_url}")
+            if self._check_repo_exists(specified_url):
+                print(f"Repository exists, using specified repo directly")
+                # 提取仓库名称和 clone URL
+                pattern = r'https://github\.com/([^/]+)/([^/]+)'
+                match = re.match(pattern, specified_url)
+                if match:
+                    owner, repo_name = match.groups()
+                    clone_url = f"https://github.com/{owner}/{repo_name}.git"
+                    print(f"Using repository: {repo_name} -> {clone_url}")
+                    return repo_name, clone_url
+            else:
+                print(f"Specified repository does not exist, falling back to keyword search")
+        
         print(f"Searching GitHub with text: '{text}' and topics: {topics}")
-        # 文本优先
+        # 文本搜索 - text 是从 query 提取的关键词或 repo 名
         if text:
-            items = self.search_by_text(text, top_k=per_page)
-            for repo in items:
+            items = self.search_by_text(text, top_k= per_page)
+            if items:
+                # 直接使用搜索到的第一个仓库（用户指定的）
+                repo = items[0]
                 clone_url = repo.get('clone_url')
                 name = repo.get('name')
-                if not clone_url or not name:
-                    continue
-                readme = self._clone_and_read_readme(clone_url, name)
-                if readme:
-                    query = query + "Please use the repo I specified and give the reason for accepting it"
-                    ok, ans = self.judge_repo_by_readme(query, readme)
-                    print(f"LLM judgement for {name}: {ans}")
-                    if ok:
-                        return name, clone_url
-        # 主题回退
+                if clone_url and name:
+                    print(f"Found specified repository by text search: {name} -> {clone_url}")
+                    return name, clone_url
+        # 主题回退 - 需要 LLM 判断
         for topic in topics:
             items = self.search_by_topic(topic, top_k=per_page)
             for repo in items:
@@ -225,26 +239,42 @@ class GitHubRAG:
                     print(f"LLM judgement for {name}: {ans}")
                     if ok:
                         return name, clone_url
+                
         return None, None
-        
+
     def search_and_judge_summary(self, query: str, text: str = "", topics: List[str] = None, per_page: int = 50) -> Tuple[Optional[str], Optional[str]]:
         topics = topics or []
+        
+        # 首先检查 query 中是否包含 GitHub URL（优先级最高）
+        specified_url = self._extract_github_url_from_query(query)
+        if specified_url:
+            print(f"Found specified GitHub URL in query: {specified_url}")
+            if self._check_repo_exists(specified_url):
+                print(f"Repository exists, using specified repo directly")
+                # 提取仓库名称和 clone URL
+                pattern = r'https://github\.com/([^/]+)/([^/]+)'
+                match = re.match(pattern, specified_url)
+                if match:
+                    owner, repo_name = match.groups()
+                    clone_url = f"https://github.com/{owner}/{repo_name}.git"
+                    print(f"Using repository: {repo_name} -> {clone_url}")
+                    return repo_name, clone_url
+            else:
+                print(f"Specified repository does not exist, falling back to keyword search")
+        
         print(f"Searching GitHub with text: '{text}' and topics: {topics}")
-        # 文本优先
+        # 文本搜索 - text 是从 query 提取的关键词或 repo 名
         if text:
             items = self.search_by_text(text, top_k=per_page)
-            for repo in items:
+            if items:
+                # 直接使用搜索到的第一个仓库（用户指定的）
+                repo = items[0]
                 clone_url = repo.get('clone_url')
                 name = repo.get('name')
-                if not clone_url or not name:
-                    continue
-                readme = self._clone_and_read_readme(clone_url, name)
-                if readme:
-                    ok, ans = self.judge_repo_by_readme(query, readme)
-                    print(f"LLM judgement for {name}: {ans}")
-                    if ok:
-                        return name, clone_url
-        # 主题回退
+                if clone_url and name:
+                    print(f"Found specified repository by text search: {name} -> {clone_url}")
+                    return name, clone_url
+        # 主题回退 - 需要 LLM 判断
         for topic in topics:
             items = self.search_by_topic(topic, top_k=per_page)
             for repo in items:
@@ -262,6 +292,7 @@ class GitHubRAG:
                 
         return None, None
 
+
     def _is_github_repo_url(self, url: str) -> bool:
         pattern = r'https://github\.com/[^/]+/[^/]+/?'
         return bool(re.match(pattern, url))
@@ -272,6 +303,42 @@ class GitHubRAG:
             if len(parts) >= 5:
                 return f"https://github.com/{parts[3]}/{parts[4]}"
         return url
+    
+    def _extract_github_url_from_query(self, query: str) -> Optional[str]:
+        """Extract GitHub repository URL from query if present"""
+        # 匹配 GitHub URL，排除常见的结束符号（括号、引号、空格等）
+        pattern = r'https://github\.com/([^/\s)]+)/([^/\s)]+)'
+        match = re.search(pattern, query)
+        if match:
+            owner, repo = match.groups()
+            # 构造干净的 URL
+            url = f'https://github.com/{owner}/{repo}'
+            return self._clean_github_url(url)
+        return None
+    
+    def _check_repo_exists(self, repo_url: str) -> bool:
+        """Check if a GitHub repository exists"""
+        if not repo_url:
+            return False
+        
+        # Extract owner and repo name from URL
+        pattern = r'https://github\.com/([^/]+)/([^/]+)'
+        match = re.match(pattern, repo_url)
+        if not match:
+            return False
+        
+        owner, repo = match.groups()
+        api_url = f'https://api.github.com/repos/{owner}/{repo}'
+        
+        headers = {'Accept': 'application/vnd.github.v3+json'}
+        if self.api_keys['github_token']:
+            headers['Authorization'] = f"token {self.api_keys['github_token']}"
+        
+        try:
+            resp = requests.get(api_url, headers=headers, timeout=10)
+            return resp.status_code == 200
+        except Exception:
+            return False
 
 def search_github_tools(tool_description: str, top_k: int = 5, api_keys: Dict = None) -> List[str]:
     del api_keys
