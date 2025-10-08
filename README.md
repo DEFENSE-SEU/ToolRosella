@@ -36,6 +36,7 @@ AgenticRAG-TOOL-MCP/
 ```bash
 conda create -n agenticrag python=3.10
 conda activate agenticrag
+cp env_example.txt .env
 ```
 
 ### 2. Install dependencies
