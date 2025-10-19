@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-10-19T11:22:56.803911",
+  "total_cases": 5,
+  "passed": 4,
+  "failed": 1,
+  "results": {
+    "sympy": {
+      "status": "fail",
+      "error": "ImportError: cannot import name 'Solver' from 'sympy.solvers' (/Users/yuanxujie/opt/anaconda3/lib/python3.9/site-packages/sympy/solvers/__init__.py)",
+      "error_type": "ImportError"
+    },
+    "SPM": {
+      "status": "pass",
+      "methods_count": 1,
+      "methods_sample": [
+        "core"
+      ]
+    },
+    "obspy": {
+      "status": "pass",
+      "methods_count": 1,
+      "methods_sample": [
+        "core"
+      ]
+    },
+    "chemlib": {
+      "status": "pass",
+      "methods_count": 1,
+      "methods_sample": [
+        "core"
+      ]
+    },
+    "TenCirChem": {
+      "status": "pass",
+      "methods_count": 1,
+      "methods_sample": [
+        "core"
+      ]
+    }
+  }
+}

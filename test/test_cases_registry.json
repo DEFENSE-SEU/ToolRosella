@@ -1,0 +1,89 @@
+{
+  "cases": [
+    {
+      "name": "sympy",
+      "status": "failed",
+      "repo_url": "https://github.com/sympy/sympy",
+      "mcp_location": "case/sympy/mcp_output",
+      "test_query": "Solve equation x^2 + 2*x + 1 = 0 and simplify the expression",
+      "manual_fixes_needed": true,
+      "known_issues": [
+        "ImportError: cannot import name 'Solver' from 'sympy.solvers'"
+      ],
+      "notes": "Has diff_report but adapter.py has import error - needs investigation"
+    },
+    {
+      "name": "SPM",
+      "status": "success",
+      "repo_url": "https://github.com/DEFENSE-SEU/SPM",
+      "mcp_location": "case/SPM/SPM/mcp_output",
+      "test_query": "Perform sequence pattern matching for protein sequences",
+      "manual_fixes_needed": false,
+      "notes": "Successfully converted with 8 new files added"
+    },
+    {
+      "name": "obspy",
+      "status": "fixed_manually",
+      "repo_url": "https://github.com/obspy/obspy",
+      "mcp_location": "case/obspy/mcp_output",
+      "test_query": "Read and filter seismic waveform data",
+      "manual_fixes_needed": true,
+      "known_issues": [
+        "Only 30% core functionality exposed",
+        "adapter.py and mcp_service.py disconnected",
+        "Missing data I/O functions (read/write)",
+        "Missing signal processing (filter/detrend/resample)",
+        "Missing FDSN client methods",
+        "Only object creation, no operation methods"
+      ],
+      "fix_report_location": "case/obspy/fix_report/ISSUE_REPORT.md"
+    },
+    {
+      "name": "chemlib",
+      "status": "fixed_manually",
+      "repo_url": "https://github.com/harirakul/chemlib",
+      "mcp_location": "case/chemlib/chemlib/mcp_output",
+      "test_query": "Calculate molar mass and balance chemical equations",
+      "manual_fixes_needed": true,
+      "known_issues": [
+        "Importing non-existent functions (balance_equation)",
+        "Missing CSV data loading for enthalpy",
+        "Phase state handling issues",
+        "Hallucinated API calls"
+      ],
+      "fix_report_location": "case/chemlib/chemlib.md"
+    },
+    {
+      "name": "TenCirChem",
+      "status": "fixed_manually",
+      "repo_url": "https://github.com/tencent-quantum-lab/TenCirChem",
+      "mcp_location": "case/TenCirChem/mcp_output",
+      "test_query": "Perform quantum chemistry calculations with UCC",
+      "manual_fixes_needed": true,
+      "known_issues": [
+        "Wrong Hamiltonian import (should use get_h_from_hf)",
+        "Wrong Molecule import (should use pyscf.M)",
+        "Non-existent Optimizer class",
+        "Callable type error in FastMCP",
+        "Incorrect API usage throughout"
+      ],
+      "fix_report_location": "case/TenCirChem/TenCirChem.md"
+    }
+  ],
+  "test_metadata": {
+    "total_cases": 5,
+    "success_cases": 1,
+    "fixed_manually_cases": 3,
+    "failed_cases": 1,
+    "last_updated": "2025-10-19",
+    "last_test_run": "2025-10-19T11:22:56",
+    "current_pass_rate": "4/5 (80%)",
+    "common_issue_patterns": [
+      "Import path errors (LLM hallucination)",
+      "Missing real API understanding",
+      "adapter.py not connected to mcp_service.py",
+      "Syntax errors (indentation, try-except)",
+      "Only partial functionality exposed"
+    ]
+  }
+}
