@@ -1,0 +1,2330 @@
+{
+  "summary": {
+    "repository_url": "https://github.com/biopython/biopython",
+    "summary": "Imported via zip fallback, file count: 719",
+    "file_tree": {
+      ".appveyor.yml": {
+        "size": 1830
+      },
+      ".circleci/config.yml": {
+        "size": 1838
+      },
+      ".circleci/requirements-sphinx.txt": {
+        "size": 134
+      },
+      ".github/CODE_OF_CONDUCT.md": {
+        "size": 206
+      },
+      ".github/ISSUE_TEMPLATE.md": {
+        "size": 545
+      },
+      ".github/PULL_REQUEST_TEMPLATE.md": {
+        "size": 849
+      },
+      ".github/SECURITY.md": {
+        "size": 310
+      },
+      ".github/dependabot.yml": {
+        "size": 163
+      },
+      ".github/workflows/ci.yml": {
+        "size": 10757
+      },
+      ".mypy.ini": {
+        "size": 1486
+      },
+      ".pre-commit-config.yaml": {
+        "size": 3869
+      },
+      "Bio/Affy/CelFile.py": {
+        "size": 23598
+      },
+      "Bio/Affy/__init__.py": {
+        "size": 296
+      },
+      "Bio/Align/AlignInfo.py": {
+        "size": 1715
+      },
+      "Bio/Align/__init__.py": {
+        "size": 188582
+      },
+      "Bio/Align/a2m.py": {
+        "size": 4523
+      },
+      "Bio/Align/analysis.py": {
+        "size": 46214
+      },
+      "Bio/Align/bed.py": {
+        "size": 9932
+      },
+      "Bio/Align/bigbed.py": {
+        "size": 81935
+      },
+      "Bio/Align/bigmaf.py": {
+        "size": 13708
+      },
+      "Bio/Align/bigpsl.py": {
+        "size": 23416
+      },
+      "Bio/Align/chain.py": {
+        "size": 9338
+      },
+      "Bio/Align/clustal.py": {
+        "size": 9298
+      },
+      "Bio/Align/emboss.py": {
+        "size": 10387
+      },
+      "Bio/Align/exonerate.py": {
+        "size": 26538
+      },
+      "Bio/Align/fasta.py": {
+        "size": 3141
+      },
+      "Bio/Align/hhr.py": {
+        "size": 9503
+      },
+      "Bio/Align/interfaces.py": {
+        "size": 12461
+      },
+      "Bio/Align/maf.py": {
+        "size": 18139
+      },
+      "Bio/Align/mauve.py": {
+        "size": 10056
+      },
+      "Bio/Align/msf.py": {
+        "size": 9481
+      },
+      "Bio/Align/nexus.py": {
+        "size": 7330
+      },
+      "Bio/Align/phylip.py": {
+        "size": 6401
+      },
+      "Bio/Align/psl.py": {
+        "size": 22119
+      },
+      "Bio/Align/sam.py": {
+        "size": 30565
+      },
+      "Bio/Align/stockholm.py": {
+        "size": 26134
+      },
+      "Bio/Align/substitution_matrices/__init__.py": {
+        "size": 17563
+      },
+      "Bio/Align/substitution_matrices/data/README.txt": {
+        "size": 291
+      },
+      "Bio/Align/tabular.py": {
+        "size": 16525
+      },
+      "Bio/AlignIO/ClustalIO.py": {
+        "size": 12152
+      },
+      "Bio/AlignIO/EmbossIO.py": {
+        "size": 8749
+      },
+      "Bio/AlignIO/FastaIO.py": {
+        "size": 13355
+      },
+      "Bio/AlignIO/Interfaces.py": {
+        "size": 5598
+      },
+      "Bio/AlignIO/MafIO.py": {
+        "size": 35258
+      },
+      "Bio/AlignIO/MauveIO.py": {
+        "size": 13298
+      },
+      "Bio/AlignIO/MsfIO.py": {
+        "size": 14209
+      },
+      "Bio/AlignIO/NexusIO.py": {
+        "size": 6226
+      },
+      "Bio/AlignIO/PhylipIO.py": {
+        "size": 17138
+      },
+      "Bio/AlignIO/StockholmIO.py": {
+        "size": 26397
+      },
+      "Bio/AlignIO/__init__.py": {
+        "size": 18616
+      },
+      "Bio/Alphabet/__init__.py": {
+        "size": 1201
+      },
+      "Bio/Blast/NCBIWWW.py": {
+        "size": 14116
+      },
+      "Bio/Blast/NCBIXML.py": {
+        "size": 49373
+      },
+      "Bio/Blast/__init__.py": {
+        "size": 51445
+      },
+      "Bio/Blast/_parser.py": {
+        "size": 41474
+      },
+      "Bio/Blast/_writers.py": {
+        "size": 39673
+      },
+      "Bio/CAPS/__init__.py": {
+        "size": 4111
+      },
+      "Bio/Cluster/__init__.py": {
+        "size": 50628
+      },
+      "Bio/Compass/__init__.py": {
+        "size": 6954
+      },
+      "Bio/Data/CodonTable.py": {
+        "size": 50509
+      },
+      "Bio/Data/IUPACData.py": {
+        "size": 9223
+      },
+      "Bio/Data/PDBData.py": {
+        "size": 22894
+      },
+      "Bio/Data/__init__.py": {
+        "size": 353
+      },
+      "Bio/Emboss/Primer3.py": {
+        "size": 5576
+      },
+      "Bio/Emboss/PrimerSearch.py": {
+        "size": 2521
+      },
+      "Bio/Emboss/__init__.py": {
+        "size": 355
+      },
+      "Bio/Entrez/Parser.py": {
+        "size": 45804
+      },
+      "Bio/Entrez/__init__.py": {
+        "size": 31579
+      },
+      "Bio/ExPASy/Enzyme.py": {
+        "size": 4570
+      },
+      "Bio/ExPASy/Prodoc.py": {
+        "size": 5009
+      },
+      "Bio/ExPASy/Prosite.py": {
+        "size": 11495
+      },
+      "Bio/ExPASy/ScanProsite.py": {
+        "size": 5079
+      },
+      "Bio/ExPASy/__init__.py": {
+        "size": 4357
+      },
+      "Bio/ExPASy/cellosaurus.py": {
+        "size": 6670
+      },
+      "Bio/File.py": {
+        "size": 24702
+      },
+      "Bio/GenBank/Record.py": {
+        "size": 23278
+      },
+      "Bio/GenBank/Scanner.py": {
+        "size": 87392
+      },
+      "Bio/GenBank/__init__.py": {
+        "size": 43718
+      },
+      "Bio/GenBank/utils.py": {
+        "size": 2229
+      },
+      "Bio/Geo/Record.py": {
+        "size": 2972
+      },
+      "Bio/Geo/__init__.py": {
+        "size": 2176
+      },
+      "Bio/Graphics/BasicChromosome.py": {
+        "size": 31526
+      },
+      "Bio/Graphics/ColorSpiral.py": {
+        "size": 7349
+      },
+      "Bio/Graphics/Comparative.py": {
+        "size": 6632
+      },
+      "Bio/Graphics/DisplayRepresentation.py": {
+        "size": 6749
+      },
+      "Bio/Graphics/Distribution.py": {
+        "size": 9301
+      },
+      "Bio/Graphics/GenomeDiagram/_AbstractDrawer.py": {
+        "size": 18539
+      },
+      "Bio/Graphics/GenomeDiagram/_CircularDrawer.py": {
+        "size": 68783
+      },
+      "Bio/Graphics/GenomeDiagram/_Colors.py": {
+        "size": 9678
+      },
+      "Bio/Graphics/GenomeDiagram/_CrossLink.py": {
+        "size": 3309
+      },
+      "Bio/Graphics/GenomeDiagram/_Diagram.py": {
+        "size": 15633
+      },
+      "Bio/Graphics/GenomeDiagram/_Feature.py": {
+        "size": 8064
+      },
+      "Bio/Graphics/GenomeDiagram/_FeatureSet.py": {
+        "size": 7774
+      },
+      "Bio/Graphics/GenomeDiagram/_Graph.py": {
+        "size": 6838
+      },
+      "Bio/Graphics/GenomeDiagram/_GraphSet.py": {
+        "size": 5634
+      },
+      "Bio/Graphics/GenomeDiagram/_LinearDrawer.py": {
+        "size": 63449
+      },
+      "Bio/Graphics/GenomeDiagram/_Track.py": {
+        "size": 11662
+      },
+      "Bio/Graphics/GenomeDiagram/__init__.py": {
+        "size": 1172
+      },
+      "Bio/Graphics/KGML_vis.py": {
+        "size": 17637
+      },
+      "Bio/Graphics/__init__.py": {
+        "size": 3300
+      },
+      "Bio/HMM/__init__.py": {
+        "size": 283
+      },
+      "Bio/KEGG/Compound/__init__.py": {
+        "size": 5470
+      },
+      "Bio/KEGG/Enzyme/__init__.py": {
+        "size": 11185
+      },
+      "Bio/KEGG/Gene/__init__.py": {
+        "size": 4288
+      },
+      "Bio/KEGG/KGML/KGML_parser.py": {
+        "size": 6347
+      },
+      "Bio/KEGG/KGML/KGML_pathway.py": {
+        "size": 27600
+      },
+      "Bio/KEGG/KGML/__init__.py": {
+        "size": 516
+      },
+      "Bio/KEGG/Map/__init__.py": {
+        "size": 1642
+      },
+      "Bio/KEGG/REST.py": {
+        "size": 11302
+      },
+      "Bio/KEGG/__init__.py": {
+        "size": 3038
+      },
+      "Bio/Medline/__init__.py": {
+        "size": 6272
+      },
+      "Bio/NMR/NOEtools.py": {
+        "size": 3353
+      },
+      "Bio/NMR/__init__.py": {
+        "size": 332
+      },
+      "Bio/NMR/xpktools.py": {
+        "size": 9274
+      },
+      "Bio/Nexus/Nexus.py": {
+        "size": 83879
+      },
+      "Bio/Nexus/Nodes.py": {
+        "size": 5828
+      },
+      "Bio/Nexus/StandardData.py": {
+        "size": 3996
+      },
+      "Bio/Nexus/Trees.py": {
+        "size": 40265
+      },
+      "Bio/Nexus/__init__.py": {
+        "size": 388
+      },
+      "Bio/PDB/AbstractPropertyMap.py": {
+        "size": 4080
+      },
+      "Bio/PDB/Atom.py": {
+        "size": 20424
+      },
+      "Bio/PDB/Chain.py": {
+        "size": 7101
+      },
+      "Bio/PDB/DSSP.py": {
+        "size": 20210
+      },
+      "Bio/PDB/Dice.py": {
+        "size": 2315
+      },
+      "Bio/PDB/Entity.py": {
+        "size": 18506
+      },
+      "Bio/PDB/FragmentMapper.py": {
+        "size": 9621
+      },
+      "Bio/PDB/HSExposure.py": {
+        "size": 11337
+      },
+      "Bio/PDB/MMCIF2Dict.py": {
+        "size": 5063
+      },
+      "Bio/PDB/MMCIFParser.py": {
+        "size": 24124
+      },
+      "Bio/PDB/Model.py": {
+        "size": 2358
+      },
+      "Bio/PDB/NACCESS.py": {
+        "size": 7219
+      },
+      "Bio/PDB/NeighborSearch.py": {
+        "size": 4490
+      },
+      "Bio/PDB/PDBExceptions.py": {
+        "size": 934
+      },
+      "Bio/PDB/PDBIO.py": {
+        "size": 16444
+      },
+      "Bio/PDB/PDBList.py": {
+        "size": 31367
+      },
+      "Bio/PDB/PDBMLParser.py": {
+        "size": 6858
+      },
+      "Bio/PDB/PDBParser.py": {
+        "size": 17185
+      },
+      "Bio/PDB/PICIO.py": {
+        "size": 41280
+      },
+      "Bio/PDB/PSEA.py": {
+        "size": 3083
+      },
+      "Bio/PDB/Polypeptide.py": {
+        "size": 14220
+      },
+      "Bio/PDB/Residue.py": {
+        "size": 6395
+      },
+      "Bio/PDB/ResidueDepth.py": {
+        "size": 22252
+      },
+      "Bio/PDB/SASA.py": {
+        "size": 8505
+      },
+      "Bio/PDB/SCADIO.py": {
+        "size": 35847
+      },
+      "Bio/PDB/Selection.py": {
+        "size": 2589
+      },
+      "Bio/PDB/Structure.py": {
+        "size": 2147
+      },
+      "Bio/PDB/StructureAlignment.py": {
+        "size": 7027
+      },
+      "Bio/PDB/StructureBuilder.py": {
+        "size": 12137
+      },
+      "Bio/PDB/Superimposer.py": {
+        "size": 1943
+      },
+      "Bio/PDB/__init__.py": {
+        "size": 3092
+      },
+      "Bio/PDB/alphafold_db.py": {
+        "size": 3991
+      },
+      "Bio/PDB/binary_cif.py": {
+        "size": 10229
+      },
+      "Bio/PDB/cealign.py": {
+        "size": 7533
+      },
+      "Bio/PDB/ic_data.py": {
+        "size": 59270
+      },
+      "Bio/PDB/ic_rebuild.py": {
+        "size": 18341
+      },
+      "Bio/PDB/internal_coords.py": {
+        "size": 188750
+      },
+      "Bio/PDB/mmcifio.py": {
+        "size": 15454
+      },
+      "Bio/PDB/mmtf/DefaultParser.py": {
+        "size": 8888
+      },
+      "Bio/PDB/mmtf/__init__.py": {
+        "size": 1568
+      },
+      "Bio/PDB/mmtf/mmtfio.py": {
+        "size": 11174
+      },
+      "Bio/PDB/parse_pdb_header.py": {
+        "size": 13618
+      },
+      "Bio/PDB/qcprot.py": {
+        "size": 12295
+      },
+      "Bio/PDB/vectors.py": {
+        "size": 20334
+      },
+      "Bio/Pathway/Rep/Graph.py": {
+        "size": 5865
+      },
+      "Bio/Pathway/Rep/MultiGraph.py": {
+        "size": 6779
+      },
+      "Bio/Pathway/Rep/__init__.py": {
+        "size": 575
+      },
+      "Bio/Pathway/__init__.py": {
+        "size": 10763
+      },
+      "Bio/Phylo/BaseTree.py": {
+        "size": 44769
+      },
+      "Bio/Phylo/CDAO.py": {
+        "size": 1662
+      },
+      "Bio/Phylo/CDAOIO.py": {
+        "size": 16066
+      },
+      "Bio/Phylo/Consensus.py": {
+        "size": 24305
+      },
+      "Bio/Phylo/NeXML.py": {
+        "size": 1404
+      },
+      "Bio/Phylo/NeXMLIO.py": {
+        "size": 10973
+      },
+      "Bio/Phylo/Newick.py": {
+        "size": 1298
+      },
+      "Bio/Phylo/NewickIO.py": {
+        "size": 12911
+      },
+      "Bio/Phylo/NexusIO.py": {
+        "size": 2672
+      },
+      "Bio/Phylo/PAML/__init__.py": {
+        "size": 325
+      },
+      "Bio/Phylo/PAML/_paml.py": {
+        "size": 5118
+      },
+      "Bio/Phylo/PAML/_parse_baseml.py": {
+        "size": 11408
+      },
+      "Bio/Phylo/PAML/_parse_codeml.py": {
+        "size": 21149
+      },
+      "Bio/Phylo/PAML/_parse_yn00.py": {
+        "size": 6820
+      },
+      "Bio/Phylo/PAML/baseml.py": {
+        "size": 8719
+      },
+      "Bio/Phylo/PAML/chi2.py": {
+        "size": 3743
+      },
+      "Bio/Phylo/PAML/codeml.py": {
+        "size": 9371
+      },
+      "Bio/Phylo/PAML/yn00.py": {
+        "size": 6168
+      },
+      "Bio/Phylo/PhyloXML.py": {
+        "size": 46829
+      },
+      "Bio/Phylo/PhyloXMLIO.py": {
+        "size": 32340
+      },
+      "Bio/Phylo/TreeConstruction.py": {
+        "size": 48988
+      },
+      "Bio/Phylo/__init__.py": {
+        "size": 683
+      },
+      "Bio/Phylo/_cdao_owl.py": {
+        "size": 109367
+      },
+      "Bio/Phylo/_io.py": {
+        "size": 2678
+      },
+      "Bio/Phylo/_utils.py": {
+        "size": 22303
+      },
+      "Bio/PopGen/GenePop/FileParser.py": {
+        "size": 11861
+      },
+      "Bio/PopGen/GenePop/LargeFileParser.py": {
+        "size": 3919
+      },
+      "Bio/PopGen/GenePop/__init__.py": {
+        "size": 7462
+      },
+      "Bio/PopGen/__init__.py": {
+        "size": 359
+      },
+      "Bio/Restriction/PrintFormat.py": {
+        "size": 16232
+      },
+      "Bio/Restriction/Restriction.py": {
+        "size": 83609
+      },
+      "Bio/Restriction/Restriction_Dictionary.py": {
+        "size": 524313
+      },
+      "Bio/Restriction/__init__.py": {
+        "size": 7846
+      },
+      "Bio/SCOP/Cla.py": {
+        "size": 3922
+      },
+      "Bio/SCOP/Des.py": {
+        "size": 3004
+      },
+      "Bio/SCOP/Dom.py": {
+        "size": 2466
+      },
+      "Bio/SCOP/Hie.py": {
+        "size": 2963
+      },
+      "Bio/SCOP/Raf.py": {
+        "size": 10317
+      },
+      "Bio/SCOP/Residues.py": {
+        "size": 3083
+      },
+      "Bio/SCOP/__init__.py": {
+        "size": 31320
+      },
+      "Bio/SVDSuperimposer/__init__.py": {
+        "size": 6256
+      },
+      "Bio/SearchIO/BlastIO/__init__.py": {
+        "size": 17923
+      },
+      "Bio/SearchIO/BlastIO/blast_tab.py": {
+        "size": 33824
+      },
+      "Bio/SearchIO/BlastIO/blast_xml.py": {
+        "size": 37031
+      },
+      "Bio/SearchIO/BlatIO.py": {
+        "size": 31398
+      },
+      "Bio/SearchIO/ExonerateIO/__init__.py": {
+        "size": 13047
+      },
+      "Bio/SearchIO/ExonerateIO/_base.py": {
+        "size": 21071
+      },
+      "Bio/SearchIO/ExonerateIO/exonerate_cigar.py": {
+        "size": 4106
+      },
+      "Bio/SearchIO/ExonerateIO/exonerate_text.py": {
+        "size": 20463
+      },
+      "Bio/SearchIO/ExonerateIO/exonerate_vulgar.py": {
+        "size": 8307
+      },
+      "Bio/SearchIO/FastaIO.py": {
+        "size": 25993
+      },
+      "Bio/SearchIO/HHsuiteIO/__init__.py": {
+        "size": 639
+      },
+      "Bio/SearchIO/HHsuiteIO/hhsuite2_text.py": {
+        "size": 9354
+      },
+      "Bio/SearchIO/HmmerIO/__init__.py": {
+        "size": 20466
+      },
+      "Bio/SearchIO/HmmerIO/_base.py": {
+        "size": 1482
+      },
+      "Bio/SearchIO/HmmerIO/hmmer2_text.py": {
+        "size": 12932
+      },
+      "Bio/SearchIO/HmmerIO/hmmer3_domtab.py": {
+        "size": 14071
+      },
+      "Bio/SearchIO/HmmerIO/hmmer3_tab.py": {
+        "size": 12910
+      },
+      "Bio/SearchIO/HmmerIO/hmmer3_text.py": {
+        "size": 20113
+      },
+      "Bio/SearchIO/InfernalIO/__init__.py": {
+        "size": 15556
+      },
+      "Bio/SearchIO/InfernalIO/_base.py": {
+        "size": 1416
+      },
+      "Bio/SearchIO/InfernalIO/infernal_tab.py": {
+        "size": 14947
+      },
+      "Bio/SearchIO/InfernalIO/infernal_text.py": {
+        "size": 21628
+      },
+      "Bio/SearchIO/InterproscanIO/__init__.py": {
+        "size": 5155
+      },
+      "Bio/SearchIO/InterproscanIO/interproscan_xml.py": {
+        "size": 7547
+      },
+      "Bio/SearchIO/__init__.py": {
+        "size": 29177
+      },
+      "Bio/SearchIO/_index.py": {
+        "size": 1233
+      },
+      "Bio/SearchIO/_model/__init__.py": {
+        "size": 2479
+      },
+      "Bio/SearchIO/_model/_base.py": {
+        "size": 2671
+      },
+      "Bio/SearchIO/_model/hit.py": {
+        "size": 17396
+      },
+      "Bio/SearchIO/_model/hsp.py": {
+        "size": 48308
+      },
+      "Bio/SearchIO/_model/query.py": {
+        "size": 30199
+      },
+      "Bio/SearchIO/_utils.py": {
+        "size": 6118
+      },
+      "Bio/Seq.py": {
+        "size": 115090
+      },
+      "Bio/SeqFeature.py": {
+        "size": 80760
+      },
+      "Bio/SeqIO/AbiIO.py": {
+        "size": 26249
+      },
+      "Bio/SeqIO/AceIO.py": {
+        "size": 4769
+      },
+      "Bio/SeqIO/FastaIO.py": {
+        "size": 23219
+      },
+      "Bio/SeqIO/GckIO.py": {
+        "size": 8994
+      },
+      "Bio/SeqIO/GfaIO.py": {
+        "size": 7091
+      },
+      "Bio/SeqIO/IgIO.py": {
+        "size": 4068
+      },
+      "Bio/SeqIO/InsdcIO.py": {
+        "size": 58546
+      },
+      "Bio/SeqIO/Interfaces.py": {
+        "size": 8329
+      },
+      "Bio/SeqIO/NibIO.py": {
+        "size": 5857
+      },
+      "Bio/SeqIO/PdbIO.py": {
+        "size": 22748
+      },
+      "Bio/SeqIO/PhdIO.py": {
+        "size": 6353
+      },
+      "Bio/SeqIO/PirIO.py": {
+        "size": 10021
+      },
+      "Bio/SeqIO/QualityIO.py": {
+        "size": 95985
+      },
+      "Bio/SeqIO/SeqXmlIO.py": {
+        "size": 30529
+      },
+      "Bio/SeqIO/SffIO.py": {
+        "size": 55380
+      },
+      "Bio/SeqIO/SnapGeneIO.py": {
+        "size": 12158
+      },
+      "Bio/SeqIO/SwissIO.py": {
+        "size": 5251
+      },
+      "Bio/SeqIO/TabIO.py": {
+        "size": 5125
+      },
+      "Bio/SeqIO/TwoBitIO.py": {
+        "size": 11165
+      },
+      "Bio/SeqIO/UniprotIO.py": {
+        "size": 25151
+      },
+      "Bio/SeqIO/XdnaIO.py": {
+        "size": 12342
+      },
+      "Bio/SeqIO/__init__.py": {
+        "size": 45844
+      },
+      "Bio/SeqIO/_index.py": {
+        "size": 27642
+      },
+      "Bio/SeqRecord.py": {
+        "size": 61538
+      },
+      "Bio/SeqUtils/CheckSum.py": {
+        "size": 3510
+      },
+      "Bio/SeqUtils/IsoelectricPoint.py": {
+        "size": 6557
+      },
+      "Bio/SeqUtils/MeltingTemp.py": {
+        "size": 43151
+      },
+      "Bio/SeqUtils/ProtParam.py": {
+        "size": 13785
+      },
+      "Bio/SeqUtils/ProtParamData.py": {
+        "size": 18172
+      },
+      "Bio/SeqUtils/__init__.py": {
+        "size": 25604
+      },
+      "Bio/SeqUtils/lcc.py": {
+        "size": 5502
+      },
+      "Bio/Sequencing/Ace.py": {
+        "size": 20432
+      },
+      "Bio/Sequencing/Phd.py": {
+        "size": 5684
+      },
+      "Bio/Sequencing/__init__.py": {
+        "size": 530
+      },
+      "Bio/SwissProt/KeyWList.py": {
+        "size": 3468
+      },
+      "Bio/SwissProt/__init__.py": {
+        "size": 32910
+      },
+      "Bio/TogoWS/__init__.py": {
+        "size": 13966
+      },
+      "Bio/UniGene/__init__.py": {
+        "size": 12738
+      },
+      "Bio/UniProt/GOA.py": {
+        "size": 15791
+      },
+      "Bio/UniProt/__init__.py": {
+        "size": 5376
+      },
+      "Bio/__init__.py": {
+        "size": 5404
+      },
+      "Bio/_utils.py": {
+        "size": 2918
+      },
+      "Bio/bgzf.py": {
+        "size": 39777
+      },
+      "Bio/codonalign/__init__.py": {
+        "size": 30134
+      },
+      "Bio/codonalign/codonalignment.py": {
+        "size": 18250
+      },
+      "Bio/codonalign/codonseq.py": {
+        "size": 47934
+      },
+      "Bio/motifs/__init__.py": {
+        "size": 22174
+      },
+      "Bio/motifs/alignace.py": {
+        "size": 2118
+      },
+      "Bio/motifs/clusterbuster.py": {
+        "size": 3852
+      },
+      "Bio/motifs/jaspar/__init__.py": {
+        "size": 11388
+      },
+      "Bio/motifs/jaspar/db.py": {
+        "size": 27980
+      },
+      "Bio/motifs/mast.py": {
+        "size": 4915
+      },
+      "Bio/motifs/matrix.py": {
+        "size": 24049
+      },
+      "Bio/motifs/meme.py": {
+        "size": 7214
+      },
+      "Bio/motifs/minimal.py": {
+        "size": 7161
+      },
+      "Bio/motifs/pfm.py": {
+        "size": 17229
+      },
+      "Bio/motifs/thresholds.py": {
+        "size": 4530
+      },
+      "Bio/motifs/transfac.py": {
+        "size": 12127
+      },
+      "Bio/motifs/xms.py": {
+        "size": 3942
+      },
+      "Bio/pairwise2.py": {
+        "size": 53156
+      },
+      "Bio/phenotype/__init__.py": {
+        "size": 8353
+      },
+      "Bio/phenotype/phen_micro.py": {
+        "size": 37710
+      },
+      "Bio/phenotype/pm_fitting.py": {
+        "size": 4208
+      },
+      "BioSQL/BioSeq.py": {
+        "size": 21827
+      },
+      "BioSQL/BioSeqDatabase.py": {
+        "size": 31312
+      },
+      "BioSQL/DBUtils.py": {
+        "size": 4657
+      },
+      "BioSQL/Loader.py": {
+        "size": 51599
+      },
+      "BioSQL/__init__.py": {
+        "size": 617
+      },
+      "Doc/conf.py": {
+        "size": 13143
+      },
+      "Doc/cookbook/Restriction/Restriction.md": {
+        "size": 58814
+      },
+      "Doc/examples/ACT_example.py": {
+        "size": 4467
+      },
+      "Doc/examples/Proux_et_al_2002_Figure_6.py": {
+        "size": 7276
+      },
+      "Doc/examples/clustal_run.py": {
+        "size": 1617
+      },
+      "Doc/examples/ec_5.4.2.2.txt": {
+        "size": 122639
+      },
+      "Doc/examples/fasta_dictionary.py": {
+        "size": 2093
+      },
+      "Doc/examples/fasta_iterator.py": {
+        "size": 940
+      },
+      "Doc/examples/nmr/simplepredict.py": {
+        "size": 5356
+      },
+      "Doc/examples/swissprot.py": {
+        "size": 743
+      },
+      "Doc/examples/www_blast.py": {
+        "size": 1754
+      },
+      "Scripts/GenBank/check_output.py": {
+        "size": 2832
+      },
+      "Scripts/GenBank/check_output_simple.py": {
+        "size": 1669
+      },
+      "Scripts/PDB/generate_three_to_one_dict.py": {
+        "size": 3695
+      },
+      "Scripts/PDB/hsexpo.py": {
+        "size": 3764
+      },
+      "Scripts/Performance/biosql_performance_load.py": {
+        "size": 1183
+      },
+      "Scripts/Performance/biosql_performance_read.py": {
+        "size": 1536
+      },
+      "Scripts/Restriction/ranacompiler.py": {
+        "size": 39648
+      },
+      "Scripts/Restriction/rebase_update.py": {
+        "size": 2130
+      },
+      "Scripts/SeqGui/SeqGui.py": {
+        "size": 6244
+      },
+      "Scripts/query_pubmed.py": {
+        "size": 2452
+      },
+      "Scripts/scop_pdb.py": {
+        "size": 5201
+      },
+      "Scripts/update_ncbi_codon_table.py": {
+        "size": 4691
+      },
+      "Scripts/xbbtools/nextorf.py": {
+        "size": 9709
+      },
+      "Scripts/xbbtools/xbb_blast.py": {
+        "size": 7704
+      },
+      "Scripts/xbbtools/xbb_blastbg.py": {
+        "size": 4609
+      },
+      "Scripts/xbbtools/xbb_help.py": {
+        "size": 3209
+      },
+      "Scripts/xbbtools/xbb_search.py": {
+        "size": 6056
+      },
+      "Scripts/xbbtools/xbb_translations.py": {
+        "size": 5756
+      },
+      "Scripts/xbbtools/xbb_utils.py": {
+        "size": 1849
+      },
+      "Scripts/xbbtools/xbb_widget.py": {
+        "size": 18592
+      },
+      "Scripts/xbbtools/xbbtools.py": {
+        "size": 701
+      },
+      "Tests/Align/bsubtilis.txt": {
+        "size": 24
+      },
+      "Tests/Align/cow.txt": {
+        "size": 140
+      },
+      "Tests/Align/ecoli.txt": {
+        "size": 24
+      },
+      "Tests/Align/pig.txt": {
+        "size": 140
+      },
+      "Tests/Blast/README.txt": {
+        "size": 3730
+      },
+      "Tests/Blast/tab_2226_tblastn_001.txt": {
+        "size": 1108
+      },
+      "Tests/Blast/tab_2226_tblastn_002.txt": {
+        "size": 0
+      },
+      "Tests/Blast/tab_2226_tblastn_003.txt": {
+        "size": 305
+      },
+      "Tests/Blast/tab_2226_tblastn_004.txt": {
+        "size": 803
+      },
+      "Tests/Blast/tab_2226_tblastn_005.txt": {
+        "size": 1789
+      },
+      "Tests/Blast/tab_2226_tblastn_006.txt": {
+        "size": 97
+      },
+      "Tests/Blast/tab_2226_tblastn_007.txt": {
+        "size": 646
+      },
+      "Tests/Blast/tab_2226_tblastn_008.txt": {
+        "size": 1087
+      },
+      "Tests/Blast/tab_2226_tblastn_009.txt": {
+        "size": 641
+      },
+      "Tests/Blast/tab_2226_tblastn_010.txt": {
+        "size": 1274
+      },
+      "Tests/Blast/tab_2226_tblastn_011.txt": {
+        "size": 7431
+      },
+      "Tests/Blast/tab_2226_tblastn_012.txt": {
+        "size": 1815
+      },
+      "Tests/Blast/tab_2226_tblastn_013.txt": {
+        "size": 633
+      },
+      "Tests/Blast/tab_2228_tblastn_001.txt": {
+        "size": 944
+      },
+      "Tests/Blast/tab_2228_tblastx_001.txt": {
+        "size": 155444
+      },
+      "Tests/Blat/README.txt": {
+        "size": 1065
+      },
+      "Tests/Cellosaurus/cell_lines_1.txt": {
+        "size": 986
+      },
+      "Tests/Cellosaurus/cell_lines_2.txt": {
+        "size": 3020
+      },
+      "Tests/Cellosaurus/cell_lines_3.txt": {
+        "size": 558
+      },
+      "Tests/Cluster/cyano.txt": {
+        "size": 6493
+      },
+      "Tests/CodonUsage/HighlyExpressedGenes.txt": {
+        "size": 97301
+      },
+      "Tests/Emboss/alignret.txt": {
+        "size": 1670
+      },
+      "Tests/Emboss/emboss_pair_aln_full_blank_line.txt": {
+        "size": 7676
+      },
+      "Tests/Emboss/matcher_pair.txt": {
+        "size": 3222
+      },
+      "Tests/Emboss/matcher_simple.txt": {
+        "size": 893
+      },
+      "Tests/Emboss/needle.txt": {
+        "size": 5121
+      },
+      "Tests/Emboss/needle_asis.txt": {
+        "size": 23733
+      },
+      "Tests/Emboss/needle_overhang.txt": {
+        "size": 4731
+      },
+      "Tests/Emboss/water.txt": {
+        "size": 1214
+      },
+      "Tests/Emboss/water2.txt": {
+        "size": 989
+      },
+      "Tests/Emboss/water_reverse1.txt": {
+        "size": 1369
+      },
+      "Tests/Emboss/water_reverse2.txt": {
+        "size": 1369
+      },
+      "Tests/Emboss/water_reverse3.txt": {
+        "size": 884
+      },
+      "Tests/Emboss/water_reverse4.txt": {
+        "size": 884
+      },
+      "Tests/Enzymes/lactate.txt": {
+        "size": 147
+      },
+      "Tests/Enzymes/lipoprotein.txt": {
+        "size": 615
+      },
+      "Tests/Enzymes/proline.txt": {
+        "size": 277
+      },
+      "Tests/Enzymes/valine.txt": {
+        "size": 180
+      },
+      "Tests/Exonerate/README.txt": {
+        "size": 4154
+      },
+      "Tests/Fasta/nucleotide_m8CB.txt": {
+        "size": 2243
+      },
+      "Tests/Fasta/nucleotide_m8CC.txt": {
+        "size": 1144
+      },
+      "Tests/Fasta/protein_m8CB.txt": {
+        "size": 2611
+      },
+      "Tests/Fasta/protein_m8CC.txt": {
+        "size": 1577
+      },
+      "Tests/Geo/GSE16.txt": {
+        "size": 2894
+      },
+      "Tests/Geo/GSM645.txt": {
+        "size": 2931
+      },
+      "Tests/Geo/GSM691.txt": {
+        "size": 2655
+      },
+      "Tests/Geo/GSM700.txt": {
+        "size": 2834
+      },
+      "Tests/Geo/GSM804.txt": {
+        "size": 2894
+      },
+      "Tests/Geo/soft_ex_affy.txt": {
+        "size": 10892
+      },
+      "Tests/Geo/soft_ex_affy_chp.txt": {
+        "size": 7967
+      },
+      "Tests/Geo/soft_ex_dual.txt": {
+        "size": 16146
+      },
+      "Tests/Geo/soft_ex_family.txt": {
+        "size": 22947
+      },
+      "Tests/Geo/soft_ex_platform.txt": {
+        "size": 5490
+      },
+      "Tests/Geo/soft_ex_series.txt": {
+        "size": 1760
+      },
+      "Tests/HHsuite/README.txt": {
+        "size": 972
+      },
+      "Tests/Hmmer/README.txt": {
+        "size": 3493
+      },
+      "Tests/Infernal/cmscan_115_IRES_5S_U2_Yeast.txt": {
+        "size": 14709
+      },
+      "Tests/Infernal/cmsearch_114_5S_Yeast.txt": {
+        "size": 12744
+      },
+      "Tests/Infernal/cmsearch_114_5S_Yeast_noali.txt": {
+        "size": 3169
+      },
+      "Tests/Infernal/cmsearch_114_IRES_5S_U2_Yeast.txt": {
+        "size": 29924
+      },
+      "Tests/Infernal/cmsearch_114_IRES_Yeast.txt": {
+        "size": 2457
+      },
+      "Tests/Infernal/cmsearch_114_U2_Yeast.txt": {
+        "size": 4137
+      },
+      "Tests/Infernal/cmsearch_114_U2_Yeast_full.txt": {
+        "size": 12492
+      },
+      "Tests/Infernal/cmsearch_114_U2_Yeast_full_noali.txt": {
+        "size": 2999
+      },
+      "Tests/Infernal/cmsearch_114_U2_Yeast_full_shuffled.txt": {
+        "size": 13824
+      },
+      "Tests/Infernal/cmsearch_114_U2_Yeast_hmmonly.txt": {
+        "size": 3132
+      },
+      "Tests/Infernal/cmsearch_114_U2_Yeast_noali.txt": {
+        "size": 2445
+      },
+      "Tests/Infernal/cmsearch_114_U2_Yeast_notextw.txt": {
+        "size": 3915
+      },
+      "Tests/IntelliGenetics/TAT_mase_nuc.txt": {
+        "size": 11784
+      },
+      "Tests/IntelliGenetics/VIF_mase-pro.txt": {
+        "size": 5430
+      },
+      "Tests/IntelliGenetics/vpu_nucaligned.txt": {
+        "size": 3529
+      },
+      "Tests/Medline/pubmed_result1.txt": {
+        "size": 1218
+      },
+      "Tests/Medline/pubmed_result2.txt": {
+        "size": 9278
+      },
+      "Tests/Medline/pubmed_result3.txt": {
+        "size": 3469
+      },
+      "Tests/PAML/Control_files/README.txt": {
+        "size": 85
+      },
+      "Tests/PAML/gen_results.py": {
+        "size": 6629
+      },
+      "Tests/PDB/Ahmad_RASA.txt": {
+        "size": 2387
+      },
+      "Tests/PDB/Miller_RASA.txt": {
+        "size": 2038
+      },
+      "Tests/PDB/Sander_RASA.txt": {
+        "size": 2368
+      },
+      "Tests/PDB/Wilke_RASA.txt": {
+        "size": 2341
+      },
+      "Tests/PDB/dssp_xtra_Sander.txt": {
+        "size": 9221
+      },
+      "Tests/PDB/lib_10_z_5.txt": {
+        "size": 4217
+      },
+      "Tests/Prosite/Doc/pdoc00100.txt": {
+        "size": 6178
+      },
+      "Tests/Prosite/Doc/pdoc00113.txt": {
+        "size": 2771
+      },
+      "Tests/Prosite/Doc/pdoc00144.txt": {
+        "size": 2612
+      },
+      "Tests/Prosite/Doc/pdoc00149.txt": {
+        "size": 3485
+      },
+      "Tests/Prosite/Doc/pdoc00340.txt": {
+        "size": 3920
+      },
+      "Tests/Prosite/Doc/pdoc00424.txt": {
+        "size": 3340
+      },
+      "Tests/Prosite/Doc/pdoc00472.txt": {
+        "size": 3603
+      },
+      "Tests/Prosite/Doc/pdoc00640.txt": {
+        "size": 3493
+      },
+      "Tests/Prosite/Doc/pdoc00787.txt": {
+        "size": 2333
+      },
+      "Tests/Prosite/Doc/pdoc00933.txt": {
+        "size": 2596
+      },
+      "Tests/Prosite/ps00107.txt": {
+        "size": 57211
+      },
+      "Tests/Prosite/ps00159.txt": {
+        "size": 805
+      },
+      "Tests/Prosite/ps00165.txt": {
+        "size": 3204
+      },
+      "Tests/Prosite/ps00432.txt": {
+        "size": 9593
+      },
+      "Tests/Prosite/ps00488.txt": {
+        "size": 3944
+      },
+      "Tests/Prosite/ps00546.txt": {
+        "size": 3610
+      },
+      "Tests/Rebase/bamii.txt": {
+        "size": 1335
+      },
+      "Tests/Rebase/cac81.txt": {
+        "size": 889
+      },
+      "Tests/Rebase/crei.txt": {
+        "size": 1619
+      },
+      "Tests/Rebase/foki.txt": {
+        "size": 1530
+      },
+      "Tests/Rebase/pvuii.txt": {
+        "size": 1270
+      },
+      "Tests/Rebase/taqi.txt": {
+        "size": 1264
+      },
+      "Tests/Roche/README.txt": {
+        "size": 1568
+      },
+      "Tests/SCOP/raftest.txt": {
+        "size": 18477
+      },
+      "Tests/SCOP/testDom.txt": {
+        "size": 380
+      },
+      "Tests/Saf/saf1.txt": {
+        "size": 3672
+      },
+      "Tests/SamBam/readme.txt": {
+        "size": 1014
+      },
+      "Tests/Stockholm/pfam1.seed.txt": {
+        "size": 1835
+      },
+      "Tests/Stockholm/pfam2.seed.txt": {
+        "size": 1888
+      },
+      "Tests/Stockholm/pfam3.seed.txt": {
+        "size": 5542
+      },
+      "Tests/Stockholm/pfam4.seed.txt": {
+        "size": 4704
+      },
+      "Tests/Stockholm/pfam5.seed.txt": {
+        "size": 6277
+      },
+      "Tests/Stockholm/pfam6.seed.txt": {
+        "size": 3026
+      },
+      "Tests/Stockholm/pfam7.seed.txt": {
+        "size": 4874
+      },
+      "Tests/Stockholm/pfam8.seed.txt": {
+        "size": 29515
+      },
+      "Tests/Stockholm/pfam9.seed.txt": {
+        "size": 1368
+      },
+      "Tests/Stockholm/rfam1.seed.txt": {
+        "size": 2150
+      },
+      "Tests/Stockholm/rfam2.seed.txt": {
+        "size": 3966
+      },
+      "Tests/Stockholm/rfam3.seed.txt": {
+        "size": 3124
+      },
+      "Tests/Stockholm/rfam4.seed.txt": {
+        "size": 3479
+      },
+      "Tests/Stockholm/rfam5.seed.txt": {
+        "size": 1108
+      },
+      "Tests/SubsMat/aaDistrib.txt": {
+        "size": 334
+      },
+      "Tests/SubsMat/protein_count.txt": {
+        "size": 136
+      },
+      "Tests/SubsMat/protein_freq.txt": {
+        "size": 238
+      },
+      "Tests/SubsMat/redAADistrib.txt": {
+        "size": 114
+      },
+      "Tests/SubsMat/redAltAADistrib.txt": {
+        "size": 132
+      },
+      "Tests/SwissProt/F2CXE6.txt": {
+        "size": 3377
+      },
+      "Tests/SwissProt/H2CNN8.txt": {
+        "size": 2184
+      },
+      "Tests/SwissProt/O23729.txt": {
+        "size": 3661
+      },
+      "Tests/SwissProt/O95832.txt": {
+        "size": 20623
+      },
+      "Tests/SwissProt/P04439.txt": {
+        "size": 154518
+      },
+      "Tests/SwissProt/P0A186.txt": {
+        "size": 5052
+      },
+      "Tests/SwissProt/P0CK95.txt": {
+        "size": 8133
+      },
+      "Tests/SwissProt/P16235.txt": {
+        "size": 23575
+      },
+      "Tests/SwissProt/P39896.txt": {
+        "size": 4012
+      },
+      "Tests/SwissProt/P60137.txt": {
+        "size": 5109
+      },
+      "Tests/SwissProt/P60904.txt": {
+        "size": 19601
+      },
+      "Tests/SwissProt/P62258.txt": {
+        "size": 40306
+      },
+      "Tests/SwissProt/P68308.txt": {
+        "size": 4304
+      },
+      "Tests/SwissProt/Q13454.txt": {
+        "size": 19291
+      },
+      "Tests/SwissProt/Q13639.txt": {
+        "size": 11417
+      },
+      "Tests/SwissProt/Q7Z739.txt": {
+        "size": 28742
+      },
+      "Tests/SwissProt/keywlist.txt": {
+        "size": 3251
+      },
+      "Tests/SwissProt/keywlist2.txt": {
+        "size": 1343
+      },
+      "Tests/SwissProt/multi_ex.txt": {
+        "size": 68742
+      },
+      "Tests/common_BioSQL.py": {
+        "size": 66694
+      },
+      "Tests/common_BioSQL_online.py": {
+        "size": 4388
+      },
+      "Tests/motifs/mast.Klf1-200.cd.oops.xml.txt": {
+        "size": 103325
+      },
+      "Tests/motifs/mast.adh.de.oops.html.txt": {
+        "size": 30541
+      },
+      "Tests/motifs/mast.crp0.de.oops.txt.txt": {
+        "size": 12510
+      },
+      "Tests/pairwise2_testCases.py": {
+        "size": 27414
+      },
+      "Tests/phenotype/BadPlate.json": {
+        "size": 269053
+      },
+      "Tests/phenotype/Plate.json": {
+        "size": 269075
+      },
+      "Tests/phenotype/Plate_2.json": {
+        "size": 163343
+      },
+      "Tests/phenotype/SmallPlate.json": {
+        "size": 89806
+      },
+      "Tests/phenotype/SmallPlate_2.json": {
+        "size": 43227
+      },
+      "Tests/requires_internet.py": {
+        "size": 1212
+      },
+      "Tests/run_tests.py": {
+        "size": 12057
+      },
+      "Tests/search_tests_common.py": {
+        "size": 6444
+      },
+      "Tests/seq_tests_common.py": {
+        "size": 13151
+      },
+      "Tests/test_Ace.py": {
+        "size": 121943
+      },
+      "Tests/test_Affy.py": {
+        "size": 13848
+      },
+      "Tests/test_AlignIO.py": {
+        "size": 60430
+      },
+      "Tests/test_AlignIO_ClustalIO.py": {
+        "size": 14578
+      },
+      "Tests/test_AlignIO_EmbossIO.py": {
+        "size": 2725
+      },
+      "Tests/test_AlignIO_FastaIO.py": {
+        "size": 44198
+      },
+      "Tests/test_AlignIO_MauveIO.py": {
+        "size": 5254
+      },
+      "Tests/test_AlignIO_PhylipIO.py": {
+        "size": 4583
+      },
+      "Tests/test_AlignIO_convert.py": {
+        "size": 3587
+      },
+      "Tests/test_Align_Alignment.py": {
+        "size": 149702
+      },
+      "Tests/test_Align_a2m.py": {
+        "size": 54855
+      },
+      "Tests/test_Align_bed.py": {
+        "size": 524313
+      },
+      "Tests/test_Align_bigbed.py": {
+        "size": 322284
+      },
+      "Tests/test_Align_bigmaf.py": {
+        "size": 524313
+      },
+      "Tests/test_Align_bigpsl.py": {
+        "size": 524313
+      },
+      "Tests/test_Align_chain.py": {
+        "size": 290594
+      },
+      "Tests/test_Align_clustal.py": {
+        "size": 62649
+      },
+      "Tests/test_Align_codonalign.py": {
+        "size": 524313
+      },
+      "Tests/test_Align_emboss.py": {
+        "size": 193789
+      },
+      "Tests/test_Align_exonerate.py": {
+        "size": 384690
+      },
+      "Tests/test_Align_fasta.py": {
+        "size": 52496
+      },
+      "Tests/test_Align_format_matrix.py": {
+        "size": 5172
+      },
+      "Tests/test_Align_hhr.py": {
+        "size": 524313
+      },
+      "Tests/test_Align_maf.py": {
+        "size": 524313
+      },
+      "Tests/test_Align_mauve.py": {
+        "size": 41843
+      },
+      "Tests/test_Align_msf.py": {
+        "size": 25060
+      },
+      "Tests/test_Align_nexus.py": {
+        "size": 18820
+      },
+      "Tests/test_Align_phylip.py": {
+        "size": 56435
+      },
+      "Tests/test_Align_psl.py": {
+        "size": 524313
+      },
+      "Tests/test_Align_sam.py": {
+        "size": 392416
+      },
+      "Tests/test_Align_stockholm.py": {
+        "size": 506843
+      },
+      "Tests/test_Align_tabular.py": {
+        "size": 524313
+      },
+      "Tests/test_BioSQL_MySQLdb.py": {
+        "size": 810
+      },
+      "Tests/test_BioSQL_MySQLdb_online.py": {
+        "size": 1022
+      },
+      "Tests/test_BioSQL_mysql_connector.py": {
+        "size": 827
+      },
+      "Tests/test_BioSQL_mysql_connector_online.py": {
+        "size": 1031
+      },
+      "Tests/test_BioSQL_psycopg2.py": {
+        "size": 805
+      },
+      "Tests/test_BioSQL_psycopg2_online.py": {
+        "size": 1025
+      },
+      "Tests/test_BioSQL_sqlite3.py": {
+        "size": 2602
+      },
+      "Tests/test_BioSQL_sqlite3_online.py": {
+        "size": 1076
+      },
+      "Tests/test_Blast_Record.py": {
+        "size": 1063
+      },
+      "Tests/test_Blast_parser.py": {
+        "size": 524306
+      },
+      "Tests/test_CAPS.py": {
+        "size": 6676
+      },
+      "Tests/test_Chi2.py": {
+        "size": 1160
+      },
+      "Tests/test_Cluster.py": {
+        "size": 111233
+      },
+      "Tests/test_CodonTable.py": {
+        "size": 35447
+      },
+      "Tests/test_ColorSpiral.py": {
+        "size": 4287
+      },
+      "Tests/test_Compass.py": {
+        "size": 4002
+      },
+      "Tests/test_Consensus.py": {
+        "size": 7916
+      },
+      "Tests/test_EMBL_unittest.py": {
+        "size": 3074
+      },
+      "Tests/test_EmbossPrimer.py": {
+        "size": 9309
+      },
+      "Tests/test_Entrez.py": {
+        "size": 16227
+      },
+      "Tests/test_Entrez_online.py": {
+        "size": 9871
+      },
+      "Tests/test_Entrez_parser.py": {
+        "size": 524276
+      },
+      "Tests/test_Enzyme.py": {
+        "size": 6332
+      },
+      "Tests/test_ExPASy.py": {
+        "size": 1787
+      },
+      "Tests/test_File.py": {
+        "size": 4108
+      },
+      "Tests/test_GenBank.py": {
+        "size": 381808
+      },
+      "Tests/test_GenomeDiagram.py": {
+        "size": 47046
+      },
+      "Tests/test_GraphicsBitmaps.py": {
+        "size": 4440
+      },
+      "Tests/test_GraphicsChromosome.py": {
+        "size": 38715
+      },
+      "Tests/test_GraphicsDistribution.py": {
+        "size": 2677
+      },
+      "Tests/test_GraphicsGeneral.py": {
+        "size": 2593
+      },
+      "Tests/test_KEGG.py": {
+        "size": 8233
+      },
+      "Tests/test_KEGG_online.py": {
+        "size": 10641
+      },
+      "Tests/test_KGML_graphics.py": {
+        "size": 7785
+      },
+      "Tests/test_KGML_graphics_online.py": {
+        "size": 2711
+      },
+      "Tests/test_KGML_nographics.py": {
+        "size": 4783
+      },
+      "Tests/test_KeyWList.py": {
+        "size": 5892
+      },
+      "Tests/test_MafIO_index.py": {
+        "size": 32437
+      },
+      "Tests/test_Medline.py": {
+        "size": 20479
+      },
+      "Tests/test_NCBIXML.py": {
+        "size": 194161
+      },
+      "Tests/test_NCBI_qblast.py": {
+        "size": 16589
+      },
+      "Tests/test_NMR.py": {
+        "size": 5068
+      },
+      "Tests/test_Nexus.py": {
+        "size": 62903
+      },
+      "Tests/test_PAML_baseml.py": {
+        "size": 12295
+      },
+      "Tests/test_PAML_codeml.py": {
+        "size": 26828
+      },
+      "Tests/test_PAML_tools.py": {
+        "size": 4898
+      },
+      "Tests/test_PAML_yn00.py": {
+        "size": 7165
+      },
+      "Tests/test_PDB_CEAligner.py": {
+        "size": 3605
+      },
+      "Tests/test_PDB_DSSP.py": {
+        "size": 10937
+      },
+      "Tests/test_PDB_Dice.py": {
+        "size": 2184
+      },
+      "Tests/test_PDB_Disordered.py": {
+        "size": 7550
+      },
+      "Tests/test_PDB_Exposure.py": {
+        "size": 5228
+      },
+      "Tests/test_PDB_FragmentMapper.py": {
+        "size": 1328
+      },
+      "Tests/test_PDB_KDTree.py": {
+        "size": 7781
+      },
+      "Tests/test_PDB_MMCIF2Dict.py": {
+        "size": 17681
+      },
+      "Tests/test_PDB_MMCIFIO.py": {
+        "size": 8603
+      },
+      "Tests/test_PDB_MMCIFParser.py": {
+        "size": 17263
+      },
+      "Tests/test_PDB_NACCESS.py": {
+        "size": 2417
+      },
+      "Tests/test_PDB_PDBIO.py": {
+        "size": 17560
+      },
+      "Tests/test_PDB_PDBList.py": {
+        "size": 9882
+      },
+      "Tests/test_PDB_PDBMLParser.py": {
+        "size": 1628
+      },
+      "Tests/test_PDB_PDBParser.py": {
+        "size": 29499
+      },
+      "Tests/test_PDB_PSEA.py": {
+        "size": 3558
+      },
+      "Tests/test_PDB_Polypeptide.py": {
+        "size": 6814
+      },
+      "Tests/test_PDB_QCPSuperimposer.py": {
+        "size": 6040
+      },
+      "Tests/test_PDB_ResidueDepth.py": {
+        "size": 4504
+      },
+      "Tests/test_PDB_SASA.py": {
+        "size": 5587
+      },
+      "Tests/test_PDB_SMCRA.py": {
+        "size": 21505
+      },
+      "Tests/test_PDB_Selection.py": {
+        "size": 5947
+      },
+      "Tests/test_PDB_StructureAlignment.py": {
+        "size": 8324
+      },
+      "Tests/test_PDB_Superimposer.py": {
+        "size": 6484
+      },
+      "Tests/test_PDB_alphafold_db.py": {
+        "size": 741
+      },
+      "Tests/test_PDB_binary_cif.py": {
+        "size": 753
+      },
+      "Tests/test_PDB_internal_coords.py": {
+        "size": 27426
+      },
+      "Tests/test_PDB_parse_pdb_header.py": {
+        "size": 8512
+      },
+      "Tests/test_PDB_vectors.py": {
+        "size": 11173
+      },
+      "Tests/test_PQR.py": {
+        "size": 7264
+      },
+      "Tests/test_Pathway.py": {
+        "size": 8512
+      },
+      "Tests/test_Phd.py": {
+        "size": 20470
+      },
+      "Tests/test_Phylo.py": {
+        "size": 22592
+      },
+      "Tests/test_PhyloXML.py": {
+        "size": 31497
+      },
+      "Tests/test_Phylo_CDAO.py": {
+        "size": 3270
+      },
+      "Tests/test_Phylo_NeXML.py": {
+        "size": 3250
+      },
+      "Tests/test_Phylo_igraph.py": {
+        "size": 2020
+      },
+      "Tests/test_Phylo_matplotlib.py": {
+        "size": 3631
+      },
+      "Tests/test_Phylo_networkx.py": {
+        "size": 1154
+      },
+      "Tests/test_PopGen_GenePop_nodepend.py": {
+        "size": 7420
+      },
+      "Tests/test_ProtParam.py": {
+        "size": 13453
+      },
+      "Tests/test_RCSBFormats.py": {
+        "size": 2572
+      },
+      "Tests/test_Restriction.py": {
+        "size": 25561
+      },
+      "Tests/test_SCOP_Astral.py": {
+        "size": 2265
+      },
+      "Tests/test_SCOP_Cla.py": {
+        "size": 3408
+      },
+      "Tests/test_SCOP_Des.py": {
+        "size": 1874
+      },
+      "Tests/test_SCOP_Dom.py": {
+        "size": 1763
+      },
+      "Tests/test_SCOP_Hie.py": {
+        "size": 1318
+      },
+      "Tests/test_SCOP_Raf.py": {
+        "size": 4199
+      },
+      "Tests/test_SCOP_Residues.py": {
+        "size": 2354
+      },
+      "Tests/test_SCOP_Scop.py": {
+        "size": 5423
+      },
+      "Tests/test_SVDSuperimposer.py": {
+        "size": 4294
+      },
+      "Tests/test_SearchIO_blast_tab.py": {
+        "size": 40380
+      },
+      "Tests/test_SearchIO_blast_tab_index.py": {
+        "size": 9732
+      },
+      "Tests/test_SearchIO_blast_xml.py": {
+        "size": 172977
+      },
+      "Tests/test_SearchIO_blast_xml_index.py": {
+        "size": 38120
+      },
+      "Tests/test_SearchIO_blat_psl.py": {
+        "size": 60568
+      },
+      "Tests/test_SearchIO_blat_psl_index.py": {
+        "size": 2609
+      },
+      "Tests/test_SearchIO_exonerate.py": {
+        "size": 111022
+      },
+      "Tests/test_SearchIO_exonerate_text_index.py": {
+        "size": 955
+      },
+      "Tests/test_SearchIO_exonerate_vulgar_index.py": {
+        "size": 968
+      },
+      "Tests/test_SearchIO_fasta_m10.py": {
+        "size": 139531
+      },
+      "Tests/test_SearchIO_fasta_m10_index.py": {
+        "size": 2173
+      },
+      "Tests/test_SearchIO_hhsuite2_text.py": {
+        "size": 21779
+      },
+      "Tests/test_SearchIO_hmmer2_text.py": {
+        "size": 23046
+      },
+      "Tests/test_SearchIO_hmmer2_text_index.py": {
+        "size": 23810
+      },
+      "Tests/test_SearchIO_hmmer3_domtab.py": {
+        "size": 27800
+      },
+      "Tests/test_SearchIO_hmmer3_domtab_index.py": {
+        "size": 5490
+      },
+      "Tests/test_SearchIO_hmmer3_tab.py": {
+        "size": 20439
+      },
+      "Tests/test_SearchIO_hmmer3_tab_index.py": {
+        "size": 4534
+      },
+      "Tests/test_SearchIO_hmmer3_text.py": {
+        "size": 128263
+      },
+      "Tests/test_SearchIO_hmmer3_text_index.py": {
+        "size": 18801
+      },
+      "Tests/test_SearchIO_infernal_tab.py": {
+        "size": 20153
+      },
+      "Tests/test_SearchIO_infernal_tab_index.py": {
+        "size": 4467
+      },
+      "Tests/test_SearchIO_infernal_text.py": {
+        "size": 45668
+      },
+      "Tests/test_SearchIO_infernal_text_index.py": {
+        "size": 37779
+      },
+      "Tests/test_SearchIO_interproscan_xml.py": {
+        "size": 2678
+      },
+      "Tests/test_SearchIO_model.py": {
+        "size": 67810
+      },
+      "Tests/test_SearchIO_write.py": {
+        "size": 9439
+      },
+      "Tests/test_SeqFeature.py": {
+        "size": 15441
+      },
+      "Tests/test_SeqIO.py": {
+        "size": 235732
+      },
+      "Tests/test_SeqIO_AbiIO.py": {
+        "size": 524313
+      },
+      "Tests/test_SeqIO_FastaIO.py": {
+        "size": 9128
+      },
+      "Tests/test_SeqIO_Gck.py": {
+        "size": 3547
+      },
+      "Tests/test_SeqIO_Gfa.py": {
+        "size": 3339
+      },
+      "Tests/test_SeqIO_Insdc.py": {
+        "size": 5767
+      },
+      "Tests/test_SeqIO_NibIO.py": {
+        "size": 2068
+      },
+      "Tests/test_SeqIO_PdbIO.py": {
+        "size": 7625
+      },
+      "Tests/test_SeqIO_QualityIO.py": {
+        "size": 43543
+      },
+      "Tests/test_SeqIO_SeqXML.py": {
+        "size": 10359
+      },
+      "Tests/test_SeqIO_SffIO.py": {
+        "size": 21773
+      },
+      "Tests/test_SeqIO_SnapGene.py": {
+        "size": 12772
+      },
+      "Tests/test_SeqIO_TwoBitIO.py": {
+        "size": 22096
+      },
+      "Tests/test_SeqIO_UniprotIO.py": {
+        "size": 28023
+      },
+      "Tests/test_SeqIO_Xdna.py": {
+        "size": 8321
+      },
+      "Tests/test_SeqIO_features.py": {
+        "size": 60236
+      },
+      "Tests/test_SeqIO_index.py": {
+        "size": 31453
+      },
+      "Tests/test_SeqIO_online.py": {
+        "size": 3529
+      },
+      "Tests/test_SeqIO_write.py": {
+        "size": 10705
+      },
+      "Tests/test_SeqRecord.py": {
+        "size": 24939
+      },
+      "Tests/test_SeqUtils.py": {
+        "size": 19362
+      },
+      "Tests/test_Seq_objs.py": {
+        "size": 86387
+      },
+      "Tests/test_SwissProt.py": {
+        "size": 341375
+      },
+      "Tests/test_TogoWS.py": {
+        "size": 21929
+      },
+      "Tests/test_TreeConstruction.py": {
+        "size": 20128
+      },
+      "Tests/test_Tutorial.py": {
+        "size": 10369
+      },
+      "Tests/test_UniGene.py": {
+        "size": 74989
+      },
+      "Tests/test_UniProt.py": {
+        "size": 3384
+      },
+      "Tests/test_UniProt_GOA.py": {
+        "size": 7682
+      },
+      "Tests/test_align.py": {
+        "size": 67339
+      },
+      "Tests/test_align_substitution_matrices.py": {
+        "size": 142224
+      },
+      "Tests/test_bgzf.py": {
+        "size": 20642
+      },
+      "Tests/test_cellosaurus.py": {
+        "size": 10765
+      },
+      "Tests/test_codonalign.py": {
+        "size": 17567
+      },
+      "Tests/test_geo.py": {
+        "size": 289276
+      },
+      "Tests/test_mmtf.py": {
+        "size": 10676
+      },
+      "Tests/test_mmtf_online.py": {
+        "size": 1078
+      },
+      "Tests/test_motifs.py": {
+        "size": 260094
+      },
+      "Tests/test_motifs_online.py": {
+        "size": 1709
+      },
+      "Tests/test_pairwise2.py": {
+        "size": 844
+      },
+      "Tests/test_pairwise2_no_C.py": {
+        "size": 1150
+      },
+      "Tests/test_pairwise_aligner.py": {
+        "size": 524313
+      },
+      "Tests/test_pairwise_alignment_map.py": {
+        "size": 42062
+      },
+      "Tests/test_phenotype.py": {
+        "size": 13153
+      },
+      "Tests/test_phenotype_fit.py": {
+        "size": 2482
+      },
+      "Tests/test_prodoc.py": {
+        "size": 57975
+      },
+      "Tests/test_prosite.py": {
+        "size": 251003
+      },
+      "Tests/test_seq.py": {
+        "size": 51793
+      },
+      "Tests/test_translate.py": {
+        "size": 3286
+      },
+      "ci-dependencies.txt": {
+        "size": 426
+      },
+      "setup.py": {
+        "size": 8531
+      }
+    },
+    "processed_by": "zip_fallback",
+    "success": true
+  },
+  "structure": {
+    "packages": [
+      "source.Bio",
+      "source.Bio.Affy",
+      "source.Bio.Align",
+      "source.Bio.AlignIO",
+      "source.Bio.Alphabet",
+      "source.Bio.Blast",
+      "source.Bio.CAPS",
+      "source.Bio.Cluster",
+      "source.Bio.Compass",
+      "source.Bio.Data",
+      "source.Bio.Emboss",
+      "source.Bio.Entrez",
+      "source.Bio.ExPASy",
+      "source.Bio.GenBank",
+      "source.Bio.Geo",
+      "source.Bio.Graphics",
+      "source.Bio.HMM",
+      "source.Bio.KEGG",
+      "source.Bio.Medline",
+      "source.Bio.NMR",
+      "source.Bio.Nexus",
+      "source.Bio.PDB",
+      "source.Bio.Pathway",
+      "source.Bio.Phylo",
+      "source.Bio.PopGen",
+      "source.Bio.Restriction",
+      "source.Bio.SCOP",
+      "source.Bio.SVDSuperimposer",
+      "source.Bio.SearchIO",
+      "source.Bio.SeqIO",
+      "source.Bio.SeqUtils",
+      "source.Bio.Sequencing",
+      "source.Bio.SwissProt",
+      "source.Bio.TogoWS",
+      "source.Bio.UniGene",
+      "source.Bio.UniProt",
+      "source.Bio.codonalign",
+      "source.Bio.motifs",
+      "source.Bio.phenotype",
+      "source.BioSQL"
+    ]
+  },
+  "dependencies": {
+    "has_environment_yml": false,
+    "has_requirements_txt": false,
+    "pyproject": false,
+    "setup_cfg": false,
+    "setup_py": true
+  },
+  "entry_points": {
+    "imports": [],
+    "cli": [],
+    "modules": []
+  },
+  "llm_analysis": {
+    "core_modules": [
+      {
+        "package": "source.Bio.SeqIO",
+        "module": "SeqIO",
+        "functions": [
+          "parse",
+          "read",
+          "write"
+        ],
+        "classes": [
+          "SeqRecord"
+        ],
+        "description": "Handles sequence input/output operations."
+      },
+      {
+        "package": "source.Bio.Align",
+        "module": "Align",
+        "functions": [
+          "MultipleSeqAlignment"
+        ],
+        "classes": [
+          "AlignInfo"
+        ],
+        "description": "Provides tools for sequence alignment."
+      },
+      {
+        "package": "source.Bio.Blast",
+        "module": "NCBIWWW",
+        "functions": [
+          "qblast"
+        ],
+        "classes": [],
+        "description": "Interfaces with NCBI's BLAST service."
+      },
+      {
+        "package": "source.Bio.PDB",
+        "module": "PDBParser",
+        "functions": [
+          "get_structure"
+        ],
+        "classes": [
+          "PDBParser"
+        ],
+        "description": "Parses PDB files to extract structural information."
+      },
+      {
+        "package": "source.Bio.Entrez",
+        "module": "Entrez",
+        "functions": [
+          "efetch",
+          "esearch"
+        ],
+        "classes": [],
+        "description": "Provides access to NCBI's Entrez databases."
+      }
+    ],
+    "cli_commands": [
+      {
+        "name": "biopython-blast",
+        "module": "source.Bio.Blast.NCBIWWW",
+        "description": "Command-line interface for running BLAST queries."
+      },
+      {
+        "name": "biopython-seqio",
+        "module": "source.Bio.SeqIO",
+        "description": "Command-line interface for sequence input/output operations."
+      }
+    ],
+    "import_strategy": {
+      "primary": "import",
+      "fallback": "cli",
+      "confidence": 0.9
+    },
+    "dependencies": {
+      "required": [
+        "numpy",
+        "scipy"
+      ],
+      "optional": [
+        "matplotlib",
+        "reportlab"
+      ]
+    },
+    "risk_assessment": {
+      "import_feasibility": 0.9,
+      "intrusiveness_risk": "low",
+      "complexity": "medium"
+    }
+  },
+  "deepwiki_analysis": {
+    "repo_url": "https://github.com/biopython/biopython",
+    "repo_name": "biopython",
+    "content": null,
+    "model": "gpt-4o",
+    "source": "selenium",
+    "success": true
+  },
+  "deepwiki_options": {
+    "enabled": true,
+    "model": "gpt-4o"
+  },
+  "risk": {
+    "import_feasibility": 0.9,
+    "intrusiveness_risk": "low",
+    "complexity": "medium"
+  }
+}

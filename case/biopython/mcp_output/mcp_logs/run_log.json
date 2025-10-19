@@ -1,0 +1,67 @@
+{
+  "timestamp": 1760669210.9640048,
+  "node": "RunNode",
+  "test_result": {
+    "passed": false,
+    "report_path": null,
+    "stdout": "",
+    "stderr": "output/workspace/biopython/mcp_output/start_mcp.py\", line 17, in <module>\n    from mcp_service import create_app\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/mcp_plugin/mcp_service.py\", line 8, in <module>\n    from Bio.SeqIO import parse, read, write\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/SeqIO/__init__.py\", line 384, in <module>\n    from Bio import AlignIO\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/AlignIO/__init__.py\", line 141, in <module>\n    from Bio.Align import MultipleSeqAlignment\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/Align/__init__.py\", line 32, in <module>\n    raise MissingPythonDependencyError(\nBio.MissingPythonDependencyError: Please install NumPy if you want to use Bio.Align. See http://www.numpy.org/\n\n"
+  },
+  "run_result": {
+    "success": false,
+    "test_passed": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "output/workspace/biopython/mcp_output/start_mcp.py\", line 17, in <module>\n    from mcp_service import create_app\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/mcp_plugin/mcp_service.py\", line 8, in <module>\n    from Bio.SeqIO import parse, read, write\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/SeqIO/__init__.py\", line 384, in <module>\n    from Bio import AlignIO\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/AlignIO/__init__.py\", line 141, in <module>\n    from Bio.Align import MultipleSeqAlignment\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/Align/__init__.py\", line 32, in <module>\n    raise MissingPythonDependencyError(\nBio.MissingPythonDependencyError: Please install NumPy if you want to use Bio.Align. See http://www.numpy.org/\n\n",
+    "timestamp": 1760669210.9639835,
+    "error_type": "ImportError",
+    "error": "Import error: ERROR conda.cli.main_run:execute(41): `conda run python mcp_output/start_mcp.py` failed. (See above for error)\n/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/__init__.py:138: BiopythonWarning: You may be importing Biopython from inside the source tree. This is bad practice and might lead to downstream issues. In particular, you might encounter ImportErrors due to missing compiled C extensions. We recommend that you try running your code from outside the source tree. If you are outside the source tree then you have a setup.py file in an unexpected directory: /export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/start_mcp.py\", line 17, in <module>\n    from mcp_service import create_app\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/mcp_plugin/mcp_service.py\", line 8, in <module>\n    from Bio.SeqIO import parse, read, write\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/SeqIO/__init__.py\", line 384, in <module>\n    from Bio import AlignIO\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/AlignIO/__init__.py\", line 141, in <module>\n    from Bio.Align import MultipleSeqAlignment\n  File \"/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/source/Bio/Align/__init__.py\", line 32, in <module>\n    raise MissingPythonDependencyError(\nBio.MissingPythonDependencyError: Please install NumPy if you want to use Bio.Align. See http://www.numpy.org/\n\n",
+    "details": {
+      "command": "/home/wshiah/code/miniconda3/bin/conda run -n biopython_668746_env --cwd /export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython python mcp_output/start_mcp.py",
+      "working_directory": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython",
+      "environment_type": "conda"
+    }
+  },
+  "environment": {
+    "type": "conda",
+    "name": "biopython_668746_env",
+    "files": {},
+    "python": "3.10",
+    "exec_prefix": []
+  },
+  "plugin_info": {
+    "files": {
+      "mcp_output/start_mcp.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/start_mcp.py",
+      "mcp_output/mcp_plugin/__init__.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/mcp_plugin/__init__.py",
+      "mcp_output/mcp_plugin/mcp_service.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/mcp_plugin/mcp_service.py",
+      "mcp_output/mcp_plugin/adapter.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/mcp_plugin/adapter.py",
+      "mcp_output/mcp_plugin/main.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/mcp_plugin/main.py",
+      "mcp_output/requirements.txt": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/requirements.txt",
+      "mcp_output/README_MCP.md": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/README_MCP.md",
+      "mcp_output/tests_mcp/test_mcp_basic.py": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/tests_mcp/test_mcp_basic.py"
+    },
+    "adapter_mode": "import",
+    "endpoints": [
+      "parse",
+      "read",
+      "write",
+      "seqrecord",
+      "MultipleSeqAlignment",
+      "aligninfo",
+      "qblast",
+      "get_structure",
+      "pdbparser",
+      "efetch",
+      "esearch"
+    ],
+    "mcp_dir": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/mcp_plugin",
+    "tests_dir": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/tests_mcp",
+    "main_entry": "start_mcp.py",
+    "readme_path": "/export/project/shiweijie/ghh/LLM_MCP_RAG/MCP-agent-github-repo-output/workspace/biopython/mcp_output/README_MCP.md",
+    "requirements": [
+      "fastmcp>=0.1.0",
+      "pydantic>=2.0.0"
+    ]
+  },
+  "fastmcp_installed": false
+}
