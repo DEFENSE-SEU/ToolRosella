@@ -1,0 +1,3 @@
+# Exclude the entire workspace directory from GitHub Linguist language stats
+workspace/** linguist-vendored
+
