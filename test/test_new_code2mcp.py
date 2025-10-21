@@ -32,8 +32,18 @@ class Code2MCPTester:
 
     def __init__(self, code2mcp_path: str = "Code2MCP-latest"):
         self.code2mcp_path = Path(project_root) / code2mcp_path
-        self.output_dir = self.code2mcp_path / "workspace"
+
+        # 使用独立的测试工作空间，不污染Code2MCP-latest
+        self.test_workspace_dir = Path(project_root) / "test" / "test_workspace"
+        self.test_workspace_dir.mkdir(exist_ok=True)
+
+        # 在测试工作空间下创建子目录
+        self.output_dir = self.test_workspace_dir / "workspace"
+        self.output_dir.mkdir(exist_ok=True)
+
+        # 测试结果保存目录
         self.test_output_dir = Path(project_root) / "test" / "test_output"
+        self.test_output_dir.mkdir(exist_ok=True)
 
         # 加载测试用例注册表
         registry_path = Path(project_root) / "test" / "test_cases_registry.json"
@@ -41,9 +51,6 @@ class Code2MCPTester:
             self.registry = json.load(f)
 
         self.results = {}
-
-        # 创建测试输出目录
-        self.test_output_dir.mkdir(exist_ok=True)
 
     def run_code2mcp(self, repo_url: str, case_name: str) -> Tuple[bool, str]:
         """
@@ -57,16 +64,24 @@ class Code2MCPTester:
         print(f"{'='*60}")
 
         try:
-            # 切换到Code2MCP目录
+            # 使用独立的输出目录，避免污染Code2MCP-latest
+            output_path = self.test_workspace_dir / "output"
+            output_path.mkdir(exist_ok=True)
+
+            # 设置环境变量，让Code2MCP使用测试工作空间
+            env = os.environ.copy()
+            env['CODE2MCP_WORKSPACE'] = str(self.test_workspace_dir / "workspace")
+
             cmd = [
                 sys.executable,
                 "main.py",
                 repo_url,
-                "--output", "./output"
+                "--output", str(output_path)
             ]
 
             print(f"Command: {' '.join(cmd)}")
             print(f"Working directory: {self.code2mcp_path}")
+            print(f"Test workspace: {self.test_workspace_dir}")
             print("Running... (this may take 5-15 minutes)")
 
             # 运行Code2MCP
@@ -75,7 +90,8 @@ class Code2MCPTester:
                 cwd=str(self.code2mcp_path),
                 capture_output=True,
                 text=True,
-                timeout=900  # 15分钟超时
+                timeout=900,  # 15分钟超时
+                env=env  # 使用自定义环境变量
             )
 
             if result.returncode == 0:
@@ -97,9 +113,12 @@ class Code2MCPTester:
             print(f"❌ {error_msg}")
             return False, error_msg
 
-    def test_generated_mcp(self, case_name: str) -> Dict:
+    def test_generated_mcp(self, case_name: str, test_mcp_service: bool = True) -> Dict:
         """
         测试生成的MCP服务
+
+        参数:
+            test_mcp_service: 是否测试mcp_service.py层（推荐开启）
 
         返回测试结果字典
         """
@@ -142,30 +161,91 @@ class Code2MCPTester:
         # 临时添加到路径
         sys.path.insert(0, str(adapter_path))
 
+        result = {}
+
         try:
-            # 尝试导入adapter
+            # 测试1: Adapter层
+            print("\n  --- Testing Adapter Layer ---")
             print("  [1/3] Importing adapter module...", end=" ")
             from adapter import Adapter
             print("✅")
 
-            # 尝试创建实例
             print("  [2/3] Creating Adapter instance...", end=" ")
             adapter = Adapter()
             print("✅")
 
-            # 检查方法
             print("  [3/3] Checking public methods...", end=" ")
             methods = [m for m in dir(adapter) if not m.startswith('_') and callable(getattr(adapter, m))]
             print(f"✅ ({len(methods)} methods)")
 
-            print(f"\n  ✅ Test PASSED for {case_name}")
+            result["adapter_status"] = "pass"
+            result["methods_count"] = len(methods)
+            result["methods_sample"] = methods[:5]
 
-            return {
-                "status": "pass",
-                "methods_count": len(methods),
-                "methods_sample": methods[:5],
-                "mcp_output_path": str(mcp_output)
-            }
+            # 测试2: MCP Service层（如果启用）
+            if test_mcp_service:
+                print("\n  --- Testing MCP Service Layer ---")
+                print("  [1/3] Importing mcp_service module...", end=" ")
+
+                try:
+                    import mcp_service
+                    print("✅")
+
+                    print("  [2/3] Checking create_app function...", end=" ")
+                    if not hasattr(mcp_service, 'create_app'):
+                        print("❌")
+                        result["mcp_service_status"] = "fail"
+                        result["mcp_service_error"] = "create_app function not found"
+                    else:
+                        print("✅")
+
+                        print("  [3/3] Creating MCP app instance...", end=" ")
+                        app = mcp_service.create_app()
+                        if app is None:
+                            print("❌")
+                            result["mcp_service_status"] = "fail"
+                            result["mcp_service_error"] = "create_app returned None"
+                        else:
+                            print("✅")
+
+                            # 尝试获取工具数量
+                            try:
+                                tools_count = 0
+                                if hasattr(app, 'list_tools'):
+                                    tools_count = len(app.list_tools())
+                                elif hasattr(app, '_tools'):
+                                    tools_count = len(app._tools)
+
+                                result["mcp_service_status"] = "pass"
+                                result["mcp_tools_count"] = tools_count
+                            except:
+                                result["mcp_service_status"] = "pass"
+                                result["mcp_tools_count"] = "unknown"
+
+                except ImportError as e:
+                    print(f"❌ ({e})")
+                    result["mcp_service_status"] = "fail"
+                    result["mcp_service_error"] = f"ImportError: {str(e)}"
+
+                except Exception as e:
+                    print(f"❌ ({type(e).__name__}: {e})")
+                    result["mcp_service_status"] = "fail"
+                    result["mcp_service_error"] = f"{type(e).__name__}: {str(e)}"
+
+            # 综合判断
+            if result.get("adapter_status") == "pass":
+                if test_mcp_service:
+                    result["status"] = result.get("mcp_service_status", "unknown")
+                else:
+                    result["status"] = "pass"
+            else:
+                result["status"] = "fail"
+
+            result["mcp_output_path"] = str(mcp_output)
+
+            print(f"\n  {'✅' if result['status'] == 'pass' else '❌'} Overall test {'PASSED' if result['status'] == 'pass' else 'FAILED'} for {case_name}")
+
+            return result
 
         except ImportError as e:
             error_msg = f"ImportError: {str(e)}"
@@ -195,9 +275,14 @@ class Code2MCPTester:
             }
 
         finally:
-            # 清理路径
+            # 清理路径和导入
             if str(adapter_path) in sys.path:
                 sys.path.remove(str(adapter_path))
+
+            # 清理导入的模块
+            for module in ['adapter', 'mcp_service']:
+                if module in sys.modules:
+                    del sys.modules[module]
 
     def compare_with_old_version(self, case_name: str, new_result: Dict) -> Dict:
         """

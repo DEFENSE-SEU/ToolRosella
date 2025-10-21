@@ -5,3 +5,8 @@ repos/
 .env
 *.DS_Store
 MCP-agent-github-repo-output/.env
+
+# 测试生成的文件
+test/test_workspace/
+test/test_output/
+test/*.log
