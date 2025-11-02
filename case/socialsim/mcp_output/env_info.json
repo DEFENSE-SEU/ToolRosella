@@ -1,0 +1,18 @@
+{
+  "environment": {
+    "type": "venv",
+    "name": "socialsim_089582_venv",
+    "path": "/Users/yuanxujie/Downloads/Easy-Tool/Code2MCP-latest/workspace/socialsim/socialsim_089582_venv",
+    "files": {},
+    "python": "3.10",
+    "exec_prefix": [
+      "/Users/yuanxujie/Downloads/Easy-Tool/Code2MCP-latest/workspace/socialsim/socialsim_089582_venv/bin/python"
+    ]
+  },
+  "original_tests": {
+    "passed": false,
+    "report_path": null
+  },
+  "timestamp": 1762089632.793343,
+  "conda_available": true
+}

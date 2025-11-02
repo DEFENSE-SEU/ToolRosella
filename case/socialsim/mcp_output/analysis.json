@@ -1,0 +1,1821 @@
+{
+  "summary": {
+    "repository_url": "https://github.com/pnnl/socialsim",
+    "summary": "Imported via zip fallback, file count: 73",
+    "file_tree": {
+      "README.md": {
+        "size": 13033
+      },
+      "conda_requirements.txt": {
+        "size": 1540
+      },
+      "data_extraction/README.md": {
+        "size": 916
+      },
+      "data_extraction/complicated_cascade_followers.json": {
+        "size": 195
+      },
+      "data_extraction/extract_ground_truth_cp2.py": {
+        "size": 40071
+      },
+      "data_extraction/keyword_map.json": {
+        "size": 1684
+      },
+      "data_extraction/twitter_cascade_reconstruction.py": {
+        "size": 9478
+      },
+      "december-measurements/BaselineMeasurements.py": {
+        "size": 9173
+      },
+      "december-measurements/CommunityCentricMeasurements.py": {
+        "size": 17549
+      },
+      "december-measurements/ContentCentricMeasurements.py": {
+        "size": 21846
+      },
+      "december-measurements/Metrics.py": {
+        "size": 18799
+      },
+      "december-measurements/TEMeasurements.py": {
+        "size": 12890
+      },
+      "december-measurements/UserCentricMeasurements.py": {
+        "size": 13036
+      },
+      "december-measurements/cascade_measurements.py": {
+        "size": 34265
+      },
+      "december-measurements/cascade_reconstruction/example_follower_data/a.txt": {
+        "size": 6
+      },
+      "december-measurements/cascade_reconstruction/example_follower_data/b.txt": {
+        "size": 4
+      },
+      "december-measurements/cascade_reconstruction/example_follower_data/d.txt": {
+        "size": 2
+      },
+      "december-measurements/cascade_reconstruction/example_follower_data/h.txt": {
+        "size": 4
+      },
+      "december-measurements/cascade_reconstruction/example_follower_data/i.txt": {
+        "size": 4
+      },
+      "december-measurements/cascade_reconstruction/example_follower_data/j.txt": {
+        "size": 2
+      },
+      "december-measurements/cascade_reconstruction/example_follower_data/k.txt": {
+        "size": 2
+      },
+      "december-measurements/cascade_reconstruction/example_follower_data/m.txt": {
+        "size": 2
+      },
+      "december-measurements/cascade_reconstruction/twitter_cascade_reconstruction.py": {
+        "size": 9458
+      },
+      "december-measurements/cascade_reconstruction/twitter_example_data_reconstructed.json": {
+        "size": 1665
+      },
+      "december-measurements/cascade_reconstruction/twitter_reconstruction_example_data.json": {
+        "size": 1665
+      },
+      "december-measurements/cascade_validators.py": {
+        "size": 455
+      },
+      "december-measurements/config/baseline_metrics_config_github.py": {
+        "size": 23704
+      },
+      "december-measurements/config/baseline_metrics_config_github_crypto_s1.py": {
+        "size": 24248
+      },
+      "december-measurements/config/baseline_metrics_config_github_cve_s1.py": {
+        "size": 24125
+      },
+      "december-measurements/config/baseline_metrics_config_github_cyber_s1.py": {
+        "size": 24133
+      },
+      "december-measurements/config/baseline_metrics_config_reddit.py": {
+        "size": 12718
+      },
+      "december-measurements/config/baseline_metrics_config_reddit_crypto_s1.py": {
+        "size": 12786
+      },
+      "december-measurements/config/baseline_metrics_config_reddit_crypto_s2.py": {
+        "size": 13211
+      },
+      "december-measurements/config/baseline_metrics_config_reddit_cve_s1.py": {
+        "size": 12787
+      },
+      "december-measurements/config/baseline_metrics_config_reddit_cve_s2.py": {
+        "size": 13191
+      },
+      "december-measurements/config/baseline_metrics_config_reddit_cyber_s1.py": {
+        "size": 12782
+      },
+      "december-measurements/config/baseline_metrics_config_reddit_cyber_s2.py": {
+        "size": 12882
+      },
+      "december-measurements/config/baseline_metrics_config_twitter.py": {
+        "size": 11285
+      },
+      "december-measurements/config/baseline_metrics_config_twitter_crypto_s1.py": {
+        "size": 11336
+      },
+      "december-measurements/config/baseline_metrics_config_twitter_cve_s1.py": {
+        "size": 11390
+      },
+      "december-measurements/config/baseline_metrics_config_twitter_cve_s2.py": {
+        "size": 11829
+      },
+      "december-measurements/config/baseline_metrics_config_twitter_cyber_s1.py": {
+        "size": 11333
+      },
+      "december-measurements/config/cascade_metrics_config.py": {
+        "size": 23003
+      },
+      "december-measurements/config/cascade_metrics_config_twitter.py": {
+        "size": 23029
+      },
+      "december-measurements/config/network_metrics_config.py": {
+        "size": 4348
+      },
+      "december-measurements/network_measurements.py": {
+        "size": 6335
+      },
+      "december-measurements/plotting/charts.py": {
+        "size": 5146
+      },
+      "december-measurements/plotting/transformer.py": {
+        "size": 5622
+      },
+      "december-measurements/plotting/visualization_config.py": {
+        "size": 11001
+      },
+      "december-measurements/run_measurements_and_metrics.py": {
+        "size": 41410
+      },
+      "december-measurements/validators.py": {
+        "size": 794
+      },
+      "github-measurements-old/Metrics.py": {
+        "size": 15014
+      },
+      "github-measurements-old/RepoCentricMeasurements.py": {
+        "size": 21361
+      },
+      "github-measurements-old/RepoMeasurementsWithPlot.py": {
+        "size": 16075
+      },
+      "github-measurements-old/TransferEntropy.py": {
+        "size": 6008
+      },
+      "github-measurements-old/UserCentricMeasurements.py": {
+        "size": 9228
+      },
+      "github-measurements-old/UserMeasurementsWithPlot.py": {
+        "size": 8883
+      },
+      "github-measurements-old/load_data.py": {
+        "size": 1043
+      },
+      "github-measurements-old/metrics_config.py": {
+        "size": 16171
+      },
+      "github-measurements-old/plots.py": {
+        "size": 7934
+      },
+      "github-measurements/CommunityCentricMeasurements.py": {
+        "size": 19623
+      },
+      "github-measurements/Measurements.py": {
+        "size": 5784
+      },
+      "github-measurements/Metrics.py": {
+        "size": 16589
+      },
+      "github-measurements/RepoCentricMeasurements.py": {
+        "size": 23131
+      },
+      "github-measurements/TEMeasurements.py": {
+        "size": 12869
+      },
+      "github-measurements/UserCentricMeasurements.py": {
+        "size": 11860
+      },
+      "github-measurements/metrics_config.py": {
+        "size": 24028
+      },
+      "github-measurements/reference-approaches/README.md": {
+        "size": 355
+      },
+      "github-measurements/reference-approaches/generate_reference_approach_data.py": {
+        "size": 6991
+      },
+      "github-measurements/reference-approaches/reference_approach_performance_plots.py": {
+        "size": 14834
+      },
+      "github-measurements/requirements.txt": {
+        "size": 144
+      },
+      "license.txt": {
+        "size": 1290
+      },
+      "pip_requirements.txt": {
+        "size": 743
+      }
+    },
+    "processed_by": "zip_fallback",
+    "success": true
+  },
+  "structure": {
+    "packages": []
+  },
+  "dependencies": {
+    "has_environment_yml": false,
+    "has_requirements_txt": false,
+    "pyproject": false,
+    "setup_cfg": false,
+    "setup_py": false
+  },
+  "entry_points": {
+    "imports": [],
+    "cli": [],
+    "modules": []
+  },
+  "llm_analysis": {
+    "core_modules": [
+      {
+        "package": "december-measurements",
+        "module": "validators",
+        "functions": [
+          "check_empty",
+          "check_root_only"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "check_empty": [
+            "default"
+          ],
+          "check_root_only": [
+            "default"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements",
+        "module": "CommunityCentricMeasurements",
+        "functions": [],
+        "classes": [
+          "CommunityCentricMeasurements"
+        ],
+        "function_signatures": {},
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements",
+        "module": "cascade_measurements",
+        "functions": [
+          "get_original_tweet_ratio",
+          "igraph_add_edges_to_existing_graph",
+          "igraph_from_pandas_edgelist",
+          "igraph_wiener_index",
+          "palma_ratio"
+        ],
+        "classes": [
+          "Cascade",
+          "CascadeCollectionMeasurements",
+          "SingleCascadeMeasurements"
+        ],
+        "function_signatures": {
+          "palma_ratio": [
+            "values"
+          ],
+          "get_original_tweet_ratio": [
+            "main_df",
+            "node_col",
+            "root_node_col"
+          ],
+          "igraph_from_pandas_edgelist": [
+            "df",
+            "source",
+            "target",
+            "directed"
+          ],
+          "igraph_add_edges_to_existing_graph": [
+            "graph",
+            "df",
+            "source",
+            "target"
+          ],
+          "igraph_wiener_index": [
+            "graph"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements",
+        "module": "ContentCentricMeasurements",
+        "functions": [],
+        "classes": [
+          "ContentCentricMeasurements"
+        ],
+        "function_signatures": {},
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements",
+        "module": "network_measurements",
+        "functions": [],
+        "classes": [
+          "GithubNetworkMeasurements",
+          "NetworkMeasurements",
+          "RedditNetworkMeasurements",
+          "TwitterNetworkMeasurements"
+        ],
+        "function_signatures": {},
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements",
+        "module": "UserCentricMeasurements",
+        "functions": [],
+        "classes": [
+          "UserCentricMeasurements"
+        ],
+        "function_signatures": {},
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements",
+        "module": "run_measurements_and_metrics",
+        "functions": [
+          "baseline_examples",
+          "baseline_timing",
+          "cascade_examples",
+          "cascade_timing",
+          "check_measurement",
+          "generate_plot",
+          "load_data",
+          "load_measurements",
+          "named_partial",
+          "network_examples",
+          "network_timing",
+          "run_all_measurements",
+          "run_all_metrics",
+          "run_challenge_measurements",
+          "run_challenge_metrics",
+          "run_measurement",
+          "run_metrics"
+        ],
+        "classes": [
+          "Timer"
+        ],
+        "function_signatures": {
+          "load_data": [
+            "json_file",
+            "full_submission"
+          ],
+          "named_partial": [
+            "func"
+          ],
+          "run_metrics": [
+            "ground_truth",
+            "simulation",
+            "measurement_name",
+            "measurement_params",
+            "plot_flag",
+            "show",
+            "plot_dir"
+          ],
+          "run_measurement": [
+            "data",
+            "measurement_name",
+            "measurement_params",
+            "plot_flag",
+            "simulation",
+            "show",
+            "plot_dir"
+          ],
+          "generate_plot": [
+            "simulation",
+            "ground_truth",
+            "measurement_name",
+            "show",
+            "plot_dir"
+          ],
+          "check_measurement": [
+            "m_info",
+            "filters"
+          ],
+          "run_all_measurements": [
+            "data",
+            "measurement_params",
+            "filters",
+            "output_dir",
+            "plot_flag",
+            "show",
+            "plot_dir",
+            "timing"
+          ],
+          "load_measurements": [
+            "directory",
+            "measurement_params",
+            "filters"
+          ],
+          "run_all_metrics": [
+            "ground_truth",
+            "simulation",
+            "measurement_params",
+            "filters",
+            "plot_flag",
+            "show",
+            "plot_dir"
+          ],
+          "network_examples": [
+            "platform"
+          ],
+          "cascade_examples": [
+            "platform"
+          ],
+          "baseline_examples": [
+            "platform"
+          ],
+          "network_timing": [
+            "platform"
+          ],
+          "cascade_timing": [
+            "platform"
+          ],
+          "baseline_timing": [
+            "platform"
+          ],
+          "run_challenge_measurements": [
+            "fn",
+            "full_submission",
+            "output_dir",
+            "platform",
+            "domain",
+            "scenario"
+          ],
+          "run_challenge_metrics": [
+            "gt_fn",
+            "sim_fn",
+            "full_submission",
+            "platform",
+            "domain",
+            "scenario"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements",
+        "module": "cascade_validators",
+        "functions": [
+          "check_root_only"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "check_root_only": [
+            "default"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements",
+        "module": "BaselineMeasurements",
+        "functions": [],
+        "classes": [
+          "BaselineMeasurements"
+        ],
+        "function_signatures": {},
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_reddit_crypto_s2",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_reddit_cve_s2",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_github_cyber_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "cascade_metrics_config",
+        "functions": [
+          "get_community_level_measurements_params",
+          "get_node_level_measurements_params",
+          "get_population_level_measurements_params",
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ],
+          "get_node_level_measurements_params": [
+            "time_granularity"
+          ],
+          "get_community_level_measurements_params": [
+            "time_granularity"
+          ],
+          "get_population_level_measurements_params": [
+            "time_granularity"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "cascade_metrics_config_twitter",
+        "functions": [
+          "get_community_level_measurements_params",
+          "get_node_level_measurements_params",
+          "get_population_level_measurements_params",
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ],
+          "get_node_level_measurements_params": [
+            "time_granularity"
+          ],
+          "get_community_level_measurements_params": [
+            "time_granularity"
+          ],
+          "get_population_level_measurements_params": [
+            "time_granularity"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_reddit_cyber_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_twitter_cve_s2",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_twitter_crypto_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_twitter_cyber_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_reddit_cyber_s2",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_github_cve_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_twitter_cve_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_github",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_twitter",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_reddit",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_reddit_cve_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_github_crypto_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.config",
+        "module": "baseline_metrics_config_reddit_crypto_s1",
+        "functions": [
+          "named_partial"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.cascade_reconstruction",
+        "module": "twitter_cascade_reconstruction",
+        "functions": [
+          "get_reply_cascade_root_tweet",
+          "load_data"
+        ],
+        "classes": [
+          "ParentIDApproximation"
+        ],
+        "function_signatures": {
+          "load_data": [
+            "json_file",
+            "full_submission"
+          ],
+          "get_reply_cascade_root_tweet": [
+            "df",
+            "parent_node_col",
+            "node_col",
+            "root_node_col",
+            "timestamp_col",
+            "json"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.plotting",
+        "module": "charts",
+        "functions": [
+          "bar",
+          "chart_factory",
+          "histogram",
+          "multi_time_series",
+          "save_charts",
+          "scatter",
+          "set_palette",
+          "show_charts",
+          "time_series"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "histogram": [
+            "df",
+            "xlabel",
+            "ylabel",
+            "title"
+          ],
+          "scatter": [
+            "df",
+            "xlabel",
+            "ylabel",
+            "title"
+          ],
+          "bar": [
+            "df",
+            "xlabel",
+            "ylabel",
+            "title"
+          ],
+          "set_palette": [
+            "df"
+          ],
+          "time_series": [
+            "df",
+            "xlabel",
+            "ylabel",
+            "title"
+          ],
+          "multi_time_series": [
+            "df",
+            "xlabel",
+            "ylabel",
+            "title"
+          ],
+          "save_charts": [
+            "fig",
+            "loc"
+          ],
+          "show_charts": [],
+          "chart_factory": [
+            "chart_name"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "december-measurements.plotting",
+        "module": "transformer",
+        "functions": [
+          "convert_DataFrame",
+          "convert_Series",
+          "convert_dict",
+          "convert_dict_DataFrame",
+          "convert_dict_Series",
+          "convert_dict_array",
+          "to_DataFrame"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "to_DataFrame": [
+            "data_type"
+          ],
+          "convert_Series": [
+            "ground_truth_data",
+            "sim_data"
+          ],
+          "convert_dict": [
+            "ground_truth_data",
+            "sim_data"
+          ],
+          "convert_DataFrame": [
+            "ground_truth_data",
+            "sim_data"
+          ],
+          "convert_dict_DataFrame": [
+            "ground_truth_data",
+            "sim_data"
+          ],
+          "convert_dict_Series": [
+            "ground_truth_data",
+            "sim_data"
+          ],
+          "convert_dict_array": [
+            "ground_truth_data",
+            "sim_data"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements-old",
+        "module": "Metrics",
+        "functions": [
+          "absolute_difference",
+          "check_data_types",
+          "dtw",
+          "fast_dtw",
+          "get_hist_bins",
+          "get_metric_scores",
+          "join_dfs",
+          "js_divergence",
+          "kl_divergence",
+          "kl_divergence_smoothed",
+          "ks_test",
+          "main",
+          "pearson",
+          "r2",
+          "rbo_score",
+          "rbo_weight",
+          "rmse"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "check_data_types": [
+            "ground_truth",
+            "simulation"
+          ],
+          "get_hist_bins": [
+            "ground_truth",
+            "simulation",
+            "method"
+          ],
+          "absolute_difference": [
+            "ground_truth",
+            "simulation"
+          ],
+          "kl_divergence": [
+            "ground_truth",
+            "simulation",
+            "discrete"
+          ],
+          "kl_divergence_smoothed": [
+            "ground_truth",
+            "simulation",
+            "alpha",
+            "discrete"
+          ],
+          "dtw": [
+            "ground_truth",
+            "simulation"
+          ],
+          "fast_dtw": [
+            "ground_truth",
+            "simulation"
+          ],
+          "js_divergence": [
+            "ground_truth",
+            "simulation",
+            "discrete",
+            "base"
+          ],
+          "rbo_score": [
+            "ground_truth",
+            "simulation",
+            "p"
+          ],
+          "rbo_weight": [
+            "d",
+            "p"
+          ],
+          "rmse": [
+            "ground_truth",
+            "simulation",
+            "join",
+            "fill_value"
+          ],
+          "r2": [
+            "ground_truth",
+            "simulation",
+            "join",
+            "fill_value"
+          ],
+          "pearson": [
+            "ground_truth",
+            "simulation",
+            "join",
+            "fill_value"
+          ],
+          "ks_test": [
+            "ground_truth",
+            "simulation"
+          ],
+          "join_dfs": [
+            "ground_truth",
+            "simulation",
+            "join",
+            "fill_value"
+          ],
+          "get_metric_scores": [
+            "ground_truth",
+            "simulation",
+            "measurement",
+            "metric",
+            "measurement_kwargs",
+            "metric_kwargs"
+          ],
+          "main": []
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements-old",
+        "module": "plots",
+        "functions": [
+          "plot_CommunityProportions",
+          "plot_activity_timeline",
+          "plot_contributions_oneline",
+          "plot_contributions_twolines",
+          "plot_distribution_of_events",
+          "plot_histogram",
+          "plot_line_graph",
+          "plot_palma_gini",
+          "plot_propIssueEvent",
+          "plot_time_series",
+          "plot_top_users",
+          "savePlots"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "savePlots": [
+            "loc",
+            "plt"
+          ],
+          "plot_histogram": [
+            "data",
+            "xlabel",
+            "ylabel",
+            "title",
+            "log",
+            "loc"
+          ],
+          "plot_line_graph": [
+            "data",
+            "xlabel",
+            "ylabel",
+            "title",
+            "labels",
+            "loc"
+          ],
+          "plot_time_series": [
+            "data",
+            "xlabel",
+            "ylabel",
+            "title",
+            "loc"
+          ],
+          "plot_contributions_oneline": [
+            "data",
+            "xlabel",
+            "ylabel",
+            "title",
+            "loc"
+          ],
+          "plot_contributions_twolines": [
+            "containsDup",
+            "noDups",
+            "xlabel",
+            "ylabel",
+            "title",
+            "loc"
+          ],
+          "plot_palma_gini": [
+            "data",
+            "xlabel",
+            "ylabel",
+            "title",
+            "loc"
+          ],
+          "plot_distribution_of_events": [
+            "data",
+            "weekday",
+            "loc"
+          ],
+          "plot_top_users": [
+            "data",
+            "xlabel",
+            "ylabel",
+            "title",
+            "log",
+            "loc"
+          ],
+          "plot_activity_timeline": [
+            "data",
+            "xlabel",
+            "ylabel",
+            "title",
+            "log",
+            "loc"
+          ],
+          "plot_CommunityProportions": [
+            "p",
+            "xlabel",
+            "ylabel",
+            "title",
+            "loc"
+          ],
+          "plot_propIssueEvent": [
+            "p",
+            "xlabel",
+            "ylabel",
+            "title",
+            "loc"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements-old",
+        "module": "UserCentricMeasurements",
+        "functions": [
+          "getAvgTimebwEvents",
+          "getGiniCoef",
+          "getMeanTime",
+          "getMeanTimeHelper",
+          "getMostActiveUsers",
+          "getPalmaCoef",
+          "getUserActivityDistribution",
+          "getUserActivityTimeline",
+          "getUserDiffusionDelay",
+          "getUserPopularity",
+          "getUserUniqueRepos"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "getUserUniqueRepos": [
+            "df",
+            "users"
+          ],
+          "getUserActivityTimeline": [
+            "df",
+            "users",
+            "time_bin",
+            "cumSum"
+          ],
+          "getUserPopularity": [
+            "df",
+            "k",
+            "metadata_file"
+          ],
+          "getAvgTimebwEvents": [
+            "df",
+            "users",
+            "nCPU"
+          ],
+          "getMeanTime": [
+            "df",
+            "user"
+          ],
+          "getMeanTimeHelper": [
+            "args"
+          ],
+          "getUserDiffusionDelay": [
+            "df",
+            "unit",
+            "metadata_file"
+          ],
+          "getGiniCoef": [
+            "df"
+          ],
+          "getPalmaCoef": [
+            "df"
+          ],
+          "getMostActiveUsers": [
+            "df",
+            "k"
+          ],
+          "getUserActivityDistribution": [
+            "df",
+            "eventType"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements-old",
+        "module": "RepoCentricMeasurements",
+        "functions": [
+          "getAvgTimebwEvents",
+          "getContributions",
+          "getDisributionOverRepoLife",
+          "getDistributionOfEvents",
+          "getDistributionOfEventsByRepo",
+          "getGiniCoef",
+          "getLifetimeDepth",
+          "getLifetimeTime",
+          "getMeanTime",
+          "getMeanTimeHelper",
+          "getPalmaCoef",
+          "getRepoDiffusionDelay",
+          "getRepoGrowth",
+          "getTopKRepos",
+          "processDistOfEvents"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "getRepoDiffusionDelay": [
+            "df",
+            "eventType",
+            "unit",
+            "metadata_file",
+            "plot",
+            "saveData"
+          ],
+          "getRepoGrowth": [
+            "df",
+            "cumSum",
+            "plot",
+            "saveData"
+          ],
+          "getLifetimeDepth": [
+            "df"
+          ],
+          "getLifetimeTime": [
+            "df"
+          ],
+          "getContributions": [
+            "df",
+            "dropDup",
+            "cumulative",
+            "plot",
+            "saveData",
+            "wfEvents"
+          ],
+          "getAvgTimebwEvents": [
+            "df",
+            "repos",
+            "nCPU",
+            "plot",
+            "saveData"
+          ],
+          "getMeanTime": [
+            "df",
+            "r"
+          ],
+          "getMeanTimeHelper": [
+            "args"
+          ],
+          "getDistributionOfEvents": [
+            "df",
+            "nCPU",
+            "weekday",
+            "plot",
+            "saveData"
+          ],
+          "processDistOfEvents": [
+            "df",
+            "weekday"
+          ],
+          "getDistributionOfEventsByRepo": [
+            "df",
+            "eventType",
+            "plot",
+            "saveData",
+            "log"
+          ],
+          "getTopKRepos": [
+            "df",
+            "k",
+            "eventType",
+            "plot",
+            "saveData"
+          ],
+          "getDisributionOverRepoLife": [
+            "df",
+            "plot",
+            "log",
+            "saveData"
+          ],
+          "getGiniCoef": [
+            "df",
+            "type",
+            "plot",
+            "saveData"
+          ],
+          "getPalmaCoef": [
+            "df",
+            "type",
+            "plot",
+            "saveData"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements-old",
+        "module": "TransferEntropy",
+        "functions": [
+          "getBinnedTimeSeriesSingleBinary",
+          "getBinnedTimeSeriesSingleRealVal",
+          "getTETimeSeriesPairBinary",
+          "getTETimeSeriesPairRealValued",
+          "getTimeSeriesInSecs",
+          "getTransferEntropy"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "getTimeSeriesInSecs": [
+            "ts_list"
+          ],
+          "getBinnedTimeSeriesSingleBinary": [
+            "totalBins",
+            "binSize",
+            "timeSeries"
+          ],
+          "getBinnedTimeSeriesSingleRealVal": [
+            "totalBins",
+            "binSize",
+            "timeSeries"
+          ],
+          "getTETimeSeriesPairBinary": [
+            "src",
+            "dest",
+            "delayParam"
+          ],
+          "getTETimeSeriesPairRealValued": [
+            "src",
+            "dest",
+            "delay"
+          ],
+          "getTransferEntropy": [
+            "df",
+            "user1",
+            "user2",
+            "realSeries"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements-old",
+        "module": "metrics_config",
+        "functions": [
+          "main",
+          "named_partial",
+          "prefilter",
+          "run_all_metrics",
+          "run_metrics"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "named_partial": [
+            "func"
+          ],
+          "prefilter": [
+            "data",
+            "filters"
+          ],
+          "run_metrics": [
+            "ground_truth",
+            "simulation",
+            "measurement_name",
+            "users",
+            "repos"
+          ],
+          "run_all_metrics": [
+            "ground_truth",
+            "simulation",
+            "scale",
+            "node_type",
+            "users",
+            "repos"
+          ],
+          "main": []
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements-old",
+        "module": "load_data",
+        "functions": [
+          "load_data"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "load_data": []
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements",
+        "module": "Metrics",
+        "functions": [
+          "absolute_difference",
+          "check_data_types",
+          "dtw",
+          "fast_dtw",
+          "get_hist_bins",
+          "get_metric_scores",
+          "join_dfs",
+          "js_divergence",
+          "kl_divergence",
+          "kl_divergence_smoothed",
+          "ks_test",
+          "main",
+          "pearson",
+          "r2",
+          "rbo_for_te",
+          "rbo_score",
+          "rbo_weight",
+          "rmse"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "check_data_types": [
+            "ground_truth",
+            "simulation"
+          ],
+          "get_hist_bins": [
+            "ground_truth",
+            "simulation",
+            "method"
+          ],
+          "absolute_difference": [
+            "ground_truth",
+            "simulation"
+          ],
+          "kl_divergence": [
+            "ground_truth",
+            "simulation",
+            "discrete"
+          ],
+          "kl_divergence_smoothed": [
+            "ground_truth",
+            "simulation",
+            "alpha",
+            "discrete"
+          ],
+          "dtw": [
+            "ground_truth",
+            "simulation"
+          ],
+          "fast_dtw": [
+            "ground_truth",
+            "simulation"
+          ],
+          "js_divergence": [
+            "ground_truth",
+            "simulation",
+            "discrete",
+            "base"
+          ],
+          "rbo_for_te": [
+            "ground_truth",
+            "simulation",
+            "idx",
+            "wt",
+            "ct"
+          ],
+          "rbo_score": [
+            "ground_truth",
+            "simulation",
+            "p"
+          ],
+          "rbo_weight": [
+            "d",
+            "p"
+          ],
+          "rmse": [
+            "ground_truth",
+            "simulation",
+            "join",
+            "fill_value"
+          ],
+          "r2": [
+            "ground_truth",
+            "simulation",
+            "join",
+            "fill_value"
+          ],
+          "pearson": [
+            "ground_truth",
+            "simulation",
+            "join",
+            "fill_value"
+          ],
+          "ks_test": [
+            "ground_truth",
+            "simulation"
+          ],
+          "join_dfs": [
+            "ground_truth",
+            "simulation",
+            "join",
+            "fill_value"
+          ],
+          "get_metric_scores": [
+            "ground_truth",
+            "simulation",
+            "measurement",
+            "metric",
+            "measurement_kwargs",
+            "metric_kwargs"
+          ],
+          "main": []
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements",
+        "module": "UserCentricMeasurements",
+        "functions": [],
+        "classes": [
+          "UserCentricMeasurements"
+        ],
+        "function_signatures": {},
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements",
+        "module": "RepoCentricMeasurements",
+        "functions": [],
+        "classes": [
+          "RepoCentricMeasurements"
+        ],
+        "function_signatures": {},
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements",
+        "module": "Measurements",
+        "functions": [],
+        "classes": [
+          "Measurements"
+        ],
+        "function_signatures": {},
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements.reference-approaches",
+        "module": "reference_approach_performance_plots",
+        "functions": [
+          "flatten",
+          "get_measurement_info",
+          "load_results",
+          "main",
+          "make_swarm_plot",
+          "measurement_types",
+          "plot_bar_plot",
+          "read_reference",
+          "reference_approach_comparison",
+          "reformat_df"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "load_results": [
+            "results_dir"
+          ],
+          "flatten": [
+            "d",
+            "parent_key",
+            "sep"
+          ],
+          "reformat_df": [
+            "df_wide"
+          ],
+          "read_reference": [
+            "fn",
+            "ra_name"
+          ],
+          "get_measurement_info": [
+            "x",
+            "field"
+          ],
+          "measurement_types": [
+            "mean_df_tall"
+          ],
+          "plot_bar_plot": [
+            "df",
+            "x",
+            "y",
+            "hue",
+            "dodge",
+            "estimator",
+            "color_dict",
+            "xlabel",
+            "title",
+            "fn",
+            "log",
+            "small_labels"
+          ],
+          "make_swarm_plot": [
+            "df",
+            "metric",
+            "ra_list",
+            "color_field",
+            "lower_lim",
+            "upper_lim",
+            "log"
+          ],
+          "reference_approach_comparison": [
+            "df",
+            "reference_approach",
+            "reference_approach_name"
+          ],
+          "main": []
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "github-measurements.reference-approaches",
+        "module": "generate_reference_approach_data",
+        "functions": [
+          "create_sampled_reference",
+          "create_shifted_reference",
+          "ingest_historical_data",
+          "main",
+          "sample_data",
+          "shift_data",
+          "subset_data"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "ingest_historical_data": [
+            "csv_file"
+          ],
+          "subset_data": [
+            "df",
+            "start",
+            "end"
+          ],
+          "shift_data": [
+            "df",
+            "shift",
+            "end"
+          ],
+          "sample_data": [
+            "df",
+            "start",
+            "end",
+            "proportional"
+          ],
+          "create_shifted_reference": [
+            "csv_file",
+            "test_start_date",
+            "test_end_date",
+            "historical_start_date",
+            "historical_end_date"
+          ],
+          "create_sampled_reference": [
+            "csv_file",
+            "test_start_date",
+            "test_end_date",
+            "historical_start_date",
+            "historical_end_date",
+            "proportional"
+          ],
+          "main": []
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "data_extraction",
+        "module": "extract_ground_truth_cp2",
+        "functions": [
+          "convert_timestamps",
+          "get_info_id_fields",
+          "get_text_field",
+          "get_url_domains",
+          "main",
+          "simulation_output_format_from_mongo_data_github",
+          "simulation_output_format_from_mongo_data_reddit",
+          "simulation_output_format_from_mongo_data_telegram",
+          "simulation_output_format_from_mongo_data_twitter",
+          "user_alignment"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "get_url_domains": [
+            "x",
+            "prefix"
+          ],
+          "convert_timestamps": [
+            "dataset"
+          ],
+          "get_info_id_fields": [
+            "row",
+            "fields",
+            "dict_field"
+          ],
+          "user_alignment": [
+            "db",
+            "collection_name",
+            "platforms"
+          ],
+          "simulation_output_format_from_mongo_data_telegram": [
+            "db",
+            "start_date",
+            "end_date",
+            "collection_name",
+            "info_id_fields",
+            "domains",
+            "username_map"
+          ],
+          "simulation_output_format_from_mongo_data_reddit": [
+            "db",
+            "start_date",
+            "end_date",
+            "collection_name",
+            "info_id_fields",
+            "domains",
+            "username_map"
+          ],
+          "simulation_output_format_from_mongo_data_twitter": [
+            "db",
+            "start_date",
+            "end_date",
+            "collection_name",
+            "info_id_fields",
+            "username_map"
+          ],
+          "get_text_field": [
+            "row"
+          ],
+          "simulation_output_format_from_mongo_data_github": [
+            "db",
+            "start_date",
+            "end_date",
+            "collection_name",
+            "info_id_fields",
+            "username_map"
+          ],
+          "main": []
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "data_extraction",
+        "module": "twitter_cascade_reconstruction",
+        "functions": [
+          "full_reconstruction",
+          "get_reply_cascade_root_tweet",
+          "load_data"
+        ],
+        "classes": [
+          "ParentIDApproximation"
+        ],
+        "function_signatures": {
+          "load_data": [
+            "json_file",
+            "full_submission"
+          ],
+          "get_reply_cascade_root_tweet": [
+            "df",
+            "parent_node_col",
+            "node_col",
+            "root_node_col",
+            "timestamp_col",
+            "json"
+          ],
+          "full_reconstruction": [
+            "data",
+            "followers"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      }
+    ],
+    "cli_commands": [
+      {
+        "name": "run_measurements_and_metrics",
+        "module": "december-measurements/run_measurements_and_metrics",
+        "description": "This command likely serves as the main entry point for executing the measurement and metrics calculations."
+      }
+    ],
+    "import_strategy": {
+      "primary": "import",
+      "fallback": "blackbox",
+      "confidence": 0.9
+    },
+    "dependencies": {
+      "required": [
+        "numpy",
+        "pandas",
+        "matplotlib",
+        "networkx",
+        "scipy",
+        "json",
+        "os",
+        "argparse"
+      ],
+      "optional": [
+        "seaborn",
+        "tqdm"
+      ]
+    },
+    "risk_assessment": {
+      "import_feasibility": 0.8,
+      "intrusiveness_risk": "medium",
+      "complexity": "medium"
+    }
+  },
+  "deepwiki_analysis": {
+    "repo_url": "https://github.com/pnnl/socialsim",
+    "repo_name": "socialsim",
+    "content": "pnnl/socialsim",
+    "model": "gpt-4o",
+    "source": "selenium",
+    "success": true
+  },
+  "deepwiki_options": {
+    "enabled": true,
+    "model": "gpt-4o"
+  },
+  "risk": {
+    "import_feasibility": 0.8,
+    "intrusiveness_risk": "medium",
+    "complexity": "medium"
+  }
+}
