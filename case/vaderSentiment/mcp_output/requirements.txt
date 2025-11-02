@@ -1,0 +1,5 @@
+fastmcp>=0.1.0
+pydantic>=2.0.0
+numpy
+requests
+vaderSentiment>=3.3.0

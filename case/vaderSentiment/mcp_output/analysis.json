@@ -1,0 +1,169 @@
+{
+  "summary": {
+    "repository_url": "https://github.com/cjhutto/vaderSentiment",
+    "summary": "Imported via zip fallback, file count: 10",
+    "file_tree": {
+      "LICENSE.txt": {
+        "size": 1076
+      },
+      "__init__.py": {
+        "size": 0
+      },
+      "additional_resources/build_emoji_lexicon.py": {
+        "size": 1448
+      },
+      "additional_resources/emoji-test.txt": {
+        "size": 337881
+      },
+      "setup.cfg": {
+        "size": 1451
+      },
+      "setup.py": {
+        "size": 2119
+      },
+      "vaderSentiment/__init__.py": {
+        "size": 17
+      },
+      "vaderSentiment/emoji_utf8_lexicon.txt": {
+        "size": 94962
+      },
+      "vaderSentiment/vaderSentiment.py": {
+        "size": 33558
+      },
+      "vaderSentiment/vader_lexicon.txt": {
+        "size": 426784
+      }
+    },
+    "processed_by": "zip_fallback",
+    "success": true
+  },
+  "structure": {
+    "packages": [
+      "source",
+      "source.vaderSentiment"
+    ]
+  },
+  "dependencies": {
+    "has_environment_yml": false,
+    "has_requirements_txt": false,
+    "pyproject": false,
+    "setup_cfg": true,
+    "setup_py": true
+  },
+  "entry_points": {
+    "imports": [],
+    "cli": [],
+    "modules": []
+  },
+  "llm_analysis": {
+    "core_modules": [
+      {
+        "package": "setup",
+        "module": "setup",
+        "functions": [
+          "read"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "read": []
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "vaderSentiment",
+        "module": "vaderSentiment",
+        "functions": [
+          "allcap_differential",
+          "negated",
+          "normalize",
+          "scalar_inc_dec"
+        ],
+        "classes": [
+          "SentiText",
+          "SentimentIntensityAnalyzer"
+        ],
+        "function_signatures": {
+          "negated": [
+            "input_words",
+            "include_nt"
+          ],
+          "normalize": [
+            "score",
+            "alpha"
+          ],
+          "allcap_differential": [
+            "words"
+          ],
+          "scalar_inc_dec": [
+            "word",
+            "valence",
+            "is_cap_diff"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      },
+      {
+        "package": "additional_resources",
+        "module": "build_emoji_lexicon",
+        "functions": [
+          "append_to_file",
+          "get_list_from_file",
+          "pad_ref",
+          "squeeze_whitespace"
+        ],
+        "classes": [],
+        "function_signatures": {
+          "get_list_from_file": [
+            "file_name"
+          ],
+          "append_to_file": [
+            "file_name",
+            "line_data"
+          ],
+          "squeeze_whitespace": [
+            "text"
+          ],
+          "pad_ref": [
+            "reference_code"
+          ]
+        },
+        "description": "Discovered via AST scan"
+      }
+    ],
+    "cli_commands": [],
+    "import_strategy": {
+      "primary": "import",
+      "fallback": "blackbox",
+      "confidence": 0.9
+    },
+    "dependencies": {
+      "required": [
+        "numpy",
+        "requests"
+      ],
+      "optional": []
+    },
+    "risk_assessment": {
+      "import_feasibility": 0.8,
+      "intrusiveness_risk": "low",
+      "complexity": "simple"
+    }
+  },
+  "deepwiki_analysis": {
+    "repo_url": "https://github.com/cjhutto/vaderSentiment",
+    "repo_name": "vaderSentiment",
+    "content": "cjhutto/vaderSentiment\nVADER Sentiment Analysis Overview\nKey Features and Capabilities\nInstallation and Setup\nCore Components\nSentimentIntensityAnalyzer Class\nLexicon System\nEmoji Processing\nRule-Based Sentiment Adjustment\nUsage Guide\nBasic Usage Examples\nAdvanced Usage Patterns\nInterpreting Results\nPackage Architecture\nDevelopment and Contribution\nResearch Background\nVADER Sentiment Analysis Overview\nvaderSentiment/vaderSentiment.py\nVADER (Valence Aware Dictionary and sEntiment Reasoner) is a lexicon and rule-based sentiment analysis tool specifically designed for analyzing sentiments expressed in social media text. This document introduces the VADER system, explaining its purpose, core components, and key features.\nFor information about installation and setup, seeInstallation and Setup. For detailed usage examples, seeUsage Guide.",
+    "model": "gpt-4o",
+    "source": "selenium",
+    "success": true
+  },
+  "deepwiki_options": {
+    "enabled": true,
+    "model": "gpt-4o"
+  },
+  "risk": {
+    "import_feasibility": 0.8,
+    "intrusiveness_risk": "low",
+    "complexity": "simple"
+  }
+}
