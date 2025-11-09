@@ -1,0 +1,19 @@
+fastmcp>=0.1.0
+pydantic>=2.0.0
+torch
+numpy
+scipy
+onnx
+tritonclient
+matplotlib
+pandas
+pyyaml
+cuml
+
+# Optional Dependencies
+# wandb
+# mlflow
+# dgl
+# pyg
+# vtk
+# netCDF4
