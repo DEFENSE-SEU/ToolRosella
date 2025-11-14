@@ -169,18 +169,18 @@ class UIStyleManager:
          }
          
          [data-testid="stSidebar"] details {
-             border: 1.5px solid #e2e8f0 !important;
-             border-radius: 1rem !important;
-             background: white !important;
-             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-             transition: all 0.25s ease !important;
+             border: none !important;
+             border-radius: 0 !important;
+             background: transparent !important;
+             box-shadow: none !important;
+             transition: none !important;
              overflow: hidden !important;
          }
          
          [data-testid="stSidebar"] details:hover {
-             border-color: #6366f1 !important;
-             box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12) !important;
-             transform: translateY(-2px) !important;
+             border-color: transparent !important;
+             box-shadow: none !important;
+             transform: none !important;
          }
         
          .streamlit-expanderHeader:hover,
