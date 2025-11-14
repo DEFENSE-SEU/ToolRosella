@@ -83,6 +83,10 @@ def initialize_session_state():
         st.session_state.processing = False
     if 'selected_domain' not in st.session_state:
         st.session_state.selected_domain = None
+    if 'chat_history' not in st.session_state:
+        st.session_state.chat_history = []
+    if 'current_chat_id' not in st.session_state:
+        st.session_state.current_chat_id = None
 
 
 async def call_backend(query: str) -> Dict[str, Any]:
@@ -130,7 +134,7 @@ def render_welcome_section():
             with st.expander(f"{tools[0]['icon']} {domain}", expanded=False):
                 for tool in tools:
                     st.markdown(f"<div style='font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem;'>{tool['name']}</div>", unsafe_allow_html=True)
-                    st.markdown(f"<div style='font-size: 1.15rem; color: #64748b; margin-bottom: 1rem;'>{tool['description']}</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='font-size: 1.4rem; color: #64748b; margin-bottom: 1rem;'>{tool['description']}</div>", unsafe_allow_html=True)
                     if st.button(f"▶️ Try Example", key=f"btn_{tool['name']}", use_container_width=True):
                         example_query = tool.get('example', '')
                         if 'repo' in tool:
@@ -240,52 +244,114 @@ def main():
     
     # Initialize session state
     initialize_session_state()
-    
+
     # Sidebar
     with st.sidebar:
-        st.markdown("### 📚 Quick Access")
-        
-        # Tool catalog in sidebar
-        catalog_renderer = ToolCatalogRenderer(TOOL_CATALOG)
-        catalog_renderer.render_compact_catalog()
-        
+        st.markdown("### 💬 Chat History")
+
+        button_style = """
+    <style>
+    section[data-testid="stSidebar"] .stButton > button,
+    div[data-testid="stVerticalBlock"] .stButton > button {
+        background: #eef4ff !important;
+        border: 1.5px solid rgba(37,99,235,0.23) !important;
+        border-radius: 1.5rem !important;
+        color: #2563eb !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 24px #2563eb14 !important;
+        transition: box-shadow 0.3s, border-color 0.3s;
+    }
+    section[data-testid="stSidebar"] .stButton > button *, 
+    div[data-testid="stVerticalBlock"] .stButton > button * {
+        color: #2563eb !important;
+        background: none !important;
+    }
+    section[data-testid="stSidebar"] .stButton > button:hover,
+    div[data-testid="stVerticalBlock"] .stButton > button:hover {
+        background: #e0ecff !important;
+        border-color: #60a5fa !important;
+        color: #2563eb !important;
+        box-shadow: 0 8px 30px #60a5fa1a !important;
+    }
+    section[data-testid="stSidebar"] .stButton > button:hover *, 
+    div[data-testid="stVerticalBlock"] .stButton > button:hover * {
+        color: #2563eb !important;
+    }
+    div[data-testid="stVerticalBlock"] div[data-testid="stMarkdownContainer"] > p {
+        font-size: 1.5rem !important;
+        font-weight: 700 !important;
+        line-height: 1.22 !important;
+    }
+    section[data-testid="stSidebar"] h3, section[data-testid="stSidebar"] .stMarkdown strong {
+        font-size: 2.2rem !important;
+        font-weight: 800 !important;
+    }
+    section[data-testid="stSidebar"] label[data-testid="stMetricLabel"] > div > div > p {
+        font-size: 2.0rem !important;
+        font-weight: 800 !important;
+    }
+    </style>
+    """
+        st.markdown(button_style, unsafe_allow_html=True)
+
+        if st.button("➕ New Chat", use_container_width=True):
+            st.session_state.messages = []
+            st.session_state.processing = False
+            st.session_state.selected_domain = None
+            st.session_state.current_chat_id = None
+            st.rerun()
+
+        for chat_entry in st.session_state.chat_history:
+            chat_id = chat_entry['id']
+            if chat_entry['messages']:
+                first_message_content = chat_entry['messages'][0]['content']
+                display_name = f"Chat {chat_id}: {first_message_content[:20]}"
+            else:
+                display_name = f"Chat {chat_id}: 新对话"
+            if st.sidebar.button(display_name, key=f"chat_history_{chat_id}", use_container_width=True):
+                st.session_state.messages = chat_entry['messages']
+                st.session_state.current_chat_id = chat_id
+                st.rerun()
+
         st.markdown("---")
         st.markdown("### 📊 Statistics")
         total_tools = sum(len(tools) for tools in TOOL_CATALOG.values())
         st.metric("Total Tools", total_tools)
         st.metric("Domains", len(TOOL_CATALOG))
-    
-    # Main content
-    if not st.session_state.messages:
+
+    if not st.session_state.messages and not any(chat['messages'] for chat in st.session_state.chat_history):
         render_welcome_section()
-    
-    # Display chat history
-    for message in st.session_state.messages:
-        role = message.get('role', 'user')
-        content = message.get('content', '')
-        avatar = "👤" if role == "user" else "✨"
-        
-        with st.chat_message(role, avatar=avatar):
-            st.markdown(content, unsafe_allow_html=True)
-    
-    # Processing indicator
+
+    if st.session_state.messages:
+        for message in st.session_state.messages:
+            role = message.get('role', 'user')
+            content = message.get('content', '')
+            avatar = "👤" if role == "user" else "✨"
+            with st.chat_message(role, avatar=avatar):
+                st.markdown(content, unsafe_allow_html=True)
+
     if st.session_state.processing:
         render_processing_status("Processing your query...")
-    
-    # Chat input
+
     query_input = st.chat_input(
-        "Enter your computational task description...",
+        "Enter your task description...",
         key="chat_input"
     )
-    
+
     if query_input and not st.session_state.processing:
-        # Add user message
         st.session_state.messages.append({
             'role': 'user',
             'content': query_input
         })
-        
-        # Set processing flag
+        if 'current_chat_id' not in st.session_state or st.session_state.current_chat_id is None:
+            new_chat_id = len(st.session_state.chat_history)
+            st.session_state.chat_history.append({'id': new_chat_id, 'messages': st.session_state.messages.copy()})
+            st.session_state.current_chat_id = new_chat_id
+        else:
+            for chat_entry in st.session_state.chat_history:
+                if chat_entry['id'] == st.session_state.current_chat_id:
+                    chat_entry['messages'] = st.session_state.messages.copy()
+                    break
         st.session_state.processing = True
         st.rerun()
     
@@ -351,12 +417,17 @@ def main():
                         <p>{result.get('message', 'Unknown error')}</p>
                     </div>
                     """
-                
-                # Add assistant message
-                st.session_state.messages.append({
-                    'role': 'assistant',
-                    'content': response_content
-                })
+                    st.session_state.messages.append({
+                        'role': 'assistant',
+                        'content': response_content
+                    })
+                    
+                    # Update chat history with error message
+                    if 'current_chat_id' in st.session_state and st.session_state.current_chat_id is not None:
+                        for chat_entry in st.session_state.chat_history:
+                            if chat_entry['id'] == st.session_state.current_chat_id:
+                                chat_entry['messages'] = st.session_state.messages
+                                break
                 
             except Exception as e:
                 error_content = f"""
@@ -370,6 +441,13 @@ def main():
                     'role': 'assistant',
                     'content': error_content
                 })
+                
+                # Update chat history with error message
+                if 'current_chat_id' in st.session_state and st.session_state.current_chat_id is not None:
+                    for chat_entry in st.session_state.chat_history:
+                        if chat_entry['id'] == st.session_state.current_chat_id:
+                            chat_entry['messages'] = st.session_state.messages
+                            break
             
             finally:
                 # Clear processing flag
