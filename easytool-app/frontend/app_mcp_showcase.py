@@ -59,7 +59,7 @@ TOOL_CATALOG = {
             "name": "ObsPy",
             "repo": "https://github.com/obspy/obspy",
             "description": "Seismic waveform processing and earthquake analysis",
-            "example": "Analyze P-wave arrival times for magnitude 6.0 earthquake",
+            "example": "Perform cross-correlation analysis between two seismic traces data and visualize the waveforms",
             "icon": "🌍",
         },
     ],
@@ -158,7 +158,7 @@ def render_welcome_section() -> bool:
     st.markdown(
         """
     <h3 style="font-size: 2.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem;">
-        🎯 Available Tool Domains
+        🎯 Available Examples
     </h3>
     """,
         unsafe_allow_html=True,
@@ -222,7 +222,7 @@ def render_processing_status(status_text: str):
 
 
 def get_demo_flow(tool_name: str):
-    """获取工具的演示流程（用于上面的 Try Example 区域）"""
+    """获取工具的演示流程"""
     demo_flows = {
         "SymPy": {
             "thinking": "I will first verify if this is a valid quadratic equation in parallel, then provide the solution.",
@@ -265,7 +265,7 @@ def get_demo_flow(tool_name: str):
             "result": "✅ Retrosynthetic Analysis Complete!\n\nTarget Compound: Aspirin (C9H8O4)\n\nRecommended Synthesis Routes:\n\n【Route 1】Direct Acetylation (Optimal)\n  • Salicylic acid + Acetic anhydride → Aspirin\n  • Yield: 95%\n  • Steps: 1\n  • Reaction time: 2 hours\n\n【Route 2】Starting from Phenol\n  • Phenol + CO → Salicylic acid → Aspirin\n  • Total yield: 88%\n  • Steps: 3\n  • Total time: 8 hours",
         },
         "ObsPy": {
-            "thinking": "I will process seismic waveform data and calculate epicenter parameters and propagation characteristics.",
+            "thinking": "I will process seismic waveform data and calculate epicenter parameters and propagation characteristics then visualize it.",
             "tools": [
                 {
                     "name": "analyze_seismic",
@@ -273,7 +273,22 @@ def get_demo_flow(tool_name: str):
                     "result": '{"success": true, "magnitude": 6.0, "depth": 15.3}',
                 }
             ],
-            "result": "✅ Seismic Analysis Complete!\n\nEpicenter Parameters:\n  • Magnitude: 6.0 (Richter Scale)\n  • Depth: 15.3 km\n  • Distance: 52 km\n  • Latitude: 35.23°N\n  • Longitude: 139.76°E\n\nSeismic Wave Characteristics:\n  • P-wave arrival time: 2.8s\n  • S-wave arrival time: 4.9s\n  • Wave amplitude: 2.3 cm\n  • Frequency: 1.5 Hz",
+            "result": (
+                "✅ Seismic Analysis Complete!\n\n"
+                "Epicenter Parameters:\n"
+                "  • Magnitude: 6.0 (Richter Scale)\n"
+                "  • Depth: 15.3 km\n"
+                "  • Distance: 52 km\n"
+                "  • Latitude: 35.23°N\n"
+                "  • Longitude: 139.76°E\n\n"
+                "Seismic Wave Characteristics:\n"
+                "  • P-wave arrival time: 2.8s\n"
+                "  • S-wave arrival time: 4.9s\n"
+                "  • Wave amplitude: 2.3 cm\n"
+                "  • Frequency: 1.5 Hz\n\n"
+                "Waveform visualization:\n"
+                "![Cross-correlation waveform analysis](images/cross_correlation_analysis.png)"
+            ),
         },
         "ESM": {
             "thinking": "I will use the ESM-2 language model to predict the effects of protein mutations.",
@@ -301,15 +316,67 @@ def get_demo_flow(tool_name: str):
             ],
             "result": "✅ Quantum Simulation Complete!\n\nMolecular Parameters:\n  • Molecule: H2\n  • Bond length: 0.74 Å\n  • Orbital basis: STO-3G\n\nCalculation Results:\n  • Ground state energy: -1.1372 Ha\n  • Hartree-Fock energy: -1.1167 Ha\n  • Correlation energy: -0.0205 Ha\n  • Convergence precision: 1e-6\n  • Deviation from experimental value: 0.3%",
         },
+        "ChemLib": {
+            "thinking": "I will use ChemLib to parse the molecular formula, expand element counts, and sum atomic weights to obtain the molar mass.",
+            "tools": [
+                {
+                    "name": "calculate_molecular_weight",
+                    "params": {"formula": "H2SO4"},
+                    "result": '{"success": true, "molar_mass": 98.08}',
+                }
+            ],
+            "result": (
+                "✅ ChemLib Calculation Complete!\n\n"
+                "Task: Calculate the molecular weight of H₂SO₄.\n\n"
+                "Result:\n"
+                "  • M(H₂SO₄) ≈ 98.08 g/mol\n\n"
+                "Approximate breakdown:\n"
+                "  • 2 × H  ≈  2.02 g/mol\n"
+                "  • 1 × S  ≈ 32.07 g/mol\n"
+                "  • 4 × O  ≈ 64.00 g/mol\n"
+                "  → Total ≈ 98.09 g/mol (rounded to 98.08 g/mol)."
+            ),
+        },
+        "SPM": {
+            "thinking": "I will use SPM to perform volume-based protein sequence pattern matching against a database and rank the best hits.",
+            "tools": [
+                {
+                    "name": "spm_sequence_match",
+                    "params": {
+                        "query_sequence": "MENFQKVEKIGEGTYGVVYKA....",
+                        "database": "UniProt",
+                        "max_hits": 3,
+                    },
+                    "result": (
+                        '{"success": true, "hits": ['
+                        '{"id": "P12345", "identity": 0.92, "coverage": 0.95},'
+                        '{"id": "Q8XYZ1", "identity": 0.88, "coverage": 0.90},'
+                        '{"id": "O98765", "identity": 0.84, "coverage": 0.89}'
+                        ']}'
+                    ),
+                }
+            ],
+            "result": (
+                "✅ Protein Pattern Matching Complete!\n\n"
+                "Top SPM hits:\n"
+                "  1) P12345 — identity 92%, coverage 95%\n"
+                "  2) Q8XYZ1 — identity 88%, coverage 90%\n"
+                "  3) O98765 — identity 84%, coverage 89%\n\n"
+                "These matches indicate that the query sequence is highly similar to known proteins "
+                "in the UniProt database and can be used for downstream functional analysis."
+            ),
+        },
     }
+
     return demo_flows.get(
         tool_name,
         {
-            "thinking": "处理中...",
+            "thinking": "Processing...",
             "tools": [],
-            "result": "完成!",
+            "result": "Done!",
         },
     )
+
 
 
 def render_streaming_response():
@@ -337,7 +404,7 @@ def render_streaming_response():
     for char in user_query:
         query_text += char
         query_container.markdown(f"> {query_text}")
-        time.sleep(0.05)
+        time.sleep(0.02)
     st.markdown("---")
 
     # 1. 思考过程
@@ -390,10 +457,19 @@ def render_streaming_response():
     result_text = ""
     for char in flow["result"]:
         result_text += char
-        # 和上面的 User Query 风格类似，使用引用块样式展示
         quoted = "> " + result_text.replace("\n", "\n> ")
         result_container.markdown(quoted)
         time.sleep(0.05)
+
+    # 如果是 ObsPy 案例，单独展示波形图
+    if st.session_state.current_tool == "ObsPy":
+        # 和项目目录保持一致：前端在 frontend/ 下跑的话，使用相对路径
+        st.image(
+            "images/cross_correlation_analysis.png",
+            caption="Cross-correlation waveform analysis",
+            # use_container_width=True,
+            width=640,
+        )
 
     st.session_state.show_streaming = False
 
@@ -409,7 +485,7 @@ def render_agent_streaming_response():
 
     # 0. 显示用户 Query
     time.sleep(0.8)
-    st.markdown("### 🔍 SciNexus Agent Demo")
+    st.markdown("### 🔍 SciNexus")
     st.markdown("#### 👤 User Query")
     query_container = st.empty()
     q_text = ""
@@ -421,7 +497,7 @@ def render_agent_streaming_response():
 
     # 1. Topic → GitHub 搜索 → 判断 → 找到 sympy
     time.sleep(1.0)
-    st.markdown("#### 🧠 Topic Generation & GitHub Repository Search")
+    st.markdown("#### 🧠 GitHub Repository Search")
     topics_container = st.empty()
 
     full_block = ""
@@ -450,7 +526,7 @@ def render_agent_streaming_response():
 
     # 2. MCP 服务部署静态演示（SymPy 版）
     time.sleep(1.0)
-    st.markdown("#### 🚀 Deploy MCP Service (SymPy)")
+    st.markdown("#### 🚀 Deploy MCP")
     deploy_container = st.empty()
 
     deploy_steps = [
@@ -474,7 +550,7 @@ def render_agent_streaming_response():
 
     # 3. 调用 sympy.solve()
     time.sleep(1.0)
-    st.markdown("#### 🔧 Tool Call via MCP (SymPy)")
+    st.markdown("#### 🔧 Tool Call")
     tool_container = st.empty()
 
     params = {"a": 1, "b": 5, "c": 6}
@@ -560,7 +636,7 @@ def render_loading_frame():
         unsafe_allow_html=True,
     )
 
-    # 小小的延迟，让用户看到 loading 帧
+    # 小延迟，loading 帧
     time.sleep(0.8)
 
 
@@ -659,8 +735,8 @@ def main():
         st.markdown("---")
         st.markdown("### 📊 Statistics")
         total_tools = sum(len(tools) for tools in TOOL_CATALOG.values())
-        st.metric("Total Tools", total_tools)
         st.metric("Domains", len(TOOL_CATALOG))
+        st.metric("Tools", total_tools)
 
     # Main content
     # 1. 上方 Try Example 的流式演示（打字机 + 工具调用）
@@ -703,7 +779,7 @@ def main():
         render_processing_status("Processing your query...")
 
     # 底部聊天输入框：不再调后端，而是触发 Agent 静态演示
-    query_input = st.chat_input("Enter your task description...", key="chat_input")
+    query_input = st.chat_input("Ask anything...", key="chat_input")
 
     if query_input:
         # 1. 把用户输入当作普通聊天气泡存起来（方便你演示 UI）
