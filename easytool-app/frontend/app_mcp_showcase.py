@@ -26,65 +26,70 @@ TOOL_CATALOG = {
     "Mathematics": [
         {
             "name": "SymPy",
-            "description": "Symbolic mathematics - solve equations, derivatives, integrals",
-            "example": "Solve the equation x^2 - 5*x + 6 = 0",
+            "description": "Symbolic and numerical mathematics: integrals, Riemann sums, volumes of revolution.",
+            "example": "I have a function x**2 * sin(x) * cos(x). Please compute the indefinite integral with respect to the variable x and provide the result in analytical form.",
             "icon": "📐",
         },
     ],
-    "Sentiment Analysis": [
-        {
-            "name": "VADER Sentiment",
-            "description": "Analyze text sentiment - positive, negative, neutral",
-            "example": "Analyze sentiment: I absolutely love this product! It's amazing!",
-            "icon": "💭",
-        },
-    ],
-    "Chemistry & Drug Discovery": [
+    "Chemistry": [
         {
             "name": "AiZynthFinder",
             "repo": "https://github.com/MolecularAI/aizynthfinder",
-            "description": "Retrosynthetic planning - find chemical reaction routes",
-            "example": "Find synthesis routes for aspirin (C9H8O4)",
+            "description": "Retrosynthetic planning - find plausible synthesis routes for organic molecules.",
+            "example": "Find synthesis routes for aspirin (C9H8O4).",
             "icon": "🧪",
         },
         {
             "name": "ChemLib",
-            "description": "Chemical element properties and molecular calculations",
-            "example": "Calculate molecular weight of H2SO4",
+            "description": "Acid-base equilibrium and basic thermodynamic calculations (pH, reaction enthalpy).",
+            "example": "Calculate the pH of a 0.10 M acetic acid solution at 25°C.",
             "icon": "🧪",
         },
     ],
-    "Geoscience & Seismology": [
+    "Geoscience": [
         {
             "name": "ObsPy",
             "repo": "https://github.com/obspy/obspy",
-            "description": "Seismic waveform processing and earthquake analysis",
-            "example": "Perform cross-correlation analysis between two seismic traces data and visualize the waveforms",
+            "description": "Seismic waveform processing and earthquake analysis.",
+            "example": "Perform cross-correlation analysis between two seismic traces and visualize the waveforms.",
             "icon": "🌍",
         },
     ],
-    "Bioinformatics & Proteomics": [
+    "Bioinformatics": [
         {
             "name": "ESM",
-            "description": "Protein sequence analysis and structure prediction",
-            "example": "Predict mutation effects for protein sequence with Q145G mutation",
+            "description": "Protein sequence analysis and structure prediction (physicochemical properties + 3D structure).",
+            "example": "I have a protein sequence: MENFQKVEKIGEGTYGVVYKARNKLTGEVVALKKIRLDTETEGVPSTAIREISLLKELNHPNIVKLLDVIHTENKLYL. Please analyze the basic properties and predicted structure of a given protein sequence.",
             "icon": "🧬",
         },
         {
             "name": "SPM",
             "repo": "https://github.com/YanLab-Westlake/SPM",
-            "description": "Volume-based protein sequence pattern matching",
-            "example": "Match protein sequence pattern in UniProt database",
+            "description": "Volume-based protein sequence pattern matching (e.g., human vs mouse hemoglobin β chains).",
+            "example": "Compare human and mouse hemoglobin β-chain sequences. \n>Human_HBB: MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH, \n>Mouse_HBB: MVHLTPEEKSAITALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFG",
             "icon": "🧬",
         },
     ],
-    "Quantum Chemistry": [
+    "Agriculture": [
         {
-            "name": "TenCirChem",
-            "repo": "https://github.com/tencent-quantum-lab/TenCirChem",
-            "description": "Quantum circuit simulation for molecular systems",
-            "example": "Calculate ground state energy of H2 molecule using UCC",
-            "icon": "⚛️",
+            "name": "Pest Detection",
+            "description": "Detect and classify crop pests from field images.",
+            "example": "Identify whether there are pests in this crop image and what possible species they are.",
+            "icon": "🌾",
+        },
+    ],
+    "Fluid mechanics": [
+        {
+            "name": "Foam Mesh",
+            "description": "Generate refined CFD meshes for incompressible flow over a circular cylinder using gmsh.",
+            "example": "I would like to simulate incompressible flow over a circular cylinder. Please use gmsh to generate the\ncomputational mesh: the computational domain extends\nfrom -2.5 to 2.5 in both x and y directions, with mesh\nrefinement around the cylinder",
+            "icon": "🌊",
+        },
+        {
+            "name": "Foam Velocity Field",
+            "description": "Visualize velocity magnitude and streamlines from CFD simulations around obstacles.",
+            "example": "Please visualize the velocity field on the x-y plane,focusing on the magnitude of the velocity U, and generate an intuitive streamline or velocity-magnitude plot.",
+            "icon": "🌊",
         },
     ],
 }
@@ -248,148 +253,517 @@ def render_processing_status(status_text: str):
 
 
 def get_demo_flow(tool_name: str):
-    """获取工具的演示流程"""
+    """获取工具的演示流程：Thinking + Tools + Final Result
+
+    这里是静态演示数据，不实际调用后端。
+    """
     demo_flows = {
+        # --------------------------------------
+        # 1. 数学：符号积分 + 数值积分
+        # --------------------------------------
         "SymPy": {
-            "thinking": "I will first verify if this is a valid quadratic equation in parallel, then provide the solution.",
-            "tools": [
-                {
-                    "name": "validate_quadratic",
-                    "params": {"a": "1", "b": "-5", "c": "6"},
-                    "result": '{"success": true, "result": "Valid quadratic equation."}',
-                },
-                {
-                    "name": "solve_quadratic",
-                    "params": {"a": "1", "b": "-5", "c": "6"},
-                    "result": '{"success": true, "result": [2, 3]}',
-                },
-            ],
-            "result": "✅ Solution Complete!\n\nEquation: x² - 5x + 6 = 0\n\nRoots: x₁ = 2, x₂ = 3\n\nVerification:\n- When x = 2: 4 - 10 + 6 = 0 ✓\n- When x = 3: 9 - 15 + 6 = 0 ✓",
-        },
-        "VADER Sentiment": {
-            "thinking": "I will use the VADER sentiment analyzer to analyze the emotional tendency of this review.",
-            "tools": [
-                {
-                    "name": "analyze_sentiment",
-                    "params": {
-                        "text": "I absolutely love this product! It's amazing!",
-                    },
-                    "result": '{"success": true, "scores": {"positive": 0.87, "negative": 0.0, "neutral": 0.13, "compound": 0.94}}',
-                }
-            ],
-            "result": "✅ Sentiment Analysis Complete!\n\nText: \"I absolutely love this product! It's amazing!\"\n\nSentiment Scores:\n  • Positive: 0.87 ⬆️\n  • Negative: 0.00\n  • Neutral: 0.13\n  • Compound: 0.94\n\nConclusion: This is a highly positive review expressing strong satisfaction with the product.",
-        },
-        "AiZynthFinder": {
-            "thinking": "I will search for all possible synthesis routes for aspirin and evaluate their feasibility.",
-            "tools": [
-                {
-                    "name": "search_retrosynthesis",
-                    "params": {"target": "Aspirin (C9H8O4)", "depth": "3"},
-                    "result": '{"success": true, "routes": 2, "best_yield": "95%"}',
-                }
-            ],
-            "result": "✅ Retrosynthetic Analysis Complete!\n\nTarget Compound: Aspirin (C9H8O4)\n\nRecommended Synthesis Routes:\n\n【Route 1】Direct Acetylation (Optimal)\n  • Salicylic acid + Acetic anhydride → Aspirin\n  • Yield: 95%\n  • Steps: 1\n  • Reaction time: 2 hours\n\n【Route 2】Starting from Phenol\n  • Phenol + CO → Salicylic acid → Aspirin\n  • Total yield: 88%\n  • Steps: 3\n  • Total time: 8 hours",
-        },
-        "ObsPy": {
-            "thinking": "I will process seismic waveform data and calculate epicenter parameters and propagation characteristics then visualize it.",
-            "tools": [
-                {
-                    "name": "analyze_seismic",
-                    "params": {"waves": ["P", "S"], "method": "time_difference", "stations": "5"},
-                    "result": '{"success": true, "magnitude": 6.0, "depth": 15.3}',
-                }
-            ],
-            "result": (
-                "✅ Seismic Analysis Complete!\n\n"
-                "Epicenter Parameters:\n"
-                "  • Magnitude: 6.0 (Richter Scale)\n"
-                "  • Depth: 15.3 km\n"
-                "  • Distance: 52 km\n"
-                "  • Latitude: 35.23°N\n"
-                "  • Longitude: 139.76°E\n\n"
-                "Seismic Wave Characteristics:\n"
-                "  • P-wave arrival time: 2.8s\n"
-                "  • S-wave arrival time: 4.9s\n"
-                "  • Wave amplitude: 2.3 cm\n"
-                "  • Frequency: 1.5 Hz\n\n"
-                "Waveform visualization:\n"
-                "![Cross-correlation waveform analysis](images/cross_correlation_analysis.png)"
+            "thinking": (
+                "Step 1: I will first compute the analytical antiderivative of the function "
+                "x**2 * sin(x) * cos(x) using a symbolic integration tool.\n\n"
+                "Step 2: Then I will show how a Riemann sum can be used to approximate a definite integral "
+                "for a related function sin(x**2) on [0, 2].\n\n"
+                "Step 3: Finally, I will use a numerical integration-based tool to compute the volume of the "
+                "solid obtained by rotating y = sin(x) about the x-axis over [0, π]."
             ),
-        },
-        "ESM": {
-            "thinking": "I will use the ESM-2 language model to predict the effects of protein mutations.",
             "tools": [
                 {
-                    "name": "predict_mutation",
-                    "params": {"protein": "example", "mutation": "Q145G"},
-                    "result": '{"success": true, "effect": "MODERATE", "stability": -0.85}',
-                }
-            ],
-            "result": "✅ Mutation Effect Prediction Complete!\n\nMutation Information:\n  • Original residue: Q (Glutamine)\n  • Mutated residue: G (Glycine)\n  • Position: 145\n\nPrediction Results:\n  • Effect level: Moderate impact\n  • ΔΔG (Stability): -0.85 kcal/mol\n  • Classification: Destabilizing\n  • Confidence: 92%\n  • Functional prediction: Likely to affect protein folding",
-        },
-        "TenCirChem": {
-            "thinking": "I will calculate the ground state energy of the H2 molecule using the UCC method.",
-            "tools": [
-                {
-                    "name": "ucc_energy",
+                    "name": "indefinite_integral",
                     "params": {
-                        "molecule": "H2",
-                        "method": "UCCSD",
-                        "optimizer": "COBYLA",
-                    },
-                    "result": '{"success": true, "ground_state": -1.1372, "hf_energy": -1.1167}',
-                }
-            ],
-            "result": "✅ Quantum Simulation Complete!\n\nMolecular Parameters:\n  • Molecule: H2\n  • Bond length: 0.74 Å\n  • Orbital basis: STO-3G\n\nCalculation Results:\n  • Ground state energy: -1.1372 Ha\n  • Hartree-Fock energy: -1.1167 Ha\n  • Correlation energy: -0.0205 Ha\n  • Convergence precision: 1e-6\n  • Deviation from experimental value: 0.3%",
-        },
-        "ChemLib": {
-            "thinking": "I will use ChemLib to parse the molecular formula, expand element counts, and sum atomic weights to obtain the molar mass.",
-            "tools": [
-                {
-                    "name": "calculate_molecular_weight",
-                    "params": {"formula": "H2SO4"},
-                    "result": '{"success": true, "molar_mass": 98.08}',
-                }
-            ],
-            "result": (
-                "✅ ChemLib Calculation Complete!\n\n"
-                "Task: Calculate the molecular weight of H₂SO₄.\n\n"
-                "Result:\n"
-                "  • M(H₂SO₄) ≈ 98.08 g/mol\n\n"
-                "Approximate breakdown:\n"
-                "  • 2 × H  ≈  2.02 g/mol\n"
-                "  • 1 × S  ≈ 32.07 g/mol\n"
-                "  • 4 × O  ≈ 64.00 g/mol\n"
-                "  → Total ≈ 98.09 g/mol (rounded to 98.08 g/mol)."
-            ),
-        },
-        "SPM": {
-            "thinking": "I will use SPM to perform volume-based protein sequence pattern matching against a database and rank the best hits.",
-            "tools": [
-                {
-                    "name": "spm_sequence_match",
-                    "params": {
-                        "query_sequence": "MENFQKVEKIGEGTYGVVYKA....",
-                        "database": "UniProt",
-                        "max_hits": 3,
+                        "expression": "x**2 * sin(x) * cos(x)",
+                        "variable": "x",
                     },
                     "result": (
-                        '{"success": true, "hits": ['
-                        '{"id": "P12345", "identity": 0.92, "coverage": 0.95},'
-                        '{"id": "Q8XYZ1", "identity": 0.88, "coverage": 0.90},'
-                        '{"id": "O98765", "identity": 0.84, "coverage": 0.89}'
-                        ']}'
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "integral": "1/8*x^2*sin(2*x) - 1/8*x^2*cos(2*x) '
+                        '+ 1/4*x*sin(2*x) - 1/4*sin(2*x) + C",\n'
+                        '    "simplified": true\n'
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                },
+                {
+                    "name": "riemann_sum",
+                    "params": {
+                        "expression": "sin(x**2)",
+                        "variable": "x",
+                        "interval": [0.0, 2.0],
+                        "n_subintervals": 1000,
+                        "method": "midpoint",
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "riemann_sum": 0.8047769251073362,\n'
+                        '    "method": "midpoint",\n'
+                        '    "n_subintervals": 1000\n'
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                },
+                {
+                    "name": "calculate_volume",
+                    "params": {
+                        "expression": "sin(x)",
+                        "variable": "x",
+                        "interval": [0.0, 3.141592653589793],
+                        "n_subintervals": 10000,
+                        "method": "disks",
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "volume": 4.9348022005446595,\n'
+                        '    "method": "disks",\n'
+                        '    "n_subintervals": 10000\n'
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                },
+            ],
+            "result": (
+                "✅ Math task Complete!\n\n"
+                "1️⃣ Symbolic integral\n"
+                "For the function f(x) = x²·sin(x)·cos(x), a valid analytical antiderivative is:\n\n"
+                "∫ x²·sin(x)·cos(x) dx = 1/8·x²·sin(2x) - 1/8·x²·cos(2x)\n"
+                "                      + 1/4·x·sin(2x) - 1/4·sin(2x) + C.\n\n"
+                "2️⃣ Riemann sum approximation\n"
+                "Using the midpoint method with 1000 subintervals on [0, 2], the integral\n"
+                "∫₀² sin(x²) dx ≈ 0.8047769251.\n\n"
+                "3️⃣ Volume of revolution\n"
+                "For the solid obtained by rotating y = sin(x) about the x-axis over [0, π], using a disk method with "
+                "10,000 segments gives a numerical volume of approximately:\n\n"
+                "V ≈ 4.9348022005."
+            ),
+        },
+
+        # --------------------------------------
+        # 2. 化学：pH 计算 + 合成路线
+        # --------------------------------------
+        "ChemLib": {
+            "thinking": (
+                "I will treat ChemLib as a chemical reasoning tool to compute weak-acid equilibria. "
+                "Here we consider a 0.10 M acetic acid solution (pKa = 4.76) at 25°C and estimate its pH."
+            ),
+            "tools": [
+                {
+                    "name": "acid_base_equilibrium",
+                    "params": {
+                        "acid_name": "acetic acid",
+                        "concentration_molar": 0.10,
+                        "pKa": 4.76,
+                        "temperature_C": 25.0,
+                        "ionic_strength": 0.0,
+                        "include_activity_correction": True,
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "H_plus_concentration": 1.34e-3,\n'
+                        '    "pH": 2.87,\n'
+                        '    "degree_of_dissociation": 0.0134,\n'
+                        '    "Ka": 1.74e-5,\n'
+                        '    "method": "weak_acid_equilibrium_approximation"\n'
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
                     ),
                 }
             ],
             "result": (
-                "✅ Protein Pattern Matching Complete!\n\n"
-                "Top SPM hits:\n"
-                "  1) P12345 — identity 92%, coverage 95%\n"
-                "  2) Q8XYZ1 — identity 88%, coverage 90%\n"
-                "  3) O98765 — identity 84%, coverage 89%\n\n"
-                "These matches indicate that the query sequence is highly similar to known proteins "
-                "in the UniProt database and can be used for downstream functional analysis."
+                "✅ pH Calculation Complete!\n\n"
+                "System: 0.10 M acetic acid solution at 25°C (pKa = 4.76).\n\n"
+                "The equilibrium calculation gives:\n"
+                "  • [H⁺] ≈ 1.34 × 10⁻³ M\n"
+                "  • pH ≈ 2.87\n"
+                "  • Degree of dissociation ≈ 1.34%\n\n"
+                "This confirms that acetic acid behaves as a weak acid. Because the solution does not contain a "
+                "significant amount of its conjugate base (acetate), it is not an effective buffer system by itself."
+            ),
+        },
+        "AiZynthFinder": {
+            "thinking": (
+                "I will search for plausible retrosynthetic routes to aspirin (C9H8O4) and rank them by "
+                "step count and overall yield."
+            ),
+            "tools": [
+                {
+                    "name": "search_retrosynthesis",
+                    "params": {"target": "Aspirin (C9H8O4)", "max_depth": 3},
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "routes": 2,\n'
+                        '  "best_yield": "95%",\n'
+                        '  "top_routes": [\n'
+                        '    {"name": "Route 1 - Direct acetylation", "steps": 1, "overall_yield": "95%"},\n'
+                        '    {"name": "Route 2 - From phenol", "steps": 3, "overall_yield": "88%"}\n'
+                        "  ]\n"
+                        "}"
+                    ),
+                }
+            ],
+            "result": (
+                "✅ Retrosynthetic Analysis Complete!\n\n"
+                "Target compound: Aspirin (C₉H₈O₄)\n\n"
+                "Top suggested routes:\n\n"
+                "【Route 1】Direct acetylation (recommended)\n"
+                "  • Salicylic acid + acetic anhydride → aspirin\n"
+                "  • Steps: 1\n"
+                "  • Overall yield: ~95%\n\n"
+                "【Route 2】Starting from phenol\n"
+                "  • Phenol → salicylic acid → aspirin\n"
+                "  • Steps: 3\n"
+                "  • Overall yield: ~88%\n\n"
+                "Route 1 is preferred due to its shorter sequence and higher yield, making it more practical "
+                "for laboratory-scale synthesis."
+            ),
+        },
+
+        # --------------------------------------
+        # 3. 蛋白质：理化性质 + 结构预测（带图片）+ SPM 序列比对
+        # --------------------------------------
+        "ESM": {
+            "thinking": (
+                "Step 1: I will analyze basic physicochemical properties of the given protein sequence, such as "
+                "molecular formula, isoelectric point, and hydrophobicity.\n\n"
+                "Step 2: Then I will predict its 3D structure and provide a PAE (predicted aligned error) "
+                "heatmap to assess the confidence in different regions of the model."
+            ),
+            "tools": [
+                {
+                    "name": "analyze_sequence",
+                    "params": {
+                        "sequence": "MENFQKVEKIGEGTYGVVYKARNKLTGEVVALKKIRLDTETEGVPSTAIREISLLKELNHPNIVKLLDVIHTENKLYL",
+                        "analysis_items": [
+                            "molecular_formula",
+                            "isoelectric_point",
+                            "hydrophobicity_profile",
+                            "instability_index",
+                        ],
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "molecular_formula": "C1375H2172N368O377S5",\n'
+                        '    "atom_count": 4297,\n'
+                        '    "isoelectric_point": 9.2,\n'
+                        '    "hydrophobicity": "overall_hydrophobic",\n'
+                        '    "instability_index": "stable"\n'
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                },
+                {
+                    "name": "predict_structure",
+                    "params": {
+                        "sequence": "MENFQKVEKIGEGTYGVVYKARNKLTGEVVALKKIRLDTETEGVPSTAIREISLLKELNHPNIVKLLDVIHTENKLYL",
+                        "output_items": ["pdb_file", "pae_heatmap_image", "plddt_scores"],
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "pdb_path": "/outputs/protein_model_001.pdb",\n'
+                        '    "pae_image_path": "images/protein_structure_pae.png",\n'
+                        '    "plddt_mean": 82.3,\n'
+                        '    "structural_summary": {\n'
+                        '      "secondary_structure": "mixed_alpha_beta",\n'
+                        '      "domains": 1,\n'
+                        '      "low_confidence_regions": ["10-15", "60-65"]\n'
+                        "    }\n"
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                },
+            ],
+            "result": (
+                "✅ Protein Analysis & Structure Prediction Complete!\n\n"
+                "1️⃣ Physicochemical properties\n"
+                "  • Approximate molecular formula: C₁₃₇₅H₂₁₇₂N₃₆₈O₃₇₇S₅ (≈ 4,297 atoms)\n"
+                "  • Predicted pI ≈ 9.2 → protein is likely positively charged at physiological pH\n"
+                "  • Hydrophobicity: overall hydrophobic with a substantial hydrophobic core\n"
+                "  • Instability index: classified as stable\n\n"
+                "2️⃣ 3D structure and confidence\n"
+                "  • Fold type: mixed α/β with one main domain\n"
+                "  • Mean pLDDT ≈ 82.3 → overall high confidence\n"
+                "  • PAE heatmap shows low error within the core domain and higher error in flexible loops "
+                "(e.g., residues 10–15 and 60–65).\n\n"
+                "A structure model and PAE heatmap image have been generated (see the visualization panel)."
+            ),
+        },
+        "SPM": {
+            "thinking": (
+                "I will use the SPM tool to perform volume-based protein sequence pattern matching between the "
+                "human and mouse hemoglobin β chains and interpret the homology level."
+            ),
+            "tools": [
+                {
+                    "name": "spm_sequence_match",
+                    "params": {
+                        "query_sequence": "Human_HBB(147 aa)",
+                        "target_sequence": "Mouse_HBB(146 aa)",
+                        "algorithm": "SPM Volume-based Pattern Matching",
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "best_score": 14.0,\n'
+                        '    "matched_region": "full-length region (~147 aa)",\n'
+                        '    "query_length": 147,\n'
+                        '    "target_length": 147,\n'
+                        '    "volume_difference": 14.0,\n'
+                        '    "algorithm": "SPM Volume-based Pattern Matching"\n'
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                }
+            ],
+            "result": (
+                "✅ SPM Sequence Matching Complete!\n\n"
+                "Task: Compare human and mouse hemoglobin β-chain sequences.\n\n"
+                "SPM results:\n"
+                "  • Best score: 14 (lower = more similar)\n"
+                "  • Matched region: essentially full-length β chain (~147 aa)\n"
+                "  • Query length: 147 aa\n"
+                "  • Target length: 147 aa\n"
+                "  • Volume difference: 14 (very small)\n\n"
+                "Interpretation:\n"
+                "The two β-chain sequences are highly homologous with only minor volumetric differences, indicating "
+                "a very high degree of structural and functional similarity between human and mouse hemoglobin β chains."
+            ),
+        },
+
+        # --------------------------------------
+        # 4. 农业
+        # --------------------------------------
+        "Pest Detection": {
+            "thinking": (
+                "I will load the trained pest detection model, run inference on the given crop image, "
+                "and then interpret the predicted classes and confidences.\n\n"
+                "If class ID 0 corresponds to 'no visible pest' or 'background', I will also explain any "
+                "secondary predictions with lower confidence that might indicate potential pest species."
+            ),
+            "tools": [
+                {
+                    "name": "detect_pest",
+                    "params": {
+                        "model": {
+                            "model": "real_model_loaded",
+                            "model_path": "pest/source/src/model/pest/mobile.pt",
+                            "is_mock": False,
+                        },
+                        "image_data": {
+                            "image_path": "pest/source/ip102_v1.1/images/00574.jpg",
+                            "is_mock": False,
+                        },
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "predictions": [\n'
+                        '      {"class_id": 1, "class_name": "rice leaf roller", "confidence": 0.06776047497987747},\n'
+                        '      {"class_id": 13, "class_name": "grain spreader thrips", "confidence": 0.06254877895116806},\n'
+                        '      {"class_id": 22, "class_name": "red spider", "confidence": 0.004129475448280573},\n'
+                        '      {"class_id": 45, "class_name": "alfalfa weevil", "confidence": 0.002610716735944152}\n'
+                        "    ],\n"
+                        '    "top_prediction": {"class_id": 0, "confidence": 0.8540160059928894},\n'
+                        '    "is_mock": false\n'
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                }
+            ],
+            "result": (
+                "✅ Pest Detection Complete!\n\n"
+                "Input: field image of crop leaves.\n\n"
+                "Model output:\n"
+                "  • Top prediction: class ID 0 (internal 'no visible pest / background' label),\n"
+                "    confidence ≈ 85.4%.\n\n"
+                "  • Additional pest candidates from the model's custom label mapping:\n"
+                "      - Class ID 1  (\"rice leaf roller\")        — confidence ≈ 6.8%\n"
+                "      - Class ID 13 (\"grain spreader thrips\")   — confidence ≈ 6.3%\n"
+                "      - Class ID 22 (\"red spider\")              — confidence ≈ 0.4%\n"
+                "      - Class ID 45 (\"alfalfa weevil\")          — confidence ≈ 0.3%\n\n"
+                "Interpretation:\n"
+                "The detector assigns its highest probability to the background / no-visible-pest class (ID 0),\n"
+                "while named pest species only appear with much lower confidence scores.\n\n"
+                "From a practical perspective, this image would be classified as having **no clear pest "
+                "infestation**. The low-probability pest candidates can be treated as weak hints rather than\n"
+                "strong evidence. In a real workflow, an agronomist or plant protection expert might still\n"
+                "inspect the leaves manually if early-stage symptoms are a concern."
+            ),
+        },
+
+        # --------------------------------------
+        # 5. CFD：Foam 网格 + 速度场可视化（带图片）
+        # --------------------------------------
+        "Foam Mesh": {
+            "thinking": (
+                "I will use a mesh-generation tool (backed by gmsh) to create a 2D unstructured triangular mesh "
+                "for incompressible flow over a circular cylinder, with refinement near the cylinder and in the wake."
+            ),
+            "tools": [
+                {
+                    "name": "generate_mesh",
+                    "params": {
+                        "geometry": "cylinder_2d",
+                        "domain": {
+                            "x_min": -2.5,
+                            "x_max": 2.5,
+                            "y_min": -2.5,
+                            "y_max": 2.5,
+                        },
+                        "cylinder": {"center": [0.0, 0.0], "radius": 0.5},
+                        "mesh_options": {
+                            "type": "triangular_unstructured",
+                            "refinement_regions": [
+                                {"region": "near_cylinder", "cell_size": 0.01},
+                                {"region": "wake_region", "cell_size": 0.02},
+                            ],
+                            "background_cell_size": 0.05,
+                        },
+                        "export_format": "msh",
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "mesh_path": "meshes/cylinder_flow_2d.msh",\n'
+                        '    "n_nodes": 84231,\n'
+                        '    "n_elements": 167904,\n'
+                        '    "mesh_type": "triangular_unstructured",\n'
+                        '    "quality_stats": {\n'
+                        '      "min_quality": 0.32,\n'
+                        '      "mean_quality": 0.84\n'
+                        "    }\n"
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                }
+            ],
+            "result": (
+                "✅ CFD Mesh Generation Complete!\n\n"
+                "Domain: [-2.5, 2.5] × [-2.5, 2.5], circular cylinder of radius 0.5 at the center.\n\n"
+                "Mesh summary:\n"
+                "  • Type: 2D unstructured triangular mesh\n"
+                "  • Nodes: ≈ 84k\n"
+                "  • Elements: ≈ 168k\n"
+                "  • Strong refinement near the cylinder surface and in the downstream wake region\n"
+                "  • Mesh quality: mean element quality ≈ 0.84 (suitable for incompressible flow simulation)\n\n"
+                "This mesh can be directly used in a CFD solver (e.g., OpenFOAM) to simulate incompressible flow "
+                "around the cylinder and resolve boundary layers and wake structures."
+            ),
+        },
+        "Foam Velocity Field": {
+            "thinking": (
+                "I will read the CFD solution for the cylinder flow case and generate visualizations of the velocity "
+                "magnitude |U| and streamlines on the x-y plane."
+            ),
+            "tools": [
+                {
+                    "name": "visualize_velocity",
+                    "params": {
+                        "case_directory": "cases/cylinder_flow",
+                        "field_name": "U",
+                        "plane": "xy",
+                        "output_items": [
+                            "streamline_plot",
+                            "velocity_magnitude_contours",
+                        ],
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "result": {\n'
+                        '    "streamline_image_path": "images/cfd_velocity_field.png",\n'
+                        '    "magnitude_contour_image_path": "images/cfd_velocity_field.png",\n'
+                        '    "U_min": 0.0,\n'
+                        '    "U_max": 1.8\n'
+                        "  },\n"
+                        '  "error": null\n'
+                        "}"
+                    ),
+                }
+            ],
+            "result": (
+                "✅ CFD Velocity Visualization Complete!\n\n"
+                "The generated plots show:\n\n"
+                "  • Streamlines bending smoothly around the cylinder, with a stagnation point at the front and a "
+                "well-defined wake behind the cylinder.\n"
+                "  • Velocity magnitude |U| represented by color (blue → red). Low velocities are found near the "
+                "stagnation region in front of the cylinder and in the wake, while higher velocities occur along "
+                "the sides where the flow accelerates around the obstacle.\n\n"
+                "A velocity field visualization image has been generated."
+            ),
+        },
+
+        # --------------------------------------
+        # 6. 地球科学：ObsPy（保留，但稍微润色文案）
+        # --------------------------------------
+        "ObsPy": {
+            "thinking": (
+                "I will process seismic waveform data using ObsPy, estimate basic source parameters "
+                "such as magnitude and depth, and then visualize the waveforms and cross-correlation results."
+            ),
+            "tools": [
+                {
+                    "name": "analyze_seismic",
+                    "params": {
+                        "waves": ["P", "S"],
+                        "method": "time_difference",
+                        "stations": 5,
+                    },
+                    "result": (
+                        "{\n"
+                        '  "success": true,\n'
+                        '  "magnitude": 6.0,\n'
+                        '  "depth_km": 15.3,\n'
+                        '  "distance_km": 52.0,\n'
+                        '  "latitude_deg": 35.23,\n'
+                        '  "longitude_deg": 139.76,\n'
+                        '  "p_arrival_s": 2.8,\n'
+                        '  "s_arrival_s": 4.9,\n'
+                        '  "wave_amplitude_cm": 2.3,\n'
+                        '  "dominant_frequency_hz": 1.5,\n'
+                        '  "waveform_image_path": "images/cross_correlation_analysis.png"\n'
+                        "}"
+                    ),
+                }
+            ],
+            "result": (
+                "✅ Seismic Analysis Complete!\n\n"
+                "Epicenter parameters:\n"
+                "  • Magnitude: 6.0 (Richter scale)\n"
+                "  • Depth: 15.3 km\n"
+                "  • Epicentral distance: 52 km\n"
+                "  • Location: 35.23°N, 139.76°E\n\n"
+                "Seismic wave characteristics:\n"
+                "  • P-wave arrival: 2.8 s\n"
+                "  • S-wave arrival: 4.9 s\n"
+                "  • Peak amplitude: 2.3 cm\n"
+                "  • Dominant frequency: 1.5 Hz\n\n"
+                "A waveform and cross-correlation visualization has been generated."
             ),
         },
     }
@@ -434,6 +808,15 @@ def render_streaming_response():
         query_text += char
         query_container.markdown(f"> {query_text}")
         time.sleep(0.02)
+
+    # 在用户查询下面显示害虫图片（仅 Pest Detection 案例）
+    if st.session_state.current_tool == "Pest Detection":
+        st.image(
+            "images/pest.png",  
+            # caption="Input crop image for pest detection",
+            width=320,
+        )
+    
     st.markdown("---")
 
     # 1. 思考过程
@@ -490,14 +873,25 @@ def render_streaming_response():
         result_container.markdown(quoted)
         time.sleep(0.05)
 
-    # 如果是 ObsPy 案例，单独展示波形图
-    if st.session_state.current_tool == "ObsPy":
-        # 和项目目录保持一致：前端在 frontend/ 下跑的话，使用相对路径
+    # 如果是带图片的案例，单独展示图像
+    current_tool = st.session_state.current_tool
+    if current_tool == "ObsPy":
         st.image(
             "images/cross_correlation_analysis.png",
-            caption="Cross-correlation waveform analysis",
-            # use_container_width=True,
+            # caption="Cross-correlation waveform analysis",
             width=640,
+        )
+    elif current_tool == "Foam Velocity Field":
+        st.image(
+            "images/cfd_velocity_field.png",
+            # caption="CFD velocity magnitude and streamlines",
+            width=210,
+        )
+    elif current_tool == "ESM":
+        st.image(
+            "images/protein_structure_pae.png",
+            # caption="Predicted protein structure and PAE heatmap",
+            width=480,
         )
 
     # 将静态演示的结果同步到聊天记录
@@ -516,11 +910,28 @@ def render_streaming_response():
             flow["result"],
         ]
     )
-    if st.session_state.current_tool == "ObsPy":
+    
+    if current_tool == "ObsPy":
         assistant_summary += (
-            "\n\n![Cross-correlation waveform analysis]"
-            "(images/cross_correlation_analysis.png)"
+        "\n\n![Cross-correlation waveform analysis]"
+        "(images/cross_correlation_analysis.png)"
+    )
+    elif current_tool == "Foam Velocity Field":
+        assistant_summary += (
+            "\n\n![CFD velocity magnitude and streamlines]"
+            "(images/cfd_velocity_field.png)"
         )
+    elif current_tool == "ESM":
+        assistant_summary += (
+            "\n\n![Predicted protein structure and PAE heatmap]"
+            "(images/protein_structure_pae.png)"
+        )
+    elif current_tool == "Foam Mesh":
+        assistant_summary += (
+            "\n\n![CFD mesh around a circular cylinder (gmsh)]"
+            "(images/mesh.png)"
+        )
+
 
     st.session_state.messages.append({"role": "assistant", "content": assistant_summary})
     update_current_chat_history()
@@ -562,11 +973,30 @@ def render_streaming_snapshot(snapshot: Dict[str, Any]):
     quoted = "> " + result_lines.replace("\n", "\n> ")
     st.markdown(quoted)
 
-    if snapshot.get("tool_name") == "ObsPy":
+    tool_name = snapshot.get("tool_name")
+    if tool_name == "ObsPy":
         st.image(
             "images/cross_correlation_analysis.png",
-            caption="Cross-correlation waveform analysis",
+            # caption="Cross-correlation waveform analysis",
             width=640,
+        )
+    elif tool_name == "Foam Velocity Field":
+        st.image(
+            "images/cfd_velocity_field.png",
+            # caption="CFD velocity magnitude and streamlines",
+            width=210,
+        )
+    elif tool_name == "ESM":
+        st.image(
+            "images/protein_structure_pae.png",
+            # caption="Predicted protein structure and PAE heatmap",
+            width=480,
+        )
+    elif tool_name == "Foam Mesh":
+        st.image(
+            "images/mesh.png",
+            # caption="CFD mesh around a circular cylinder (gmsh)",
+            width=400,
         )
 
 
@@ -579,9 +1009,13 @@ def render_agent_streaming_response():
     # 固定展示的 Query
     fixed_query = "Given the equation x^2 + 5x + 6 = 0, please solve for x."
 
+    st.markdown(
+        "<div style='margin-top: 0.75rem;'></div>", unsafe_allow_html=True
+    )
+
     # 0. 显示用户 Query
     time.sleep(0.8)
-    st.markdown("### 🔍 SciNexus")
+    # st.markdown("### 🔍 SciNexus")
     st.markdown("#### 👤 User Query")
     query_container = st.empty()
     q_text = ""
@@ -620,7 +1054,7 @@ def render_agent_streaming_response():
 
     st.markdown("---")
 
-    # 2. MCP 服务部署静态演示（SymPy 版）
+    # 2. MCP 服务部署静态演示（SymPy）
     time.sleep(1.0)
     st.markdown("#### 🚀 Deploy MCP")
     deploy_container = st.empty()
@@ -673,7 +1107,7 @@ def render_agent_streaming_response():
 
     st.markdown("---")
 
-    # 4. 最终结果展示（SymPy 风格）
+    # 4. 最终结果展示（SymPy）
     time.sleep(1.2)
     st.markdown("#### ✨ Final Result")
     result_container = st.empty()
@@ -881,17 +1315,17 @@ def main():
             with st.chat_message(role, avatar=avatar):
                 st.markdown(content, unsafe_allow_html=True)
 
-    # （此处 processing 仅保留样式占位，当前静态版本不会触发）
+    # （此处 processing 仅保留样式占位，静态版本不会触发）
     if st.session_state.processing:
         render_processing_status("Processing your query...")
 
-    # 底部聊天输入框：不再调后端，而是触发 Agent 静态演示
+    # 底部聊天输入框：不调后端，静态演示
     query_input = st.chat_input("Ask anything...", key="chat_input")
 
     if query_input:
         st.session_state.force_welcome = False
         st.session_state.streaming_snapshot = None
-        # 1. 把用户输入当作普通聊天气泡存起来（方便演示 UI）
+        # 1. 把用户输入当作普通聊天气泡存起来（方便演示）
         st.session_state.messages.append({"role": "user", "content": query_input})
 
         update_current_chat_history()
