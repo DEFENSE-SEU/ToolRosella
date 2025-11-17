@@ -114,6 +114,31 @@ def initialize_session_state():
     # 新增：聊天输入触发的 Agent 演示
     if "show_agent_streaming" not in st.session_state:
         st.session_state.show_agent_streaming = False
+    if "force_welcome" not in st.session_state:
+        st.session_state.force_welcome = False
+    if "streaming_snapshot" not in st.session_state:
+        st.session_state.streaming_snapshot = None
+
+
+def start_new_chat_session():
+    """Create a new sidebar chat entry using current messages."""
+    new_chat_id = len(st.session_state.chat_history)
+    st.session_state.current_chat_id = new_chat_id
+    st.session_state.chat_history.append(
+        {"id": new_chat_id, "messages": st.session_state.messages.copy()}
+    )
+
+
+def update_current_chat_history():
+    """Persist current messages into the selected chat entry."""
+    if st.session_state.current_chat_id is None:
+        start_new_chat_session()
+        return
+
+    for chat_entry in st.session_state.chat_history:
+        if chat_entry["id"] == st.session_state.current_chat_id:
+            chat_entry["messages"] = st.session_state.messages.copy()
+            break
 
 
 def call_backend(query: str) -> Dict[str, Any]:
@@ -184,12 +209,13 @@ def render_welcome_section() -> bool:
                         "▶️ Try Example", key=f"btn_{tool['name']}", use_container_width=True
                     ):
                         example_query = tool.get("example", "")
+                        st.session_state.streaming_snapshot = None
 
-                        # 写入新的“用户 query”
-                        st.session_state.messages = []
-                        st.session_state.messages.append(
+                        # 写入新的“用户 query”并开始一个独立的聊天会话
+                        st.session_state.messages = [
                             {"role": "user", "content": example_query}
-                        )
+                        ]
+                        start_new_chat_session()
 
                         # 记录当前工具名，供 streaming 使用
                         st.session_state.current_tool = tool["name"]
@@ -378,7 +404,6 @@ def get_demo_flow(tool_name: str):
     )
 
 
-
 def render_streaming_response():
     """渲染流式响应（包括查询、思考过程、工具调用和最终结果）
     —— 用于上方 Try Example 区域
@@ -395,6 +420,10 @@ def render_streaming_response():
         if message.get("role") == "user":
             user_query = message.get("content", "")
             break
+
+    st.markdown(
+        "<div style='margin-top: 0.75rem;'></div>", unsafe_allow_html=True
+    )
 
     # 0. 显示用户查询（在最上面，逐字显示）
     time.sleep(1)
@@ -471,7 +500,74 @@ def render_streaming_response():
             width=640,
         )
 
+    # 将静态演示的结果同步到聊天记录
+    tool_markdown = (
+        f"```\n{full_tool_content}\n```"
+        if full_tool_content.strip()
+        else "_No tool calls executed._"
+    )
+    assistant_summary = "\n\n".join(
+        [
+            "#### 🧠 Thinking Process",
+            flow["thinking"],
+            "#### 🔧 Tool Calls",
+            tool_markdown,
+            "#### ✨ Final Result",
+            flow["result"],
+        ]
+    )
+    if st.session_state.current_tool == "ObsPy":
+        assistant_summary += (
+            "\n\n![Cross-correlation waveform analysis]"
+            "(images/cross_correlation_analysis.png)"
+        )
+
+    st.session_state.messages.append({"role": "assistant", "content": assistant_summary})
+    update_current_chat_history()
+    st.session_state.streaming_snapshot = {
+        "user_query": user_query,
+        "thinking": flow["thinking"],
+        "tool_content": full_tool_content,
+        "result": flow["result"],
+        "tool_name": st.session_state.current_tool,
+    }
     st.session_state.show_streaming = False
+    st.session_state.force_welcome = False
+    st.rerun()
+
+
+def render_streaming_snapshot(snapshot: Dict[str, Any]):
+    """渲染动画结束后的静态快照，保持同样的布局"""
+    st.markdown(
+        "<div style='margin-top: 0.75rem;'></div>", unsafe_allow_html=True
+    )
+    st.markdown("#### 👤 User Query")
+    st.markdown(f"> {snapshot.get('user_query', '')}")
+    st.markdown("---")
+
+    st.markdown("#### 🧠 Thinking Process")
+    st.markdown(f"```\n{snapshot.get('thinking', '')}\n```")
+    st.markdown("---")
+
+    st.markdown("#### 🔧 Tool Calls")
+    tool_content = snapshot.get("tool_content", "")
+    if tool_content.strip():
+        st.code(tool_content, language="")
+    else:
+        st.markdown("_No tool calls executed._")
+    st.markdown("---")
+
+    st.markdown("#### ✨ Final Result")
+    result_lines = snapshot.get("result", "")
+    quoted = "> " + result_lines.replace("\n", "\n> ")
+    st.markdown(quoted)
+
+    if snapshot.get("tool_name") == "ObsPy":
+        st.image(
+            "images/cross_correlation_analysis.png",
+            caption="Cross-correlation waveform analysis",
+            width=640,
+        )
 
 
 def render_agent_streaming_response():
@@ -714,6 +810,8 @@ def main():
             st.session_state.show_streaming = False
             st.session_state.show_agent_streaming = False
             st.session_state.pending_streaming = False
+            st.session_state.force_welcome = True
+            st.session_state.streaming_snapshot = None
             st.rerun()
 
         for chat_entry in st.session_state.chat_history:
@@ -730,26 +828,34 @@ def main():
             ):
                 st.session_state.messages = chat_entry["messages"]
                 st.session_state.current_chat_id = chat_id
+                st.session_state.force_welcome = False
+                st.session_state.streaming_snapshot = None
                 st.rerun()
-
-        st.markdown("---")
-        st.markdown("### 📊 Statistics")
-        total_tools = sum(len(tools) for tools in TOOL_CATALOG.values())
-        st.metric("Domains", len(TOOL_CATALOG))
-        st.metric("Tools", total_tools)
+        
+        # hide statistics
+        # st.markdown("---")
+        # st.markdown("### 📊 Statistics")
+        # total_tools = sum(len(tools) for tools in TOOL_CATALOG.values())
+        # st.metric("Domains", len(TOOL_CATALOG))
+        # st.metric("Tools", total_tools)
 
     # Main content
     # 1. 上方 Try Example 的流式演示（打字机 + 工具调用）
     if st.session_state.show_streaming:
         render_streaming_response()
 
+    # 1b. 动画完成后的静态快照
+    elif st.session_state.streaming_snapshot:
+        render_streaming_snapshot(st.session_state.streaming_snapshot)
+
     # 2. 底部聊天输入触发的 Agent 完整流程静态演示
     elif st.session_state.show_agent_streaming:
         render_agent_streaming_response()
 
     # 3. 首次进入，没有消息 → 显示欢迎页面（带占位容器）
-    elif not st.session_state.messages and not any(
-        chat["messages"] for chat in st.session_state.chat_history
+    elif not st.session_state.messages and (
+        st.session_state.force_welcome
+        or not any(chat["messages"] for chat in st.session_state.chat_history)
     ):
         welcome_placeholder = st.empty()
         with welcome_placeholder.container():
@@ -763,6 +869,7 @@ def main():
             welcome_placeholder.empty()
             render_loading_frame()
             st.session_state.show_streaming = True
+            st.session_state.force_welcome = False
             st.rerun()
 
     # 4. 普通聊天模式：渲染历史消息
@@ -782,26 +889,14 @@ def main():
     query_input = st.chat_input("Ask anything...", key="chat_input")
 
     if query_input:
-        # 1. 把用户输入当作普通聊天气泡存起来（方便你演示 UI）
+        st.session_state.force_welcome = False
+        st.session_state.streaming_snapshot = None
+        # 1. 把用户输入当作普通聊天气泡存起来（方便演示 UI）
         st.session_state.messages.append({"role": "user", "content": query_input})
 
-        # 简单管理 chat_history
-        if (
-            "current_chat_id" not in st.session_state
-            or st.session_state.current_chat_id is None
-        ):
-            new_chat_id = len(st.session_state.chat_history)
-            st.session_state.chat_history.append(
-                {"id": new_chat_id, "messages": st.session_state.messages.copy()}
-            )
-            st.session_state.current_chat_id = new_chat_id
-        else:
-            for chat_entry in st.session_state.chat_history:
-                if chat_entry["id"] == st.session_state.current_chat_id:
-                    chat_entry["messages"] = st.session_state.messages.copy()
-                    break
+        update_current_chat_history()
 
-        # 2. 开始播放 Agent 的静态演示
+        # 2. 开始静态演示
         st.session_state.show_agent_streaming = True
         st.session_state.processing = False  # 静态演示，不调后端
         st.rerun()
