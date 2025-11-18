@@ -125,6 +125,51 @@ def initialize_session_state():
         st.session_state.streaming_snapshot = None
 
 
+def apply_stream_section_styles():
+    """Apply styles for streaming/snapshot sections."""
+    st.markdown(
+        """
+    <style>
+    div[data-testid="stMarkdownContainer"] h4 {
+        font-size: 1.6rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    .stream-section-user,
+    .stream-section-result {
+        color: #111827 !important;
+        font-size: 1.1rem !important;
+        line-height: 1.55 !important;
+    }
+    .stream-section-thinking,
+    .stream-section-tools {
+        color: #4b5563 !important;
+        font-size: 1.05rem !important;
+        line-height: 1.55 !important;
+    }
+    .stream-section-thinking pre,
+    .stream-section-tools pre {
+        background: #f1f5f9 !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 0.5rem !important;
+        padding: 0.85rem !important;
+        white-space: pre-wrap !important;
+    }
+    /* 通用 code 块调深文字颜色 */
+    .stCode pre, .stCode code {
+        color: #4b5563 !important;
+        background: #f1f5f9 !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+    /* 强制覆盖语法高亮的 token 颜色，保持统一 */
+    .stCode pre *, .stCode code * {
+        color: #4b5563 !important;
+    }
+    </style>
+    """,
+        unsafe_allow_html=True,
+    )
+
+
 def start_new_chat_session():
     """Create a new sidebar chat entry using current messages."""
     new_chat_id = len(st.session_state.chat_history)
@@ -795,19 +840,21 @@ def render_streaming_response():
             user_query = message.get("content", "")
             break
 
-    st.markdown(
-        "<div style='margin-top: 0.75rem;'></div>", unsafe_allow_html=True
-    )
+    apply_stream_section_styles()
+    st.markdown("<div style='margin-top: 0.75rem;'></div>", unsafe_allow_html=True)
 
     # 0. 显示用户查询（在最上面，逐字显示）
-    time.sleep(1)
+    time.sleep(0.5)
     st.markdown("#### 👤 User Query")
     query_container = st.empty()
     query_text = ""
     for char in user_query:
         query_text += char
-        query_container.markdown(f"> {query_text}")
-        time.sleep(0.02)
+        query_container.markdown(
+            f"<div class='stream-section-user'>{query_text}</div>",
+            unsafe_allow_html=True,
+        )
+        time.sleep(0.01)
 
     # 在用户查询下面显示害虫图片（仅 Pest Detection 案例）
     if st.session_state.current_tool == "Pest Detection":
@@ -820,58 +867,66 @@ def render_streaming_response():
     st.markdown("---")
 
     # 1. 思考过程
-    time.sleep(1.5)
+    time.sleep(1)
     st.markdown("#### 🧠 Thinking Process")
     thinking_container = st.empty()
     thinking_text = ""
     for char in flow["thinking"]:
         thinking_text += char
-        thinking_container.markdown(f"```\n{thinking_text}\n```")
-        time.sleep(0.05)
+        thinking_container.markdown(
+            f"<div class='stream-section-thinking'><pre>{thinking_text}</pre></div>",
+            unsafe_allow_html=True,
+        )
+        time.sleep(0.02)
 
     st.markdown("---")
 
     # 2. 工具调用 - 统一在一个框里输出
-    time.sleep(1.5)
+    time.sleep(1)
     st.markdown("#### 🔧 Tool Calls")
     tool_container = st.empty()
     full_tool_text = ""
 
-    # 先生成完整的工具调用文本
-    tool_lines = []
+    # 先生成完整的工具调用文本（结构化 JSON 风格）
+    tool_blocks = []
     for tool_call in flow["tools"]:
         tool_name_str = tool_call["name"]
         params = tool_call["params"]
         result = tool_call["result"]
 
-        tool_lines.append(f"✓ Called {tool_name_str}")
-        tool_lines.append("Parameters:")
-        params_str = _json.dumps(params, indent=2, ensure_ascii=False)
-        tool_lines.append(params_str)
-        tool_lines.append("Result:")
-        tool_lines.append(result)
-        tool_lines.append("")
+        block = [
+            f"✓ Called: {tool_name_str}",
+            "Parameters:",
+            _json.dumps(params, indent=2, ensure_ascii=False),
+            "Result:",
+            result,
+            "",
+        ]
+        tool_blocks.append("\n".join(block))
 
-    full_tool_content = "\n".join(tool_lines)
+    full_tool_content = "\n".join(tool_blocks)
 
-    # 逐字符显示工具调用在同一个框里
+    # 逐字符显示工具调用在同一个代码框里（带背景）
     for char in full_tool_content:
         full_tool_text += char
-        tool_container.code(full_tool_text, language="")
+        tool_container.code(full_tool_text, language="json")
         time.sleep(0.02)
 
     st.markdown("---")
 
     # 3. 最终结果
-    time.sleep(1.5)
+    time.sleep(1)
     st.markdown("#### ✨ Final Result")
     result_container = st.empty()
     result_text = ""
     for char in flow["result"]:
         result_text += char
-        quoted = "> " + result_text.replace("\n", "\n> ")
-        result_container.markdown(quoted)
-        time.sleep(0.05)
+        quoted = result_text.replace("\n", "<br>")
+        result_container.markdown(
+            f"<div class='stream-section-result'>{quoted}</div>",
+            unsafe_allow_html=True,
+        )
+        time.sleep(0.02)
 
     # 如果是带图片的案例，单独展示图像
     current_tool = st.session_state.current_tool
@@ -949,29 +1004,39 @@ def render_streaming_response():
 
 def render_streaming_snapshot(snapshot: Dict[str, Any]):
     """渲染动画结束后的静态快照，保持同样的布局"""
+    apply_stream_section_styles()
     st.markdown(
         "<div style='margin-top: 0.75rem;'></div>", unsafe_allow_html=True
     )
     st.markdown("#### 👤 User Query")
-    st.markdown(f"> {snapshot.get('user_query', '')}")
+    st.markdown(
+        f"<div class='stream-section-user'>{snapshot.get('user_query', '')}</div>",
+        unsafe_allow_html=True,
+    )
     st.markdown("---")
 
     st.markdown("#### 🧠 Thinking Process")
-    st.markdown(f"```\n{snapshot.get('thinking', '')}\n```")
+    st.markdown(
+        f"<div class='stream-section-thinking'><pre>{snapshot.get('thinking', '')}</pre></div>",
+        unsafe_allow_html=True,
+    )
     st.markdown("---")
 
     st.markdown("#### 🔧 Tool Calls")
     tool_content = snapshot.get("tool_content", "")
     if tool_content.strip():
-        st.code(tool_content, language="")
+        st.code(tool_content, language="json")
     else:
         st.markdown("_No tool calls executed._")
     st.markdown("---")
 
     st.markdown("#### ✨ Final Result")
     result_lines = snapshot.get("result", "")
-    quoted = "> " + result_lines.replace("\n", "\n> ")
-    st.markdown(quoted)
+    quoted = result_lines.replace("\n", "<br>")
+    st.markdown(
+        f"<div class='stream-section-result'>{quoted}</div>",
+        unsafe_allow_html=True,
+    )
 
     tool_name = snapshot.get("tool_name")
     if tool_name == "ObsPy":
@@ -1006,6 +1071,8 @@ def render_agent_streaming_response():
     """
     import json as _json
 
+    apply_stream_section_styles()
+
     # 固定展示的 Query
     fixed_query = "Given the equation x^2 + 5x + 6 = 0, please solve for x."
 
@@ -1014,15 +1081,18 @@ def render_agent_streaming_response():
     )
 
     # 0. 显示用户 Query
-    time.sleep(0.8)
+    time.sleep(1)
     # st.markdown("### 🔍 SciNexus")
     st.markdown("#### 👤 User Query")
     query_container = st.empty()
     q_text = ""
     for ch in fixed_query:
         q_text += ch
-        query_container.markdown(f"> {q_text}")
-        time.sleep(0.04)
+        query_container.markdown(
+            f"<div class='stream-section-user'>{q_text}</div>",
+            unsafe_allow_html=True,
+        )
+        time.sleep(0.02)
     st.markdown("---")
 
     # 1. Topic → GitHub 搜索 → 判断 → 找到 sympy
@@ -1049,7 +1119,10 @@ def render_agent_streaming_response():
     text_all = "\n".join(steps)
     for ch in text_all:
         full_block += ch
-        topics_container.markdown(f"```text\n{full_block}\n```")
+        topics_container.markdown(
+            f"<div class='stream-section-thinking'><pre>{full_block}</pre></div>",
+            unsafe_allow_html=True,
+        )
         time.sleep(0.015)
 
     st.markdown("---")
@@ -1102,7 +1175,7 @@ def render_agent_streaming_response():
     full_tool_text = ""
     for ch in "\n".join(tool_lines):
         full_tool_text += ch
-        tool_container.code(full_tool_text, language="")
+        tool_container.code(full_tool_text, language="json")
         time.sleep(0.015)
 
     st.markdown("---")
@@ -1128,8 +1201,11 @@ def render_agent_streaming_response():
     shown = ""
     for ch in final_result:
         shown += ch
-        quoted = "> " + shown.replace("\n", "\n> ")
-        result_container.markdown(quoted)
+        quoted = shown.replace("\n", "<br>")
+        result_container.markdown(
+            f"<div class='stream-section-result'>{quoted}</div>",
+            unsafe_allow_html=True,
+        )
         time.sleep(0.03)
 
     st.session_state.show_agent_streaming = False
