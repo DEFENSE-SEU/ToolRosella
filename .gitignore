@@ -10,3 +10,6 @@ MCP-agent-github-repo-output/.env
 test/test_workspace/
 test/test_output/
 test/*.log
+
+easytool-app/backend/hf-space-test/
+easytool-app/backend/local-test/

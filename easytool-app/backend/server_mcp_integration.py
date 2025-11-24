@@ -9,19 +9,18 @@ import sys
 import json
 import asyncio
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-# 导入 MCP 客户端
+# 导入 MCP 连接管理器
 try:
-    from mcp import ClientSession
-    from mcp.client.sse import sse_client
+    from mcp_client import MCPConnectionManager, load_mcp_services
 except ImportError:
-    print("Error: mcp library not found. Install with: pip install mcp")
+    print("Error: mcp_client module not found. Make sure mcp_client/ is in the same directory.")
     sys.exit(1)
 
 
@@ -32,131 +31,55 @@ except ImportError:
 class RunReq(BaseModel):
     """运行请求"""
     query: str
-    service: str = None  # 可选：指定使用的服务
+    service: Optional[str] = None  # 可选：指定使用的服务
 
 
-class ServiceConfig:
-    """MCP 服务配置"""
-
-    # 已部署的远程 MCP 服务
-    SERVICES = {
-        "sympy": {
-            "url": "https://kabuda777-Code2MCP-sympy.hf.space",
-            "description": "数学符号计算 - 解方程、求导、积分等",
-            "icon": "📐"
-        },
-        "vaderSentiment": {
-            "url": "https://ArthurY-vaderSentiment.hf.space",
-            "description": "情感分析 - 分析文本情感倾向",
-            "icon": "💭"
-        },
-        "physicsnemo": {
-            "url": "https://ArthurY-physicsnemo.hf.space",
-            "description": "物理模拟 - 量子物理、粒子模拟",
-            "icon": "⚛️"
-        },
-        "obspy": {
-            "url": "https://ArthurY-xujie-mcp.hf.space",
-            "description": "地震学分析 - 地震波处理、地震事件分析",
-            "icon": "🌍"
-        },
-        # 添加你的其他服务...
-    }
+class ToolCallReq(BaseModel):
+    """工具调用请求"""
+    tool_name: str
+    arguments: Dict[str, Any] = {}
 
 
 # ============================================================================
-# MCP 客户端管理
+# 全局配置和管理器
 # ============================================================================
 
-class MCPClientPool:
-    """MCP 客户端连接池"""
+# MCP 服务配置 - 从 mcp.json 加载
+services_config: Dict[str, dict] = {}
+mcp_manager: Optional[MCPConnectionManager] = None
 
-    def __init__(self):
-        self.services = ServiceConfig.SERVICES
-        self.client_cache: Dict[str, Any] = {}
 
-    async def get_client(self, service_name: str) -> ClientSession:
-        """获取或创建 MCP 客户端"""
-        if service_name not in self.services:
-            raise ValueError(f"Unknown service: {service_name}")
-
-        config = self.services[service_name]
-        url = config["url"]
-
-        # 建立 SSE 连接
-        transport = sse_client(url)
-        session = ClientSession(await transport.__aenter__())
-        await session.initialize()
-
-        return session
-
-    async def list_all_tools(self) -> Dict[str, List[str]]:
-        """列出所有服务的工具"""
-        tools_by_service = {}
-
-        for service_name in self.services.keys():
-            try:
-                async with sse_client(self.services[service_name]["url"]) as (read_stream, write_stream):
-                    async with ClientSession(read_stream, write_stream) as session:
-                        await session.initialize()
-                        tools = await session.list_tools()
-                        tools_by_service[service_name] = [tool.name for tool in tools.tools]
-            except Exception as e:
-                print(f"Warning: Failed to list tools from {service_name}: {e}")
-                tools_by_service[service_name] = []
-
-        return tools_by_service
-
-    async def call_tool(self, service_name: str, tool_name: str, arguments: Dict[str, Any]) -> str:
-        """调用远程 MCP 工具"""
-        if service_name not in self.services:
-            raise ValueError(f"Unknown service: {service_name}")
-
-        config = self.services[service_name]
-        url = config["url"]
-
-        try:
-            async with sse_client(url) as (read_stream, write_stream):
-                async with ClientSession(read_stream, write_stream) as session:
-                    await session.initialize()
-
-                    # 调用工具
-                    result = await session.call_tool(tool_name, arguments)
-
-                    # 处理结果
-                    if result.content:
-                        content = result.content[0]
-                        return json.dumps({
-                            "status": "success",
-                            "result": content.text if hasattr(content, 'text') else str(content)
-                        }, ensure_ascii=False)
-                    else:
-                        return json.dumps({
-                            "status": "error",
-                            "error": "Tool returned empty result"
-                        }, ensure_ascii=False)
-
-        except Exception as e:
-            return json.dumps({
-                "status": "error",
-                "error": str(e)
-            }, ensure_ascii=False)
 
 
 # ============================================================================
-# FastAPI 应用
+# FastAPI 应用生命周期
 # ============================================================================
-
-# 创建全局 MCP 客户端池
-mcp_pool = MCPClientPool()
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """应用生命周期管理"""
+    global services_config, mcp_manager
+
+    # 启动事件
     print("Starting EasyTool Backend with MCP Integration...")
+    try:
+        services_config = load_mcp_services("mcp.json")
+        print(f"Loaded {len(services_config)} MCP services from mcp.json")
+
+        mcp_manager = MCPConnectionManager(services_config)
+        await mcp_manager.initialize()
+        print("MCP Manager initialized")
+    except Exception as e:
+        print(f"Error initializing MCP Manager: {e}")
+        raise
+
     yield
-    print("Shutting down...")
+
+    # 关闭事件
+    print("Shutting down MCP Manager...")
+    if mcp_manager:
+        await mcp_manager.shutdown()
+    print("Shutdown complete")
 
 
 app = FastAPI(
@@ -195,11 +118,11 @@ async def list_services():
     return {
         "services": {
             name: {
-                "description": config["description"],
-                "icon": config["icon"],
-                "url": config["url"]
+                "description": config.get("description", ""),
+                "icon": config.get("icon", "🔧"),
+                "url": config.get("url", "")
             }
-            for name, config in ServiceConfig.SERVICES.items()
+            for name, config in services_config.items()
         }
     }
 
@@ -207,79 +130,85 @@ async def list_services():
 @app.get("/services/{service_name}/tools")
 async def list_service_tools(service_name: str):
     """列出特定服务的所有工具"""
-    if service_name not in ServiceConfig.SERVICES:
-        return {
-            "success": False,
-            "error": f"Unknown service: {service_name}"
-        }
+    if service_name not in services_config:
+        raise HTTPException(status_code=404, detail=f"Unknown service: {service_name}")
+
+    if not mcp_manager:
+        raise HTTPException(status_code=500, detail="MCP Manager not initialized")
 
     try:
-        config = ServiceConfig.SERVICES[service_name]
-        async with sse_client(config["url"]) as (read_stream, write_stream):
-            async with ClientSession(read_stream, write_stream) as session:
-                await session.initialize()
-                tools = await session.list_tools()
+        tools = await mcp_manager.list_tools(service_name)
 
-                return {
-                    "success": True,
-                    "service": service_name,
-                    "tools": [
-                        {
-                            "name": tool.name,
-                            "description": tool.description,
-                            "inputSchema": tool.inputSchema if hasattr(tool, 'inputSchema') else {}
-                        }
-                        for tool in tools.tools
-                    ]
+        return {
+            "success": True,
+            "service": service_name,
+            "tools": [
+                {
+                    "name": tool.name,
+                    "description": tool.description,
+                    "inputSchema": tool.input_schema
                 }
+                for tool in tools
+            ]
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        return {
-            "success": False,
-            "error": str(e)
-        }
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/call")
-async def call_tool(
-    service_name: str,
-    tool_name: str,
-    arguments: Dict[str, Any]
-):
+@app.get("/tools")
+async def list_all_tools():
+    """列出所有服务的工具"""
+    if not mcp_manager:
+        raise HTTPException(status_code=500, detail="MCP Manager not initialized")
+
+    all_tools = {}
+
+    for service_name in services_config.keys():
+        try:
+            tools = await mcp_manager.list_tools(service_name)
+            all_tools[service_name] = [
+                {
+                    "name": tool.name,
+                    "description": tool.description,
+                }
+                for tool in tools
+            ]
+        except Exception as e:
+            print(f"Warning: Failed to list tools from {service_name}: {e}")
+            all_tools[service_name] = []
+
+    return {
+        "success": True,
+        "tools": all_tools
+    }
+
+
+@app.post("/services/{service_name}/call")
+async def call_tool(service_name: str, req: ToolCallReq):
     """调用指定服务的工具"""
-    if service_name not in ServiceConfig.SERVICES:
-        return {
-            "success": False,
-            "error": f"Unknown service: {service_name}"
-        }
+    if service_name not in services_config:
+        raise HTTPException(status_code=404, detail=f"Unknown service: {service_name}")
+
+    if not mcp_manager:
+        raise HTTPException(status_code=500, detail="MCP Manager not initialized")
 
     try:
-        config = ServiceConfig.SERVICES[service_name]
-        async with sse_client(config["url"]) as (read_stream, write_stream):
-            async with ClientSession(read_stream, write_stream) as session:
-                await session.initialize()
+        # 调用工具
+        result = await mcp_manager.call_tool(service_name, req.tool_name, req.arguments)
 
-                # 调用工具
-                result = await session.call_tool(tool_name, arguments)
-
-                if result.content:
-                    content = result.content[0]
-                    return {
-                        "success": True,
-                        "service": service_name,
-                        "tool": tool_name,
-                        "result": content.text if hasattr(content, 'text') else str(content)
-                    }
-                else:
-                    return {
-                        "success": False,
-                        "error": "Tool returned empty result"
-                    }
-
-    except Exception as e:
         return {
-            "success": False,
-            "error": str(e)
+            "success": True,
+            "service": service_name,
+            "tool": req.tool_name,
+            "result": result.content
         }
+
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/run")
@@ -291,44 +220,74 @@ async def run(req: RunReq):
     1. 如果指定了 service，直接使用该服务
     2. 如果没指定，根据查询内容智能选择服务并尝试执行
     """
+    if not mcp_manager:
+        return {"success": False, "error": "MCP Manager not initialized"}
+
     query = (req.query or "").strip()
     if not query:
         return {"success": False, "error": "Empty query"}
 
     # 确定要使用的服务
     if req.service:
-        if req.service not in ServiceConfig.SERVICES:
+        if req.service not in services_config:
             return {"success": False, "error": f"Unknown service: {req.service}"}
         services_to_try = [req.service]
     else:
         # 根据查询推断服务
         services_to_try = infer_services_from_query(query)
 
-    # 演示模式 - 返回硬编码的示例结果
-    demo_responses = {
-        "sympy": "Solution: x = 2 or x = 3\n\nExplanation: The equation x² - 5x + 6 = 0 can be factored as (x - 2)(x - 3) = 0",
-        "vaderSentiment": "Sentiment Analysis Result:\n- Positive Score: 0.87\n- Negative Score: 0.00\n- Neutral Score: 0.13\n- Overall Sentiment: POSITIVE 😊\n\nThis text expresses strong positive emotion.",
-        "physicsnemo": "Quantum Simulation Result:\n- Particle State: Excited\n- Energy Level: 2.5 eV\n- Probability Distribution: Normal\n- Wave Function Amplitude: 0.95",
-        "obspy": "Seismic Analysis Result:\n- Earthquake Magnitude: 5.2 (Richter Scale)\n- Depth: 12.5 km\n- Distance: 45 km\n- P-wave arrival: 2.3s\n- S-wave arrival: 4.1s"
-    }
-
     # 尝试在每个推荐的服务中找到合适的工具
-    for service_name in services_to_try:
-        # 演示模式：直接返回示例结果
-        if service_name in demo_responses:
-            print(f"[{service_name}] Demo mode - returning example result")
-            return {
-                "success": True,
-                "service": service_name,
-                "tool": f"{service_name}_demo_tool",
-                "result": demo_responses[service_name]
-            }
+    results = []
+    errors = []
 
-    # 如果没有匹配的演示响应
+    for service_name in services_to_try:
+        try:
+            # 列出服务的所有工具
+            tools = await mcp_manager.list_tools(service_name)
+            if not tools:
+                errors.append(f"{service_name}: No tools available")
+                continue
+
+            # 对于简单的查询，尝试使用第一个工具（这里可以改进为更智能的选择）
+            tool = tools[0]
+            print(f"[{service_name}] Calling tool: {tool.name}")
+
+            # 准备参数 - 简化版本，将整个查询作为第一个参数
+            arguments = {"text": query} if query else {}
+
+            try:
+                result = await mcp_manager.call_tool(service_name, tool.name, arguments)
+
+                results.append({
+                    "service": service_name,
+                    "tool": tool.name,
+                    "result": result.content
+                })
+                # 返回第一个成功的结果
+                return {
+                    "success": True,
+                    **results[0]
+                }
+            except Exception as tool_error:
+                errors.append(f"{service_name}/{tool.name}: {str(tool_error)}")
+
+        except Exception as e:
+            errors.append(f"{service_name}: {str(e)}")
+            continue
+
+    # 如果有成功的结果就返回
+    if results:
+        return {
+            "success": True,
+            **results[0]
+        }
+
+    # 如果没有成功的结果
     return {
         "success": False,
-        "error": f"Service not available for query: {query}",
-        "tried_services": services_to_try
+        "error": f"Failed to execute query: {query}",
+        "tried_services": services_to_try,
+        "errors": errors
     }
 
 
@@ -357,7 +316,7 @@ def infer_services_from_query(query: str) -> List[str]:
 
     # 如果没有匹配到，返回所有服务
     if not recommendations:
-        recommendations = list(ServiceConfig.SERVICES.keys())
+        recommendations = list(services_config.keys())
 
     return recommendations
 
