@@ -15,3 +15,4 @@ test/*.log
 easytool-app/backend/hf-space-test/
 easytool-app/backend/local-test/
 easytool-app/chat_history/
+easytool-app/docs/

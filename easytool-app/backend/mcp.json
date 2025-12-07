@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "local-test": {
+    "local-obspy": {
       "url": "http://localhost:8001/mcp",
       "description": "Local minimal MCP test service"
     },

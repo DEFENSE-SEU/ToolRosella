@@ -120,17 +120,40 @@ def initialize_session_state():
     if "show_welcome" not in st.session_state:
         st.session_state.show_welcome = True
 
+    # User API configuration
+    if "user_api_key" not in st.session_state:
+        st.session_state.user_api_key = ""
+    if "user_base_url" not in st.session_state:
+        st.session_state.user_base_url = ""
+    if "user_model" not in st.session_state:
+        st.session_state.user_model = ""
+    if "use_custom_config" not in st.session_state:
+        st.session_state.use_custom_config = False
+
     # Initialize chat modules
     if "chat_manager" not in st.session_state:
         storage_dir = str(parent_dir / "chat_history")
         st.session_state.chat_manager = ChatManager(storage_dir=storage_dir)
 
-    if "llm_client" not in st.session_state:
+    # Initialize or reinitialize LLM client based on configuration
+    if "llm_client" not in st.session_state or st.session_state.get("reinit_llm", False):
         try:
-            st.session_state.llm_client = LLMClient()
+            # Use user config if enabled and provided
+            if st.session_state.use_custom_config and st.session_state.user_api_key:
+                # Pass custom config directly to LLMClient
+                st.session_state.llm_client = LLMClient(
+                    api_key=st.session_state.user_api_key,
+                    base_url=st.session_state.user_base_url if st.session_state.user_base_url else None,
+                    model=st.session_state.user_model if st.session_state.user_model else None
+                )
+            else:
+                # Use default .env config
+                st.session_state.llm_client = LLMClient()
+
+            st.session_state.reinit_llm = False
         except Exception as e:
             st.error(f"Failed to initialize LLM client: {e}")
-            st.error("Please check your .env file configuration")
+            st.error("Please check your API configuration")
 
 
 def start_new_chat_session():
@@ -225,7 +248,7 @@ def main():
     # Initialize session state
     initialize_session_state()
 
-    # Sidebar - Chat History
+    # Sidebar
     with st.sidebar:
         st.markdown("### 💬 Chat History")
 
@@ -293,6 +316,58 @@ def main():
                             st.session_state.messages = []
                             st.session_state.show_welcome = True
                         st.rerun()
+
+        # API Settings at the bottom
+        st.markdown("---")
+        with st.expander("⚙️ API Settings", expanded=False):
+            st.markdown("Configure your own API key")
+
+            use_custom = st.checkbox(
+                "Use custom API configuration",
+                value=st.session_state.use_custom_config,
+                key="custom_config_checkbox"
+            )
+
+            if use_custom:
+                api_key = st.text_input(
+                    "API Key",
+                    value=st.session_state.user_api_key,
+                    type="password",
+                    placeholder="sk-...",
+                    help="Your OpenAI API key or compatible API key"
+                )
+
+                base_url = st.text_input(
+                    "Base URL (optional)",
+                    value=st.session_state.user_base_url,
+                    placeholder="https://api.openai.com/v1",
+                    help="Leave empty to use default OpenAI endpoint"
+                )
+
+                model = st.text_input(
+                    "Model (optional)",
+                    value=st.session_state.user_model,
+                    placeholder="gpt-4o",
+                    help="Leave empty to use default model"
+                )
+
+                if st.button("💾 Save Configuration", use_container_width=True):
+                    if api_key:
+                        st.session_state.use_custom_config = True
+                        st.session_state.user_api_key = api_key
+                        st.session_state.user_base_url = base_url
+                        st.session_state.user_model = model
+                        st.session_state.reinit_llm = True
+                        st.success("✅ Configuration saved! Reinitializing...")
+                        st.rerun()
+                    else:
+                        st.error("API Key is required!")
+            else:
+                if st.session_state.use_custom_config:
+                    st.session_state.use_custom_config = False
+                    st.session_state.reinit_llm = True
+                    st.info("Using default .env configuration")
+                    st.rerun()
 
     # Main content area
     if st.session_state.show_welcome and not st.session_state.messages:

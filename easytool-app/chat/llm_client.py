@@ -17,10 +17,18 @@ class LLMClient:
     - OPENAI_MODEL
     """
 
-    def __init__(self):
-        self.api_key = os.getenv("OPENAI_API_KEY")
-        self.base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
-        self.model = os.getenv("OPENAI_MODEL", "gpt-4o")
+    def __init__(self, api_key: Optional[str] = None, base_url: Optional[str] = None, model: Optional[str] = None):
+        """
+        Initialize LLM Client
+
+        Args:
+            api_key: API key (if None, read from env)
+            base_url: Base URL (if None, read from env)
+            model: Model name (if None, read from env)
+        """
+        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
+        self.base_url = base_url or os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        self.model = model or os.getenv("OPENAI_MODEL", "gpt-4o")
 
         if not self.api_key:
             raise ValueError("OPENAI_API_KEY not found in environment variables")
@@ -50,13 +58,19 @@ class LLMClient:
             Response from the LLM (full or streaming)
         """
         try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                stream=stream
-            )
+            # Build API parameters
+            api_params = {
+                "model": self.model,
+                "messages": messages,
+                "temperature": temperature,
+                "stream": stream
+            }
+
+            # Only add max_tokens if explicitly provided
+            if max_tokens is not None:
+                api_params["max_tokens"] = max_tokens
+
+            response = self.client.chat.completions.create(**api_params)
             return response
         except Exception as e:
             raise Exception(f"LLM API call failed: {str(e)}")
@@ -101,5 +115,8 @@ class LLMClient:
         )
 
         for chunk in response:
-            if chunk.choices[0].delta.content is not None:
-                yield chunk.choices[0].delta.content
+            # Check if chunk has choices and content
+            if chunk.choices and len(chunk.choices) > 0:
+                delta = chunk.choices[0].delta
+                if hasattr(delta, 'content') and delta.content is not None:
+                    yield delta.content
