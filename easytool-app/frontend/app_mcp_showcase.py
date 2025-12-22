@@ -219,7 +219,7 @@ def render_welcome_section() -> bool:
                        color: #4f9dd8;
                        margin: 0;
                        letter-spacing: -0.02em;">
-                SciNexus
+                ToolRosetta
             </h1>
         </div>
         <p style="font-size: 2.2rem; color: #1e293b; margin-top: 0; line-height: 1.6;">
@@ -1082,7 +1082,7 @@ def render_agent_streaming_response():
 
     # 0. 显示用户 Query
     time.sleep(1)
-    # st.markdown("### 🔍 SciNexus")
+    # st.markdown("### 🔍 ToolRosetta")
     st.markdown("#### 👤 User Query")
     query_container = st.empty()
     q_text = ""
@@ -1250,7 +1250,7 @@ def main():
     """Main application"""
     # Page configuration
     st.set_page_config(
-        page_title="SciNexus",
+        page_title="ToolRosetta",
         page_icon="🚀",
         layout="wide",
         initial_sidebar_state="expanded",
