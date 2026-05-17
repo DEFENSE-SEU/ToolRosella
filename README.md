@@ -160,20 +160,6 @@ For multiple repositories, combined Planning Agent files are written to `workspa
 
 ---
 
-## Acknowledgements
-
-The MCP construction pipeline in ToolRosella builds upon [Code2MCP](https://github.com/DEFENSE-SEU/Code2MCP). We thank the authors for their excellent work. If you use ToolRosella, please also consider citing Code2MCP:
-
-```bibtex
-@article{ouyang2025code2mcp,
-  title={Code2MCP: Transforming Code Repositories into MCP Services},
-  author={Ouyang, Chaoqian and Yue, Ling and Di, Shimin and Zheng, Libin and Yue, Linan and Pan, Shaowu and Yin, Jian and Zhang, Min-Ling},
-  journal={arXiv preprint arXiv:2509.05941},
-  year={2025}
-}
-```
-
----
 
 ## Citation
 
