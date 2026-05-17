@@ -87,7 +87,7 @@ class LLMPlanner:
 
         match = re.search(r"\*+\s*\n(.+?)\n\*+", content, re.DOTALL)
         topic_text = match.group(1) if match else content
-        return [topic.strip() for topic in topic_text.split(",") if topic.strip()]
+        return [topic.strip() for topic in topic_text.split(",") if topic.strip()][:5]
 
     def get_search_plan(self, query: str, hinted_text: str = "") -> SearchPlan:
         text_hint = hinted_text.strip() if hinted_text else self.generate_text_hint(query)

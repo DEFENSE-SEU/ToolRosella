@@ -98,18 +98,20 @@ class GitHubRepositoryFinder:
             name = repo.get("name")
             if not clone_url or not name:
                 continue
-            readme = self.clone_and_read_readme(clone_url, name)
-            if not readme:
+            assets = self.clone_and_read_repo_assets(clone_url, name)
+            if not assets:
                 continue
-            is_relevant, reason = self.judge_repo_by_readme(query, readme)
-            if not is_relevant:
+            assessment = self.assess_repository(query, assets)
+            if not assessment["selected"]:
                 continue
             selected.append(
                 {
                     "name": name,
                     "clone_url": clone_url,
                     "source": repo.get("source", "github_search"),
-                    "reason": reason,
+                    "reason": assessment["assessment"],
+                    "structural_complete": assessment["structural_complete"],
+                    "functional_relevant": assessment["functional_relevant"],
                 }
             )
             if len(selected) >= max_repositories:
@@ -144,14 +146,15 @@ class GitHubRepositoryFinder:
         return candidates
 
     def search_by_text(self, text: str, top_k: int = 50) -> list[dict]:
-        url = f"https://api.github.com/search/repositories?q={quote(text)}&per_page={top_k}"
+        url = f"https://api.github.com/search/repositories?q={quote(text)}&sort=stars&order=desc&per_page={top_k}"
         return self._github_search(url)
 
     def search_by_topic(self, topic: str, top_k: int = 50) -> list[dict]:
-        url = f"https://api.github.com/search/repositories?q=topic:{quote(topic)}&per_page={top_k}"
+        url = f"https://api.github.com/search/repositories?q=topic:{quote(topic)}&sort=stars&order=desc&per_page={top_k}"
         return self._github_search(url)
 
-    def clone_and_read_readme(self, clone_url: str, repo_name: str) -> str | None:
+    def clone_and_read_repo_assets(self, clone_url: str, repo_name: str) -> str | None:
+        """Clone repo and return README + dependency/setup files concatenated."""
         temp_parent = Path(tempfile.mkdtemp(prefix="easy-tool-repo-"))
         try:
             destination = temp_parent / repo_name
@@ -164,45 +167,85 @@ class GitHubRepositoryFinder:
             )
             if result.returncode != 0:
                 return None
+
+            sections: list[str] = []
+            dep_filenames = {"requirements.txt", "setup.py", "pyproject.toml", "setup.cfg"}
             for path in destination.iterdir():
-                if path.is_file() and "readme" in path.name.lower():
-                    return path.read_text(encoding="utf-8", errors="ignore")
-            return None
+                if not path.is_file():
+                    continue
+                if "readme" in path.name.lower():
+                    sections.append(f"[README]\n{path.read_text(encoding='utf-8', errors='ignore')}")
+                elif path.name in dep_filenames:
+                    sections.append(f"[{path.name}]\n{path.read_text(encoding='utf-8', errors='ignore')}")
+            return "\n\n".join(sections) if sections else None
         except Exception:
             return None
         finally:
             shutil.rmtree(temp_parent, ignore_errors=True)
 
-    def judge_repo_by_readme(self, query: str, readme: str) -> tuple[bool, str]:
+    def clone_and_read_readme(self, clone_url: str, repo_name: str) -> str | None:
+        return self.clone_and_read_repo_assets(clone_url, repo_name)
+
+    def assess_repository(self, query: str, repo_assets: str) -> dict:
+        """Evaluate a repository on structural completeness and functional relevance."""
         if not OpenAI or not os.getenv("OPENAI_API_KEY"):
-            return self._heuristic_readme_judgement(readme), "Heuristic README judgement."
+            passed = self._heuristic_readme_judgement(repo_assets)
+            return {
+                "structural_complete": passed,
+                "functional_relevant": passed,
+                "assessment": "Heuristic assessment.",
+                "selected": passed,
+            }
 
         client = OpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
             base_url=os.getenv("OPENAI_BASE_URL"),
         )
-        system_judge = (
-            "Given a user query and a GitHub README, decide whether the repository is "
-            "suitable to solve the query. It must be code-based, runnable locally from "
-            "the command line, include setup instructions, and match the task. Return:\n"
-            "Reason: <brief reason>\nJudge: Yes/No"
+        system_prompt = (
+            "Given a user query and repository assets (README and dependency files), "
+            "assess the repository on two criteria:\n\n"
+            "1. Structural Completeness: Does the repository provide sufficient executable assets, "
+            "including source code, dependency specifications (e.g. requirements.txt, setup.py, pyproject.toml), "
+            "and setup instructions?\n"
+            "2. Functional Relevance: Do the repository capabilities align with the requested task?\n\n"
+            "Return your response in exactly this format:\n"
+            "Structural-Completeness: Yes/No\n"
+            "Functional-Relevance: Yes/No\n"
+            "Assessment: <one sentence summary>"
         )
-        content = f"Query:\n{query}\n\nREADME:\n{readme[:15000]}"
+        content = f"Query:\n{query}\n\nRepository Assets:\n{repo_assets[:15000]}"
         try:
             response = client.chat.completions.create(
                 model=os.getenv("OPENAI_MODEL", "gpt-4o"),
                 messages=[
-                    {"role": "system", "content": system_judge},
+                    {"role": "system", "content": system_prompt},
                     {"role": "user", "content": content},
                 ],
                 temperature=0.2,
-                max_tokens=1024,
+                max_tokens=256,
             )
             answer = response.choices[0].message.content if response.choices else ""
-            match = re.findall(r"\**Judge:\**\s*(\w+)", answer)
-            return bool(match and match[0].lower() == "yes"), answer
+            structural = bool(re.search(r"Structural-Completeness:\s*Yes", answer, re.IGNORECASE))
+            functional = bool(re.search(r"Functional-Relevance:\s*Yes", answer, re.IGNORECASE))
+            assessment_match = re.search(r"Assessment:\s*(.+)", answer)
+            assessment = assessment_match.group(1).strip() if assessment_match else answer
+            return {
+                "structural_complete": structural,
+                "functional_relevant": functional,
+                "assessment": assessment,
+                "selected": structural and functional,
+            }
         except Exception as exc:
-            return False, f"LLM judgement failed: {exc}"
+            return {
+                "structural_complete": False,
+                "functional_relevant": False,
+                "assessment": f"Assessment failed: {exc}",
+                "selected": False,
+            }
+
+    def judge_repo_by_readme(self, query: str, readme: str) -> tuple[bool, str]:
+        result = self.assess_repository(query, readme)
+        return result["selected"], result["assessment"]
 
     def _github_search(self, url: str) -> list[dict]:
         try:
