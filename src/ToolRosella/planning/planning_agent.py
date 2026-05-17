@@ -120,7 +120,7 @@ class PlanningAgent:
         ) or "- No tools discovered."
 
         previous_context = ""
-        if previous_result:
+        if previous_result is not None:
             prev_query = previous_result.get("query", "")
             prev_answer = (previous_result.get("execution") or {}).get("final_answer", "")
             previous_context = (
