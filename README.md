@@ -1,142 +1,200 @@
-# AgenticRAG-TOOL-MCP 🤖
+# ToolRosella
 
-A modular pipeline for searching, summarizing, and evaluating GitHub repositories using LLMs and agentic workflows.  
-The primary function of this repository is to **find a suitable GitHub repo based on an input query**, then use a **MCP** to package the code as a tool for an **LLM to call and generate answers**.
+ToolRosella is a three-agent pipeline for finding one or more task-relevant code repositories, converting them into MCP tools, and using the generated MCP tools to solve user tasks.
 
----
+## Three Agents
 
-## 📂 Directory Structure
+### Tool-search Agent
 
-```
-AgenticRAG-TOOL-MCP/
-│
-├── main.py                     # Entry point for pipeline execution
-├── LLM_Plan.py                 # Generates search plans and keywords for repo search
-├── LLM_Plan_withtext.py        # (Optional) Accepts user-specified GitHub repos
-├── RAG.py                      # GitHub repo retrieval and selection logic
-├── LLM_Action.py               # Refines queries via LLM if no suitable repo found
-├── Repo_summary.py             # Summarizes and analyzes candidate repos
-├── MCP.py, MCP_Use.py          # MCP agent logic
-├── dataset.py                  # Dataset utilities
-├── RepoCheck.py                # Repo validation utilities
-│
-├── github_json/                # Predefined repo metadata
-├── logs/                       # Log files
-├── MCP_Memory/                 # Processed repo cache
-├── MCP-agent-github-repo-output/  # MCP workflow scripts
-└── repos/                      # Cloned repositories
+The Tool-search Agent selects one or more repositories for the user task. Direct GitHub URLs are used as provided; otherwise, the agent extracts task topics, searches GitHub, checks candidate repositories, and keeps up to `--max-repositories` complementary repositories.
+
+### MCP-construction Agent
+
+The MCP-construction Agent converts each selected repository into an MCP service:
+
+```text
+Download -> Analysis -> Env -> Generate -> Code check -> Run -> Review -> Finish
 ```
 
----
+It clones each repository, analyzes reusable functions, prepares dependencies, generates MCP wrappers, validates the generated code, runs the service, repairs failures when needed, and writes MCP packages.
 
-## 🚀 How to Run
+### Planning Agent
 
-### 1. Create and activate environment
+The Planning Agent discovers tools from all generated MCP packages, writes a combined MCP config, and builds a ReAct-style tool-use prompt. If execution is enabled, it calls an external MCP-capable CLI such as Claude Code and returns the CLI output as `final_answer`.
+
+## Project Structure
+
+```text
+.
+├── main.py
+├── pyproject.toml
+├── requirements.txt
+├── env_example.txt
+├── README.md
+└── src/
+    └── ToolRosella/
+        ├── __init__.py
+        ├── cli.py
+        ├── env.py
+        ├── pipeline.py
+        ├── tool_search_agent.py
+        ├── repository_finder.py
+        ├── planner.py
+        ├── query_optimizer.py
+        ├── mcp_construction_agent.py
+        ├── planning_agent.py
+        └── code2mcp/
+            ├── workflow.py
+            ├── model_config.py
+            ├── utils.py
+            ├── nodes/
+            │   ├── download_node.py
+            │   ├── analysis_node.py
+            │   ├── env_node.py
+            │   ├── generate_node.py
+            │   ├── code_check_node.py
+            │   ├── run_node.py
+            │   ├── review_node.py
+            │   └── finalize_node.py
+            └── tools/
+                ├── deepwiki_client.py
+                └── gitingest_client.py
+```
+
+## Quick Start
+
+### 1. Create Environment
+
+Python 3.10+ is recommended.
 
 ```bash
-conda create -n agenticrag python=3.10
-conda activate agenticrag
+python3.10 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+If `python3.10` is not available, use your local Python 3.10+ executable.
+
+### 2. Configure API Keys
+
+Copy the environment template:
+
+```bash
 cp env_example.txt .env
 ```
 
-### 2. Install dependencies
+Set a GitHub token for repository search:
 
 ```bash
-pip install -r requirements.txt
-# Or install requirements in runnning as needed
+GITHUB_TOKEN=xxx
 ```
 
-### 3. Set API keys
-
-Set your GitHub token:
-
-Follow these steps to create a GitHub Personal Access Token:
-
-1. Log in to [GitHub](https://github.com).  
-2. Click your avatar → **Settings**.  
-3. Scroll down → **Developer settings**.  
-4. Go to **Personal access tokens → Tokens (Fine-grained tokens)**.  
-5. Click **Generate new token**.
+Choose one LLM provider in `.env`. Example with OpenAI-compatible configuration:
 
 ```bash
-export GITHUB_TOKEN="your_github_token"
+MODEL_PROVIDER=openai
+OPENAI_API_KEY=xxx
+OPENAI_BASE_URL=https://api.openai.com/v1
+OPENAI_MODEL=gpt-5
 ```
 
-Set your OpenAI API key and base URL (may choose gpt-4o, gpt-5, deepseek v3.1, deepseek v3):
+Other provider options are listed in `env_example.txt`, including DeepSeek, Qwen, Claude, Bedrock, and Ollama.
+
+### 3. Run Without Planning Execution
+
+This mode searches or accepts repositories, builds MCP services, and writes the Planning Agent prompt/config. It does not call the generated MCP tools automatically.
+
+Use provided repositories:
 
 ```bash
-export OPENAI_API_KEY="your_openai_key"
-# Aliyun URL
-# https://bailian.console.aliyun.com/&tab=doc?spm=5176.29597918.J_SEsSjsNv72yRuRFS2VknO.4.28887b08tpTOpy&tab=home#/home
-export OPENAI_BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
-# Or use OpenAI API (OPENAI_BASE_URL)
-# https://platform.openai.com/docs/overview
+python3 main.py "Please use https://github.com/xxx/xxx and https://github.com/xxx/yyy to solve xxx."
 ```
 
-### 4. Run the pipeline
+Or let ToolRosella search for repositories:
 
 ```bash
-# First modify the input query in main. py (You can see Example Usage below)
-# Then run main.py
-python main.py
+python3 main.py "Find Python repositories that can solve xxx, build them as MCP, and answer xxx."
 ```
 
-## ⚙️ Pipeline Overview
+### 4. Run With Claude Code CLI
 
-**Topic Extraction**  
-`llm_generate_topics(query)` uses an LLM to extract relevant topics from the user query.
+Install and log in to Claude Code CLI first, then make sure the command is available:
 
-**GitHub Search**  
-`github_api_search_by_topics(topics)` searches GitHub for repositories that match the extracted topics.
-
-**Repository Evaluation**  
-For each candidate repository:
-- Clone and read README: `clone_and_read_readme(repo)`
-- Strict evaluation: `judge_repo_strict(query, readme)` 
-- If suitable, return repo name and URL.
-
-**MCP**
-
-`MCP.py`: use mcp to generate tool
-
-`MCP_Use.py`: mcp with LLM answer
-
-**The overall pipline**
-```
-topics = llm_generate_topics(query)
-repos = github_api_search_by_topics(topics)
-for repo in repos:
-    readme = clone_and_read_readme(repo)
-    if judge_repo_strict(query, readme):
-        return repo_name, repo_url
-tool = MCP(repo_url)
-answer = LLM(tool, query)
+```bash
+claude --help
 ```
 
-**Additional optimization measures**
+Enable Planning Agent execution:
 
-- **Query Refinement**  
-If no suitable repository is found, `LLM_Action.py` uses an LLM to refine the query and repeat the search.
-
-- **Repository Summarization**  
-`Repo_summary.py`: Optimizes GitHub repository search when direct retrieval does not yield suitable results.
-
-
-
-## ✨ Example Usage
-
-```python
-query = "Having a protein sequence: 'MENFQKVEKIGEGTYGVVYKA....' and its mutation site: 'Q145G', please help me analyze this protein sequence and predict mutation effects."
-
-# or choose tool（designated repo）
-# Firstly choose import LLM_Plan_withtext.py in main.py
-query = "Please use xxx(https://github.com/xxx/xxx) to fulfill this task: Having a protein sequence: 'MENFQKVEKIGEGTYGVVYKA....' and its mutation site: 'Q145G', please help me analyze this protein sequence and predict mutation effects."
-
-python main.py
-# The pipeline will automatically search, evaluate, 
-# and return the best matching GitHub repo to address the query.
+```bash
+export TOOLROSELLA_RUN_PLANNING_AGENT=true
+export TOOLROSELLA_AGENT_COMMAND=claude
 ```
 
-## 🤝 Contact
+Then run ToolRosella:
 
-For issues or contributions, please open an issue or a pull request on the repository.
+```bash
+python3 main.py "Please use https://github.com/xxx/xxx and https://github.com/xxx/yyy to solve xxx."
+```
+
+Internally, the Planning Agent writes:
+
+```text
+workspace/<repo-name>/mcp_output/planning_agent/mcp.json
+workspace/<repo-name>/mcp_output/planning_agent/task_prompt.md
+```
+
+For one generated MCP package, it calls the external agent in this form:
+
+```bash
+claude -p "<task prompt>" --mcp-config workspace/<repo-name>/mcp_output/planning_agent/mcp.json
+```
+
+For multiple generated MCP packages, ToolRosella writes one combined config under `workspace/planning_agent/mcp.json`. The Claude Code CLI can then load all generated MCP servers, call tools across them, and return the final answer.
+
+Useful options:
+
+```bash
+python3 main.py --workspace ./workspace --memory ./MCP_Memory --per-page 20 "xxx"
+python3 main.py --max-repositories 3 "xxx"
+python3 main.py --no-refine "xxx"
+python3 main.py --hinted-text "xxx" "xxx"
+```
+
+## Outputs
+
+Generated MCP packages are written to:
+
+```text
+workspace/<repo-name>/mcp_output/
+```
+
+Important files:
+
+```text
+start_mcp.py
+mcp_plugin/mcp_service.py
+mcp_plugin/adapter.py
+requirements.txt
+README_MCP.md
+workflow_summary.json
+planning_agent/mcp.json
+planning_agent/task_prompt.md
+planning_agent/agent_stdout.txt
+planning_agent/agent_stderr.txt
+```
+
+For multiple repositories, the combined Planning Agent files are written to:
+
+```text
+workspace/planning_agent/mcp.json
+workspace/planning_agent/task_prompt.md
+workspace/planning_agent/agent_stdout.txt
+workspace/planning_agent/agent_stderr.txt
+```
+
+When Planning Agent execution is enabled, the final result is available in:
+
+```text
+planning_result.execution.final_answer
+```

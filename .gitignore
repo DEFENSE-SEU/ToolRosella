@@ -1,18 +1,18 @@
 xujie-test/
 .vscode/
 __pycache__/
+*.py[cod]
+.pytest_cache/
 repos/
 .env
 *.DS_Store
-MCP-agent-github-repo-output/.env
 
-# 测试生成的文件
+# Runtime output
+workspace/
+MCP_Memory/
+output/
+
+# Test output
 test/test_workspace/
 test/test_output/
 test/*.log
-
-#前后端
-easytool-app/backend/hf-space-test/
-easytool-app/backend/local-test/
-easytool-app/chat_history/
-easytool-app/docs/

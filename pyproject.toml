@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ToolRosella"
+version = "0.1.0"
+description = "Find GitHub tools and wrap them as MCP services."
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=2.10.0",
+    "langgraph>=0.2.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.0.0",
+    "loguru>=0.7.0",
+    "selenium>=4.15.0",
+    "tomli>=1.2.0",
+    "PyYAML>=6.0.0",
+    "langchain>=0.2.0",
+    "langchain-openai>=0.2.0",
+    "langchain-anthropic>=0.3.18",
+    "langchain-ollama>=0.1.0",
+    "langchain-aws>=0.1.0",
+    "openai>=1.0.0",
+    "anthropic>=0.45.0",
+    "boto3>=1.34.0",
+]
+
+[project.scripts]
+toolrosella = "ToolRosella.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
