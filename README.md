@@ -156,7 +156,7 @@ Generated MCP packages are written to `workspace/<repo-name>/mcp_output/`:
 | `planning_agent/task_prompt.md` | Task prompt |
 | `planning_agent/agent_stdout.txt` | Agent output |
 
-For multiple repositories, combined Planning Agent files are written to `workspace/planning_agent/`. When Planning Agent execution is enabled, the final answer is returned in the `final_answer` field of the `PipelineResult.planning_result` object.
+For multiple repositories, combined Planning Agent files are written to `workspace/planning_agent/`. When Planning Agent execution is enabled, the final answer is available at `result.invocation_plan['execution']['final_answer']`.
 
 ---
 
