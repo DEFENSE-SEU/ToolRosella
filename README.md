@@ -1,5 +1,7 @@
 # ToolRosella
 
+[![ToolRosella preview](assets/ToolRosella_preview.png)](ToolRosella.pdf)
+
 ToolRosella is a three-agent pipeline for finding one or more task-relevant code repositories, converting them into MCP tools, and using the generated MCP tools to solve user tasks.
 
 ## Three Agents
