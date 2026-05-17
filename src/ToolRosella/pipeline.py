@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from .mcp_construction_agent import MCPConstructionAgent
-from .planning_agent import PlanningAgent
-from .tool_search_agent import ToolSearchAgent
+from .mcp_construction import MCPConstructionAgent
+from .planning import PlanningAgent
+from .tool_search import ToolSearchAgent
 
 
 @dataclass

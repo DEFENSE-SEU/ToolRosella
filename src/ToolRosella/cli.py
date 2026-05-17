@@ -5,7 +5,7 @@ import asyncio
 from pathlib import Path
 
 from .env import load_env_file
-from .mcp_construction_agent import MCPConstructionAgent
+from .mcp_construction import MCPConstructionAgent
 from .pipeline import ToolRosellaPipeline
 
 

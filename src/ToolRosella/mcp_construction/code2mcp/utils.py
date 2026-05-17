@@ -9,7 +9,7 @@ from langchain.chat_models import init_chat_model
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_ollama import ChatOllama
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage
 
 try:
     from langchain_aws import ChatBedrock, ChatBedrockConverse
