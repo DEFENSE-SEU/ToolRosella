@@ -37,7 +37,7 @@ class PlanningAgent:
         tools = self.discover_tools(package_paths)
         mcp_config = self.build_mcp_config(package_paths)
         steps = self._map_tools_to_subtasks(query, tools)
-        prompt = self.build_agent_prompt(query, tools, previous_result=previous_result)
+        prompt = self.build_agent_prompt(query, tools, steps=steps, previous_result=previous_result)
         run_dir = self.write_agent_run(query, package_paths, mcp_config, prompt)
 
         should_execute = (
@@ -112,6 +112,7 @@ class PlanningAgent:
         self,
         query: str,
         tools: list[dict],
+        steps: list[dict] | None = None,
         previous_result: dict | None = None,
     ) -> str:
         tool_lines = "\n".join(
@@ -130,6 +131,21 @@ class PlanningAgent:
                 "then update your plan accordingly.\n"
             )
 
+        steps_context = ""
+        if steps:
+            step_lines = "\n".join(
+                f"  Step {s['step']}: [{s['tool']}] {s['subtask']}"
+                for s in steps
+                if isinstance(s, dict) and s.get("tool") and s.get("subtask")
+            )
+            if step_lines:
+                steps_context = (
+                    "\nSuggested invocation strategy:\n"
+                    + step_lines
+                    + "\n\nFollow this strategy as a starting point. "
+                    "Adjust tool selection and execution order based on intermediate results.\n"
+                )
+
         return (
             "You are the ToolRosella Planning Agent. You are running in a Claude-Code-like "
             "agent environment with MCP tools already registered.\n\n"
@@ -137,10 +153,10 @@ class PlanningAgent:
             + "Task:\n"
             f"{query}\n\n"
             "Available MCP tools:\n"
-            f"{tool_lines}\n\n"
-            "Plan and execute the task by selecting the smallest necessary sequence of MCP "
-            "tool calls. You may combine tools from different MCP servers when the task "
-            "requires complementary capabilities. After each call, inspect the result and decide the next action. "
+            f"{tool_lines}\n"
+            + steps_context
+            + "\nExecute the task by calling MCP tools in sequence. After each call, inspect "
+            "the result and decide the next action. If a tool fails, adapt and try an alternative approach. "
             "Return the final answer with the tool calls used and any important intermediate outputs."
         )
 
