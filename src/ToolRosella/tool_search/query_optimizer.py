@@ -24,11 +24,13 @@ class QueryOptimizer:
         if not self.client:
             return query
 
-        failed = f"\nPreviously tried topics: {', '.join(previous_topics)}" if previous_topics else ""
+        failed = f"\nPreviously tried topics (all returned no results): {', '.join(previous_topics)}" if previous_topics else ""
         prompt = (
-            "Transform the user's brief tool request into a more searchable GitHub query. "
-            "Add relevant technical terms, expected inputs/outputs, and runnable-tool constraints. "
-            "Return only one paragraph.\n\n"
+            "The following GitHub repository search query returned no useful results. "
+            "Reformulate it to improve recall by removing overly specific scenario descriptions, "
+            "domain constraints, or contextual details that are unlikely to appear in repository "
+            "names, topics, or README files. Preserve the core task intent. "
+            "Return only the reformulated query as one concise sentence.\n\n"
             f"Original query: {query}{failed}"
         )
         try:
