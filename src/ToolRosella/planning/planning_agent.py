@@ -268,6 +268,21 @@ class PlanningAgent:
         for candidate in candidates:
             if candidate.exists():
                 return str(candidate)
+        # env_node names envs like {repo_name}_{timestamp}_venv or {repo_name}-env,
+        # so scan repo_root (parent of mcp_output) for any venv/env directory.
+        repo_root = package_path.parent
+        try:
+            for subdir in sorted(repo_root.iterdir()):
+                if not subdir.is_dir():
+                    continue
+                name = subdir.name.lower()
+                if "venv" in name or name.endswith("-env") or name.endswith("_env"):
+                    for rel in ("bin/python", "bin/python3", "Scripts/python.exe"):
+                        py = subdir / rel
+                        if py.exists():
+                            return str(py)
+        except Exception:
+            pass
         return shutil.which("python3") or shutil.which("python") or "python"
 
     def _normalize_packages(self, mcp_package: str | Path | list[str | Path] | None) -> list[Path]:
