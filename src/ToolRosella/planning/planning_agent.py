@@ -197,16 +197,24 @@ class PlanningAgent:
         run_path = Path(run_dir)
         prompt_path = run_path / "task_prompt.md"
         config_path = run_path / "mcp.json"
-        prompt = prompt_path.read_text(encoding="utf-8")
+        try:
+            prompt = prompt_path.read_text(encoding="utf-8")
+        except Exception as exc:
+            return {"executed": False, "error": f"Failed to read task prompt: {exc}"}
         cmd = [executable, "-p", prompt, "--mcp-config", str(config_path)]
-        result = subprocess.run(
-            cmd,
-            cwd=str(run_path),
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            check=False,
-        )
+        try:
+            result = subprocess.run(
+                cmd,
+                cwd=str(run_path),
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+                check=False,
+            )
+        except subprocess.TimeoutExpired:
+            return {"executed": False, "error": f"Agent timed out after {timeout}s."}
+        except Exception as exc:
+            return {"executed": False, "error": f"Agent execution failed: {exc}"}
         (run_path / "agent_stdout.txt").write_text(result.stdout or "", encoding="utf-8")
         (run_path / "agent_stderr.txt").write_text(result.stderr or "", encoding="utf-8")
         return {
