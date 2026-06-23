@@ -166,7 +166,7 @@ For multiple repositories, combined Planning Agent files are written to `workspa
 If you find this work useful, please cite our paper:
 
 ```bibtex
-@misc{di2026toolrosellatranslatingcoderepositories,
+@misc{di2026toolrosella,
       title={ToolRosella: Translating Code Repositories into Standardized Tools for Scientific Agents}, 
       author={Shimin Di and Xujie Yuan and Hanghui Guo and Chaoqian Ouyang and Yongxu Liu and Ling Yue and Zhangze Chen and Libin Zheng and Jia Zhu and Shaowu Pan and Jian Yin and Yong Rui and Min-Ling Zhang},
       year={2026},
